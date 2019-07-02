@@ -1,19 +1,15 @@
 <template>
-    <div class="wrapper">
-        <nuxt/>
-    </div>
+    <v-app app>
+        <v-container fluid>
+            <v-layout align-center justify-center fill-height row>
+                <nuxt />
+            </v-layout>
+        </v-container>
+    </v-app>
 </template>
 
 <script>
 export default {
-
+    
 }
 </script>
-
-<style scoped>
-    .wrapper {
-        width: 100%;
-        height: 100vh;
-        background-color:darkgrey;
-    }
-</style>

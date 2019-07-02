@@ -34,7 +34,7 @@
             </v-list-tile-content>
           </nuxt-link>
 
-          <v-list-group prepend-icon="book" value="true">
+          <v-list-group prepend-icon="book">
             <template v-slot:activator>
               <v-list-tile>
                 <v-list-tile-title>Time Keeping</v-list-tile-title>
@@ -63,7 +63,7 @@
             </nuxt-link>
           </v-list-group>
 
-          <v-list-group prepend-icon="settings" value="true">
+          <v-list-group prepend-icon="settings">
             <template v-slot:activator>
               <v-list-tile>
                 <v-list-tile-title>Settings</v-list-tile-title>
@@ -99,7 +99,7 @@
         <v-toolbar-side-icon @click="mini = !mini"></v-toolbar-side-icon>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down">
-            <v-btn flat>
+            <v-btn @click="logout" flat>
               <v-icon>logout</v-icon>  
             </v-btn>
         </v-toolbar-items>
@@ -120,9 +120,14 @@ export default {
       mini: false
     }
   },
+  mounted () {
+    console.log(this.$store);
+  },
   methods: {
-    testing (something) {
-      alert(`${something}`);
+    logout () {
+      if (this.$store.dispatch('auth/logout')) {
+        this.$router.push('/');
+      }
     }
   }
 }

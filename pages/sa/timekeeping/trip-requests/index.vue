@@ -1,9 +1,116 @@
 <template>
-    <h1>Business Trip Requests</h1>
+    <v-layout row wrap>
+        <v-flex xs12>
+            <v-alert
+                value="true"
+                type="info"
+                transition="scale-transition"
+            >
+                This is information alert.
+            </v-alert>
+        </v-flex>
+        <v-flex xs12>
+            <v-card elevate="24">
+                <v-data-table
+                    :headers="headers"
+                    :items="trips"
+                >
+                    <template v-slot:items="props">
+                        <td>{{ props.item.id }}</td>
+                        <td class="text-xs-center">{{ props.item.full_name }}</td>
+                        <td class="text-xs-center">{{ props.item.date_from }}</td>
+                        <td class="text-xs-center">{{ props.item.date_to }}</td>
+                        <td class="text-xs-center">{{ props.item.time_in }}</td>
+                        <td class="text-xs-center">{{ props.item.time_out }}</td>
+                        <td class="text-xs-center">{{ props.item.destination_from }}</td>
+                        <td class="text-xs-center">{{ props.item.destination_to }}</td>
+                        <td class="text-xs-center">{{ props.item.status }}</td>
+                        <td class="text-xs-center">{{ props.item.created_at }}</td>
+                        <td class="text-xs-center">
+                            <v-icon @click="viewTrip(props.item.id)" small>search</v-icon>
+                            <v-icon @click="deleteTrip(props.item.id)" small>delete</v-icon>
+                        </td>
+                    </template>
+                </v-data-table>
+            </v-card>
+        </v-flex>
+    </v-layout>
 </template>
 
 <script>
 export default {
-    
+    data () {
+        return {
+            headers: [
+                {
+                    text: 'ID',
+                    align: 'left',
+                    value: 'id'
+                },
+                {
+                    text: 'Full Name',
+                    align: 'center',
+                    value: 'full_name'
+                },
+                {
+                    text: 'Date From',
+                    align: 'center',
+                    value: 'date_from'
+                },
+                {
+                    text: 'Date To',
+                    align: 'center',
+                    value: 'date_to'
+                },
+                {
+                    text: 'Time In',
+                    align: 'center',
+                    value: 'time_in'
+                },
+                {
+                    text: 'Time Out',
+                    align: 'center',
+                    value: 'time_out'
+                },
+                {
+                    text: 'Dest. From',
+                    align: 'center',
+                    value: 'destination_from'
+                },
+                {
+                    text: 'Dest. To',
+                    align: 'center',
+                    value: 'destination_to'
+                },
+                {
+                    text: 'Status',
+                    align: 'center',
+                    value: 'status'
+                },
+                {
+                    text: 'Created At',
+                    align: 'center',
+                    value: 'created_at'
+                },
+                {
+                    text: 'Actions',
+                    align: 'center'
+                }
+            ]
+        }
+    },
+    computed: {
+        trips () {
+            return this.$store.getters['trip/getTrips'];
+        }
+    },
+    methods: {
+        viewTrip (id) {
+            alert(id);
+        },
+        deleteTrip (id) {
+            alert(id);
+        }
+    }
 }
 </script>

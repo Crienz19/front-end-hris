@@ -15,7 +15,9 @@
     "@nuxtjs/vuetify": "0.5.5",
     "chart.js": "^2.8.0",
     "hchs-vue-charts": "^1.2.8",
-    "nuxt": "^2.0.0"
+    "nuxt": "^2.0.0",
+    "sweetalert2": "^8.13.0",
+    "vue-sweetalert2": "^2.1.1"
   },
   "devDependencies": {
     "stylus": "^0.54.5",
