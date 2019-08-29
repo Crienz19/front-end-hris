@@ -35,7 +35,7 @@
 </template>
 
 <script>
-    import ViewOvertime from "@/components/modal/superadmin/timekeeping/overtime/ViewOvertime.vue";
+    import ViewOvertime from "@/components/modal/superadmin/timekeeping/overtime/viewOvertime.vue";
     export default {
         middleware: ['auth'],
         components: {

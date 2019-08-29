@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import ViewTrip from "@/components/modal/superadmin/timekeeping/trip/ViewTrip.vue";
+import ViewTrip from "@/components/modal/superadmin/timekeeping/trip/viewTrip.vue";
 export default {
     middleware: ['auth'],
     components: {
