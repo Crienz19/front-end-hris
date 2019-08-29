@@ -1,4 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
+import webpack from 'webpack'
 
 export default {
   mode: 'universal',
@@ -31,11 +32,25 @@ export default {
   */
   css: [
   ],
+  
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
-    { src: "~/plugins/chart", ssr: false }
+    { src: "~/plugins/chart", ssr: false },
+    { src: "~/plugins/jsonToExcel", ssr: false },
+    { src: "~/plugins/apexchart", ssr: false},
+    "~/plugins/axios",
+    "~/plugins/mixins/auth",
+    "~/plugins/mixins/user",
+    "~/plugins/mixins/role",
+    "~/plugins/mixins/branch",
+    "~/plugins/mixins/department",
+    "~/plugins/mixins/leave",
+    "~/plugins/mixins/overtime",
+    "~/plugins/mixins/trip",
+    "~/plugins/mixins/coe",
+    "~/plugins/mixins/validation"
   ],
   /*
   ** Nuxt.js modules
@@ -44,6 +59,7 @@ export default {
     '@nuxtjs/vuetify',
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    '@nuxtjs/auth',
     'vue-sweetalert2/nuxt'
   ],
   /*
@@ -51,6 +67,33 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
+    baseURL: "http://hris-api.test/api"
+  },
+
+  auth: {
+    redirect: {
+      login: '/'
+    },
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: '/auth/login',
+            method: 'post',
+            propertyName: "meta.token"
+          },
+          user: {
+            url: '/auth/me',
+            method: 'get',
+            propertyName: 'data'
+          },
+          logout: {
+            url: '/auth/logout',
+            method: 'post'
+          }
+        }
+      }
+    }
   },
   /*
   ** vuetify module configuration
@@ -71,9 +114,13 @@ export default {
   ** Build configuration
   */
   build: {
-    /*
-    ** You can extend webpack config here
-    */
+    build: {
+      plugins: [
+        new webpack.ProvidePlugin({
+          '_': 'lodash'
+        })
+      ]
+    },
     extend(config, ctx) {
     }
   }

@@ -1,30 +1,50 @@
 <template>
-    <v-flex xs12 sm3 md3 lg3>
+    <v-flex xs12 sm10 md5 lg4 xl3>
         <v-card dark>
             <v-card-title>
-                <h2>HRIS</h2>
+                <v-layout row align-center justify-center>
+                    <v-avatar
+                        size="150"
+                    >
+                        <v-img
+                            src="https://picsum.photos/id/11/500/300"
+                            lazy-src="https://picsum.photos/id/11/10/6"
+                            aspect-ratio="1"
+                            class="grey lighten-2"
+                            max-width="150"
+                            max-height="150"
+                            elevation-19
+                        ></v-img>
+                    </v-avatar>
+                </v-layout>
             </v-card-title>
             <v-card-text>
                 <v-form ref="loginForm">
                     <v-text-field xs12
-                        v-model="username"
+                        v-model.trim="form.name"
                         type="text"
                         label="Username"
-                        required
+                        prepend-icon="account_circle"
+                        :rules="[
+                            () => !!form.name || 'This field is required.'
+                        ]"
                     >
                     </v-text-field>
                     <v-text-field xs12
-                        v-model="password"
+                        v-model.trim="form.password"
                         type="password"
                         label="Password"
-                        required
+                        prepend-icon="remove_red_eye"
+                        :rules="[
+                            () => !!form.password || 'This field is required.'
+                        ]"
                     >
                     </v-text-field>
                 </v-form>
             </v-card-text>
             <v-card-actions>
-                <v-btn @click="login" color="warning" block>LOGIN</v-btn>
-                <v-btn @click="register" color="info" block>Create an account</v-btn>
+                <v-btn :disabled="isFilled" @click="login" color="warning" block>LOGIN</v-btn>
+                <v-btn to="/auth/register" color="info" block>Create an account</v-btn>
             </v-card-actions>
         </v-card>
     </v-flex>
@@ -34,23 +54,71 @@ export default {
     layout: 'auth',
     data () {
         return {
-            username: "",
-            password: ""
+            form: {
+                name: '',
+                password: ''
+            },
+            errors: []
         }
     },
     computed: {
-        user () {
-            return this.$store.getters.user;
+        isFilled () {
+            if (!this.form.name) {
+                return true;
+            } else if (!this.form.password) {
+                return true;
+            }
+
+            return false;
         }
     },
     methods: {
-        login () {
-            if (this.$store.dispatch('auth/login')) {
-                this.$router.push('/sa/dashboard');
-            }
-        },
-        register () {
-            this.$router.push('/auth/register');
+        async login () {
+            await this.$auth.loginWith('local', {
+                data: this.form
+            }).then((response) => {
+                alert('Login Complete!');
+                switch (this.auth.role) {
+                    case 'superadministrator':
+                        this.$router.push('/sa/dashboard');
+                        break;
+                    case 'hr':
+                        if (this.auth.isActivated) {
+                            if (this.auth.isFilled) {
+                                this.$router.push('/hr/dashboard');
+                            } else {
+                                this.$router.push('/auth/form');
+                            }
+                        }
+                        break;
+                    case 'supervisor':
+                        if (this.auth.isActivated) {
+                            if (this.auth.isFilled) {
+                                this.$router.push('/sup/dashboard');
+                            } else {
+                                this.$router.push('/auth/form');
+                            }
+                        }
+                        break;
+                    case 'employee':
+                        if (this.auth.isActivated) {
+                            if (this.auth.isFilled) {
+                                this.$router.push('/em/dashboard');
+                            } else {
+                                this.$router.push('/auth/form');
+                            }
+                        } else {
+                            this.$router.push('/auth/activation');
+                        }
+                        break;
+                    default: 
+                        this.$auth.logout();
+                        alert('Attention! Please wait for the administrator to activate your account!');
+                        break;
+                }
+            }).catch(({response}) => {
+                this.errors = response.data
+            });
         }
     }
 }

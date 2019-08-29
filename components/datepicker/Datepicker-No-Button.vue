@@ -1,5 +1,6 @@
 <template>
-    <v-menu
+    <div>
+      <v-menu
         v-model="menu"
         :close-on-content-click="false"
         :nudge-right="40"
@@ -12,22 +13,32 @@
         <template v-slot:activator="{ on }">
           <v-text-field
             v-model="date"
-            label="Picker without buttons"
-            prepend-icon="event"
+            :placeholder="placeholder"
+            :label="label"
+            :prepend-icon="icon"
+            :disabled="disabled"
             readonly
             v-on="on"
           ></v-text-field>
         </template>
-        <v-date-picker v-model="date" @input="menu = false"></v-date-picker>
+        <v-date-picker :landscape="true" @change="$emit('input', date)" v-model="date" @input="menu = false"></v-date-picker>
       </v-menu>
+    </div>
 </template>
 
 <script>
     export default {
+        props: [
+          'label',
+          'placeholder',
+          'icon',
+          'value',
+          'disabled'
+        ],
         data () {
             return {
                 menu: false,
-                date: new Date().toISOString().substr(0, 10)
+                date: this.value
             }
         }
     }

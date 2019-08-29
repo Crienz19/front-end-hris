@@ -17,18 +17,17 @@
                 >
                     <template v-slot:items="props">
                         <td>{{ props.item.id }}</td>
-                        <td class="text-xs-center">{{ props.item.full_name }}</td>
+                        <td class="text-xs-center">{{ props.item.employee.first_name }} {{ props.item.employee.last_name }}</td>
                         <td class="text-xs-center">{{ props.item.date_from }}</td>
                         <td class="text-xs-center">{{ props.item.date_to }}</td>
-                        <td class="text-xs-center">{{ props.item.time_in }}</td>
-                        <td class="text-xs-center">{{ props.item.time_out }}</td>
+                        <td class="text-xs-center">{{ props.item.time_in.standard }}</td>
+                        <td class="text-xs-center">{{ props.item.time_out.standard }}</td>
                         <td class="text-xs-center">{{ props.item.destination_from }}</td>
                         <td class="text-xs-center">{{ props.item.destination_to }}</td>
                         <td class="text-xs-center">{{ props.item.status }}</td>
                         <td class="text-xs-center">{{ props.item.created_at }}</td>
                         <td class="text-xs-center">
-                            <v-icon @click="viewTrip(props.item.id)" small>search</v-icon>
-                            <v-icon @click="deleteTrip(props.item.id)" small>delete</v-icon>
+                            <view-trip :trip="props.item" />
                         </td>
                     </template>
                 </v-data-table>
@@ -38,7 +37,15 @@
 </template>
 
 <script>
+import ViewTrip from "@/components/modal/superadmin/timekeeping/trip/ViewTrip.vue";
 export default {
+    middleware: ['auth'],
+    components: {
+        ViewTrip
+    },
+    async asyncData({store}) {
+        await store.dispatch('trip/loadSuperTrips');
+    },
     data () {
         return {
             headers: [
@@ -97,19 +104,6 @@ export default {
                     align: 'center'
                 }
             ]
-        }
-    },
-    computed: {
-        trips () {
-            return this.$store.getters['trip/getTrips'];
-        }
-    },
-    methods: {
-        viewTrip (id) {
-            alert(id);
-        },
-        deleteTrip (id) {
-            alert(id);
         }
     }
 }

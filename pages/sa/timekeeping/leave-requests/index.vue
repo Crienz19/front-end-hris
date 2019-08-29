@@ -18,17 +18,17 @@
                     >
                         <template v-slot:items="props">
                             <td>{{ props.item.id }}</td>
-                            <td class="text-xs-center">{{ props.item.full_name }}</td>
+                            <td class="text-xs-center">{{ props.item.employee.first_name }}</td>
+                            <td class="text-xs-center">{{ props.item.employee.last_name }}</td>
                             <td class="text-xs-center">{{ props.item.type }}</td>
-                            <td class="text-xs-center">{{ props.item.pay }}</td>
+                            <td class="text-xs-center">{{ props.item.pay_type }}</td>
                             <td class="text-xs-center">{{ props.item.from }}</td>
                             <td class="text-xs-center">{{ props.item.to }}</td>
                             <td class="text-xs-center">{{ props.item.recommending_approval }}</td>
                             <td class="text-xs-center">{{ props.item.final_approval }}</td>
                             <td class="text-xs-center">{{ props.item.created_at }}</td>
                             <td class="text-xs-center">
-                                <v-icon @click="viewRequest" small>search</v-icon>
-                                <v-icon @click="deleteRequest" small>delete</v-icon>
+                                <view-leave :leave="props.item" />
                             </td>
                         </template>
                     </v-data-table>
@@ -40,9 +40,15 @@
 
 <script>
 import DatePickerNoButton from '@/components/datepicker/Datepicker-No-Button.vue';
+import ViewLeave from "@/components/modal/superadmin/timekeeping/leave/viewLeave.vue";
 export default {
+    middleware: ['auth'],
     components: {
-        DatePickerNoButton
+        DatePickerNoButton,
+        ViewLeave
+    },
+    async asyncData({store}) {
+        await store.dispatch('leave/loadSuperLeaves');
     },
     data () {
         return {
@@ -54,9 +60,14 @@ export default {
                     value: 'id'
                 },
                 {
-                    text: 'Full Name',
+                    text: 'First Name',
                     align: 'center',
-                    value: 'full_name'
+                    value: 'employee.first_name'
+                },
+                {
+                    text: 'Last Name',
+                    align: 'center',
+                    value: 'employee.last_name'
                 },
                 {
                     text: 'Type',
@@ -95,43 +106,11 @@ export default {
                 },
                 {
                     text: 'Actions',
-                    align: 'center'
+                    align: 'center',
+                    sortable: false
                 }
             ]
         }
     },
-    computed: {
-        leaves () {
-            return this.$store.getters['leave/getLeaves']
-        }
-    },
-    methods: {
-        viewRequest () {
-            this.$swal.fire(
-                'Good job!',
-                'You clicked the button!',
-                'success'
-            )
-        },
-        deleteRequest () {
-            this.$swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.value) {
-                    this.$swal.fire(
-                        'Deleted!',
-                        'Your file has been deleted.',
-                        'success'
-                    )
-                }
-            })
-        }
-    }
 }
 </script>

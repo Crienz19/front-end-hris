@@ -17,16 +17,15 @@
                 >
                     <template v-slot:items="props">
                         <td>{{ props.item.id }}</td>
-                        <td class="text-xs-center">{{ props.item.full_name }}</td>
+                        <td class="text-xs-center">{{ props.item.employee.first_name }} {{ props.item.employee.last_name }}</td>
                         <td class="text-xs-center">{{ props.item.date }}</td>
-                        <td class="text-xs-center">{{ props.item.from }}</td>
-                        <td class="text-xs-center">{{ props.item.to }}</td>
+                        <td class="text-xs-center">{{ props.item.from.standard }}</td>
+                        <td class="text-xs-center">{{ props.item.to.standard }}</td>
                         <td class="text-xs-center">{{ props.item.reason }}</td>
                         <td class="text-xs-center">{{ props.item.status }}</td>
                         <td class="text-xs-center">{{ props.item.created_at }}</td>
                         <td class="text-xs-center">
-                            <v-icon @click="" small>search</v-icon>
-                            <v-icon @click="" small>delete</v-icon>
+                            <view-overtime :overtime="props.item"></view-overtime>
                         </td>
                     </template>
                 </v-data-table>
@@ -36,61 +35,64 @@
 </template>
 
 <script>
-export default {
-    data () {
-        return {
-            headers: [
-                {
-                    text: 'ID',
-                    align: 'left',
-                    value: 'id'
-                },
-                {
-                    text: 'Full Name',
-                    align: 'center',
-                    value: 'full_name'
-                },
-                {
-                    text: 'Date',
-                    align: 'center',
-                    value: 'date'
-                },
-                {
-                    text: 'From',
-                    align: 'center',
-                    value: 'from'
-                },
-                {
-                    text: 'To',
-                    align: 'center',
-                    value: 'to'
-                },
-                {
-                    text: 'Reason',
-                    align: 'center',
-                    value: 'reason'
-                },
-                {
-                    text: 'Status',
-                    align: 'center',
-                    value: 'status'
-                },
-                {
-                    text: 'Created At',
-                    align: 'center',
-                    value: 'created_at'
-                },
-                {
-                    text: 'Actions',
-                    align: 'center'
-                }
-            ]
-        }
-    },
-    computed: {
-        overtimes () {
-            return this.$store.getters['overtime/getOvertimes'];
+    import ViewOvertime from "@/components/modal/superadmin/timekeeping/overtime/ViewOvertime.vue";
+    export default {
+        middleware: ['auth'],
+        components: {
+            ViewOvertime
+        },
+        async asyncData({store}) {
+            store.dispatch('overtime/loadSuperOvertimes');
+        },
+        data () {
+            return {
+                headers: [
+                    {
+                        text: 'ID',
+                        align: 'left',
+                        value: 'id'
+                    },
+                    {
+                        text: 'Full Name',
+                        align: 'center',
+                        value: 'full_name'
+                    },
+                    {
+                        text: 'Date',
+                        align: 'center',
+                        value: 'date'
+                    },
+                    {
+                        text: 'From',
+                        align: 'center',
+                        value: 'from'
+                    },
+                    {
+                        text: 'To',
+                        align: 'center',
+                        value: 'to'
+                    },
+                    {
+                        text: 'Reason',
+                        align: 'center',
+                        value: 'reason'
+                    },
+                    {
+                        text: 'Status',
+                        align: 'center',
+                        value: 'status'
+                    },
+                    {
+                        text: 'Created At',
+                        align: 'center',
+                        value: 'created_at'
+                    },
+                    {
+                        text: 'Actions',
+                        align: 'center'
+                    }
+                ]
+            }
         }
     }
-}
 </script>
