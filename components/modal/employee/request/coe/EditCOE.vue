@@ -48,7 +48,7 @@
 </template>
 
 <script>
-    import DatePicker from '@/components/datepicker/DatePicker-No-Button.vue';
+    import DatePicker from '@/components/datepicker/Datepicker-No-Button.vue';
     export default {
         props: [
             'coe'
