@@ -34,6 +34,7 @@ const _8a75cd04 = () => interopDefault(import('..\\pages\\sa\\timekeeping\\leave
 const _379c236c = () => interopDefault(import('..\\pages\\sa\\timekeeping\\overtime-requests\\_id\\index.vue' /* webpackChunkName: "pages_sa_timekeeping_overtime-requests__id_index" */))
 const _2d831130 = () => interopDefault(import('..\\pages\\sa\\timekeeping\\trip-requests\\_id\\index.vue' /* webpackChunkName: "pages_sa_timekeeping_trip-requests__id_index" */))
 const _4977439c = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages_index" */))
+const _9ae014ae = () => interopDefault(import('..\\pages\\_.vue' /* webpackChunkName: "pages__" */))
 
 Vue.use(Router)
 
@@ -237,6 +238,10 @@ export function createRouter() {
       path: "/",
       component: _4977439c,
       name: "index"
+    }, {
+      path: "/*",
+      component: _9ae014ae,
+      name: "all"
     }],
 
     fallback: false
