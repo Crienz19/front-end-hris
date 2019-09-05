@@ -29,7 +29,10 @@
                         <td class="text-xs-center">{{ props.item.destination_from }}</td>
                         <td class="text-xs-center">{{ props.item.destination_to }}</td>
                         <td class="text-xs-center">{{ props.item.purpose }}</td>
-                        <td class="text-xs-center">{{ props.item.status }}</td>  
+                        <td class="text-xs-center">
+                            <v-chip color="warning" v-if="props.item.status == 'Pending'">{{ props.item.status }}</v-chip>
+                            <v-chip color="info" v-if="props.item.status == 'Acknowledged'">{{ props.item.status }}</v-chip>
+                        </td>  
                         <td class="text-xs-center">
                             <edit-trip v-if="props.item.status == 'Pending'" :trip="props.item" />
                             <v-btn v-if="props.item.status == 'Pending'" class="ma-0" @click="$store.dispatch('trip/deleteEmployeeTrip', props.item)" color="error" small icon>
