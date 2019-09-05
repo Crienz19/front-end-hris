@@ -279,7 +279,7 @@
         },
         methods: {
             async updatePersonal () {
-                let {data} = await this.$axios.$patch(`/employees/${this.auth.id}`, {
+                await this.$axios.$patch(`/employees/${this.auth.id}`, {
                     first_name: this.employee.first_name,
                     middle_name: this.employee.middle_name,
                     last_name: this.employee.last_name,
@@ -299,8 +299,11 @@
                     skype_id: this.employee.skype_id,
                     department_id: this.employee.department.id,
                     position: this.employee.position
-                });
-                this.employee = data;
+                }).then((response) => {
+                    this.data = response.data;
+                }).catch(error => {
+                    alert('Something went wrong');
+                })
             }
         }
     }
