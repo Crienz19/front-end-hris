@@ -2,6 +2,10 @@ import colors from 'vuetify/es5/util/colors'
 import webpack from 'webpack'
 
 export default {
+  server: {
+    port: 3333, // default: 3000
+    host: '127.0.0.1', // default: localhost
+  },
   mode: 'universal',
   /*
   ** Headers of the page
@@ -67,7 +71,7 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    baseURL: "http://hris-api.test/api"
+    baseURL: "http://prototype.ziptravel.com.ph/v1/api"
   },
 
   auth: {
