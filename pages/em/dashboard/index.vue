@@ -80,11 +80,12 @@
                                     ></v-text-field>
                                 </v-flex>
                                 <v-flex xs12 lg6>
-                                    <v-text-field
+                                    <DatePicker
                                         label="Birthdate"
+                                        placeholder="2000-01-01"
                                         v-model="employee.birth_date"
                                         :disabled="!isEditPersonal"
-                                    ></v-text-field>
+                                    ></DatePicker>
                                 </v-flex>
                                 <v-flex xs12 lg6>
                                     <v-text-field
@@ -173,11 +174,12 @@
                                     ></v-text-field>
                                 </v-flex>
                                 <v-flex xs12 lg6>
-                                    <v-text-field
+                                    <DatePicker
                                         label="Date Hired"
+                                        placeholder="2000-01-01"
                                         v-model="employee.date_hired"
                                         :disabled="!isEditCompany"
-                                    ></v-text-field>
+                                    ></DatePicker>
                                 </v-flex>
                                 <v-flex xs12 lg6>
                                     <v-text-field
@@ -217,6 +219,7 @@
 </template>
 
 <script>
+    import DatePicker from '@/components/datepicker/Datepicker-No-Button.vue';
     export default {
         middleware: ['auth'],
         async asyncData({$axios, $auth}) {
