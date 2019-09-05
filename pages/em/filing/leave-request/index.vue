@@ -34,7 +34,7 @@
                             <td class="text-xs-center">{{ props.item.final_approval }}</td>
                             <td class="text-xs-center">
                                 <edit-leave v-if="props.item.recommending_approval == 'Pending'" :leave="props.item" />
-                                <v-btn v-if="props.item.recommending_approval == 'Pending'" @click="deleteLeave(props.item.actions.delete)" class="ma-0" small icon>
+                                <v-btn v-if="props.item.recommending_approval == 'Pending'" @click="deleteLeave(props.item.actions.delete)" color="error" class="ma-1" small icon>
                                     <v-icon small>delete</v-icon>
                                 </v-btn>
                                 <label v-if="props.item.recommending_approval != 'Pending'">Not Applicable</label>
