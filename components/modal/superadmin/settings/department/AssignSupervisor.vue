@@ -45,8 +45,10 @@
         methods: {
             async assignSupervisor () {
                 await this.$store.dispatch('department/updateDepartment', {
-                    'id': this.department.id,
-                    'supervisor_id': this.dialogm1
+                    id: this.department.id,
+                    name: this.department.name,
+                    display_name: this.department.display_name,
+                    supervisor_id: this.dialogm1
                 })
 
                 this.dialog = false;
