@@ -196,8 +196,12 @@
         },
         methods: {
             async submit () {
-                await this.$store.dispatch('employee/storeEmployee', this.form);
-                await this.$router.push('/em/dashboard');
+                await this.$axios.$post('/employees', this.form)
+                    .then((response) => {
+                        this.$router.push('/em/dashboard');
+                    }).catch(error => {
+                        alert('Something went wrong!');
+                    });
             }
         }
     }
