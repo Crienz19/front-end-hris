@@ -222,6 +222,9 @@
     import DatePicker from '@/components/datepicker/Datepicker-No-Button.vue';
     export default {
         middleware: ['auth'],
+        components: {
+            DatePicker
+        },
         async asyncData({$axios, $auth}) {
             let {data} = await $axios.$get(`/employees/${$auth.user.id}`);
 
