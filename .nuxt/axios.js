@@ -106,8 +106,8 @@ const setupProgress = (axios, ctx) => {
 export default (ctx, inject) => {
   // baseURL
   const baseURL = process.browser
-      ? 'http://hris-api.test/api'
-      : (process.env._AXIOS_BASE_URL_ || 'http://hris-api.test/api')
+      ? 'http://prototype.ziptravel.com.ph/v1/api'
+      : (process.env._AXIOS_BASE_URL_ || 'http://prototype.ziptravel.com.ph/v1/api')
 
   // Create fresh objects for all default header scopes
   // Axios creates only one which is shared across SSR requests!

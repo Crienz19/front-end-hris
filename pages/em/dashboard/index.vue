@@ -90,6 +90,7 @@
                                     <v-text-field
                                         label="Civil Status"
                                         placeholder="SINGLE"
+                                        v-model="employee.civil_status"
                                         :disabled="!isEditPersonal"
                                     ></v-text-field>
                                 </v-flex>
@@ -278,7 +279,27 @@
         },
         methods: {
             async updatePersonal () {
-                let {data} = await this.$axios.$patch(`/employees/${this.auth.id}`, this.employee);
+                let {data} = await this.$axios.$patch(`/employees/${this.auth.id}`, {
+                    first_name: this.employee.first_name,
+                    middle_name: this.employee.middle_name,
+                    last_name: this.employee.last_name,
+                    birth_date: this.employee.birth_date,
+                    civil_status: this.employee.civil_status,
+                    contact_no_1: this.employee.contact_no_1,
+                    contact_no_2: this.employee.contact_no_2,
+                    present_address: this.employee.present_address,
+                    permanent_address: this.employee.permanent_address,
+                    sss: this.employee.sss,
+                    pagibig: this.employee.pagibig,
+                    philhealth: this.employee.philhealth,
+                    tin: this.employee.tin,
+                    employee_id: this.employee.employee_id,
+                    date_hired: this.employee.date_hired,
+                    branch_id: this.employee.branch.id,
+                    skype_id: this.employee.skype_id,
+                    department_id: this.employee.department.id,
+                    position: this.employee.position
+                });
                 this.employee = data;
             }
         }
