@@ -261,6 +261,7 @@
             },
             isEditCompany (value) {
                 if (!value) {
+                    this.updatePersonal();
                     this.$swal.fire({
                         toast: true,
                         position: 'top-end',
