@@ -32,7 +32,7 @@
                         <td class="text-xs-center">{{ props.item.status }}</td>  
                         <td class="text-xs-center">
                             <edit-trip v-if="props.item.status == 'Pending'" :trip="props.item" />
-                            <v-btn v-if="props.item.status == 'Pending'" class="ma-0" @click="$store.dispatch('trip/deleteEmployeeTrip', props.item)" small icon>
+                            <v-btn v-if="props.item.status == 'Pending'" class="ma-0" @click="$store.dispatch('trip/deleteEmployeeTrip', props.item)" color="error" small icon>
                                 <v-icon small>delete</v-icon>
                             </v-btn>
                             <label v-if="props.item.status != 'Pending'">Not Applicable</label>

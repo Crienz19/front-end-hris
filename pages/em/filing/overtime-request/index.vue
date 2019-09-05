@@ -30,7 +30,7 @@
                         <td class="text-xs-center">{{ props.item.status }}</td>
                         <td class="text-xs-center">
                             <edit-overtime v-if="props.item.status == 'Pending'" :overtime="props.item" />
-                            <v-btn v-if="props.item.status == 'Pending'" @click="deleteOvertime(props.item.actions.delete)" class="ma-0" icon small>
+                            <v-btn v-if="props.item.status == 'Pending'" @click="deleteOvertime(props.item.actions.delete)" class="ma-1" color="error" icon small>
                                 <v-icon small>delete</v-icon>
                             </v-btn>
                             <label v-if="props.item.status != 'Pending'">Not Applicable</label>
