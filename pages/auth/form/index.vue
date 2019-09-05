@@ -196,7 +196,6 @@
         },
         methods: {
             async submit () {
-                await this.$auth.fetchUser();
                 await this.$store.dispatch('employee/storeEmployee', this.form);
                 await this.$router.push('/em/dashboard');
             }

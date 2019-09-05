@@ -4,6 +4,7 @@ import { interopDefault } from './utils'
 
 const _1f8d7e9e = () => interopDefault(import('..\\pages\\auth\\activation\\index.vue' /* webpackChunkName: "pages_auth_activation_index" */))
 const _522eaca0 = () => interopDefault(import('..\\pages\\auth\\form\\index.vue' /* webpackChunkName: "pages_auth_form_index" */))
+const _484789d2 = () => interopDefault(import('..\\pages\\auth\\login\\index.vue' /* webpackChunkName: "pages_auth_login_index" */))
 const _4f40e171 = () => interopDefault(import('..\\pages\\auth\\register\\index.vue' /* webpackChunkName: "pages_auth_register_index" */))
 const _3064768c = () => interopDefault(import('..\\pages\\em\\dashboard\\index.vue' /* webpackChunkName: "pages_em_dashboard_index" */))
 const _d13dbd24 = () => interopDefault(import('..\\pages\\hr\\dashboard\\index.vue' /* webpackChunkName: "pages_hr_dashboard_index" */))
@@ -118,6 +119,10 @@ export function createRouter() {
       path: "/auth/form",
       component: _522eaca0,
       name: "auth-form"
+    }, {
+      path: "/auth/login",
+      component: _484789d2,
+      name: "auth-login"
     }, {
       path: "/auth/register",
       component: _4f40e171,
