@@ -116,8 +116,8 @@ export default {
                         alert('Attention! Please wait for the administrator to activate your account!');
                         break;
                 }
-            }).catch(({response}) => {
-                this.errors = response.data
+            }).catch(error => {
+                console.log(error.errors);
             });
         }
     }
