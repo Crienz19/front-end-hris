@@ -23,7 +23,7 @@
                         <td class="text-xs-center">{{ props.item.display_name }}</td>
                         <td class="text-xs-center">
                             <edit-branch :branch="props.item" />
-                            <v-btn @click="$store.dispatch('branch/deleteBranch', props.item)" class="ma-0" icon small>
+                            <v-btn @click="$store.dispatch('branch/deleteBranch', props.item)" color="error" class="ma-1" icon small>
                                 <v-icon small>delete</v-icon>
                             </v-btn>
                         </td>

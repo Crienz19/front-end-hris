@@ -25,7 +25,7 @@
                         <td class="text-xs-center">
                             <assign-supervisor :department="props.item" />
                             <edit-department :department="props.item" />
-                            <v-btn class="ma-0" @click="$store.dispatch('department/deleteDepartment', props.item)" icon small>
+                            <v-btn class="ma-0" @click="$store.dispatch('department/deleteDepartment', props.item)" color="error" icon small>
                                 <v-icon small>delete</v-icon>
                             </v-btn>
                         </td>
