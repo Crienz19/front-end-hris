@@ -1,7 +1,7 @@
 <template>
     <v-dialog v-model="dialog" scrollable max-width="270px">
       <template v-slot:activator="{ on }">
-        <v-btn class="ma-0" small icon v-on="on">
+        <v-btn color="warning" class="ma-1" small icon v-on="on">
             <v-icon small>assignment_turned_in</v-icon>
         </v-btn>
       </template>
