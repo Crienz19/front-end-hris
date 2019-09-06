@@ -31,7 +31,10 @@
                             <v-icon color="green" v-if="props.item.compensation">check</v-icon>
                             <v-icon color="error" v-else>block</v-icon>
                         </td>
-                        <td class="text-xs-center">{{ props.item.status }}</td>
+                        <td class="text-xs-center">
+                            <v-chip color="warning" v-if="props.item.status == 'Pending'">{{ props.item.status }}</v-chip>
+                            <v-chip color="info" v-if="props.item.status == 'Acknowledged'">{{ props.item.status }}</v-chip>
+                        </td>
                         <td class="text-xs-center">
                             <view-COE :coe="props.item"></view-COE>
                         </td>

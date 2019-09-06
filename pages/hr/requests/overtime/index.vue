@@ -38,7 +38,11 @@
                         <td class="text-xs-center">{{ props.item.from.standard }}</td>
                         <td class="text-xs-center">{{ props.item.to.standard }}</td>
                         <td class="text-xs-center">{{ props.item.reason }}</td>
-                        <td class="text-xs-center">{{ props.item.status }}</td>
+                        <td class="text-xs-center">
+                            <v-chip color="warning" v-if="props.item.status == 'Pending'">{{ props.item.status }}</v-chip>
+                            <v-chip color="info" v-if="props.item.status == 'Approved'">{{ props.item.status }}</v-chip>
+                            <v-chip color="error" v-if="props.item.status == 'Disapproved'">{{ props.item.status }}</v-chip>
+                        </td>
                         <td class="text-xs-center">{{ props.item.created_at }}</td>
                         <td class="text-xs-center">
                             <view-overtime :overtime="props.item"></view-overtime>

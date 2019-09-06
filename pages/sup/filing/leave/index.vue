@@ -30,8 +30,16 @@
                             <td class="text-xs-center">{{ props.item.to }}</td>
                             <td class="text-xs-center">{{ props.item.time_from ? props.item.time_from : 'N/A' }}</td>
                             <td class="text-xs-center">{{ props.item.time_to ? props.item.time_to : 'N/A'}}</td>
-                            <td class="text-xs-center">{{ props.item.recommending_approval }}</td>
-                            <td class="text-xs-center">{{ props.item.final_approval }}</td>
+                            <td class="text-xs-center">
+                                <v-chip color="warning" v-if="props.item.recommending_approval == 'Pending'">{{ props.item.recommending_approval }}</v-chip>
+                                <v-chip color="info" v-if="props.item.recommending_approval == 'Approved'">{{ props.item.recommending_approval }}</v-chip>
+                                <v-chip color="error" v-if="props.item.recommending_approval == 'Disapproved'">{{ props.item.recommending_approval }}</v-chip>
+                            </td>
+                            <td class="text-xs-center">
+                                <v-chip color="warning" v-if="props.item.final_approval == 'Pending'">{{ props.item.final_approval }}</v-chip>
+                                <v-chip color="info" v-if="props.item.final_approval == 'Approved'">{{ props.item.final_approval }}</v-chip>
+                                <v-chip color="error" v-if="props.item.final_approval == 'Disapproved'">{{ props.item.final_approval }}</v-chip>
+                            </td>
                             <td class="text-xs-center">
                                 <edit-leave :leave="props.item" />
                                 <v-btn @click="$store.dispatch('leave/deleteEmployeeLeave', props.item)" class="ma-0" small icon>

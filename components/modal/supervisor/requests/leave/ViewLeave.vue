@@ -2,7 +2,7 @@
   <v-layout justify-center>
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on }">
-        <v-btn icon v-on="on" small>
+        <v-btn color="info" icon v-on="on" small>
           <v-icon>search</v-icon>
         </v-btn>
       </template>
