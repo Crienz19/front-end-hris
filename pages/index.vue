@@ -117,7 +117,7 @@ export default {
                         break;
                 }
             }).catch(error => {
-                console.log(error.errors);
+                console.log(error.response);
             });
         }
     }
