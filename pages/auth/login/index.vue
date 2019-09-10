@@ -91,6 +91,11 @@ export default {
                             }
                         }
                         break;
+                    case 'administrator':
+                    if (this.auth.isActivated) {
+                        this.$router.push('/admin/dashboard');
+                    }
+                        break;
                     case 'supervisor':
                         if (this.auth.isActivated) {
                             if (this.auth.isFilled) {
