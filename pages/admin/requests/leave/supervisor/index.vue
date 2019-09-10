@@ -63,8 +63,8 @@
 
 <script>
 import DownloadExcel from '@/components/exportToExcel/downloadToExcel.vue';
-import FilterLeave from "@/components/modal/hr/requests/leave/FilterLeave.vue";
-import ViewLeave from "@/components/modal/hr/requests/leave/ViewLeave.vue";
+import FilterLeave from "@/components/modal/admin/requests/leave/supervisor/FilterLeave.vue";
+import ViewLeave from "@/components/modal/admin/requests/leave/supervisor/ViewLeave.vue";
 export default {
     middleware: ['auth'],
     components: {
@@ -74,10 +74,7 @@ export default {
     },
     async asyncData({ $axios, store}) {
         let {data} = await $axios.$get('/admin/leaves/getSupervisor');
-
-        return {
-            leaves: data
-        }
+        store.commit('leave/SET_LEAVES', data);
     },
     data () {
         return {
@@ -157,7 +154,7 @@ export default {
     methods: {
         async refreshLeave () {
             let {data} = await this.$axios.$get('/admin/leaves/getSupervisor');
-            this.leave = data;
+            this.$store.commit('leave/SET_LEAVES', data);
         }
     }
 }

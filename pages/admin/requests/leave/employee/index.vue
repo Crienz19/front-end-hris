@@ -32,9 +32,9 @@
                         :items="leaves"
                     >
                         <template v-slot:items="props">
-                            <td>{{ props.item.id }}</td>
-                            <td class="text-xs-center">{{ props.item.employee.last_name }}</td>
+                            <td>{{ props.item.employee.last_name }}</td>
                             <td class="text-xs-center">{{ props.item.employee.first_name }}</td>
+                            <td class="text-xs-center">{{ props.item.employee.department.display_name }}</td>
                             <td class="text-xs-center">{{ props.item.type }}</td>
                             <td class="text-xs-center">{{ props.item.pay_type }}</td>
                             <td class="text-xs-center">{{ props.item.from }}</td>
@@ -63,8 +63,8 @@
 
 <script>
 import DownloadExcel from '@/components/exportToExcel/downloadToExcel.vue';
-import FilterLeave from "@/components/modal/hr/requests/leave/FilterLeave.vue";
-import ViewLeave from "@/components/modal/hr/requests/leave/ViewLeave.vue";
+import FilterLeave from "@/components/modal/admin/requests/leave/employee/FilterLeave.vue";
+import ViewLeave from "@/components/modal/admin/requests/leave/employee/ViewLeave.vue";
 export default {
     middleware: ['auth'],
     components: {
@@ -74,16 +74,14 @@ export default {
     },
     async asyncData({ $axios, store}) {
         let {data} = await $axios.$get('/admin/leaves/getEmployee');
-
-        return {
-            leaves: data
-        }
+        store.commit('leave/SET_LEAVES', data);
     },
     data () {
         return {
             fields: {
                 'Last Name': 'employee.last_name',
                 'First Name': 'employee.first_name',
+                'Department': 'employee.department.display_name',
                 'Type': 'type',
                 'Pay': 'pay',
                 'From': 'from',
@@ -97,19 +95,19 @@ export default {
             },
             headers: [
                 {
-                    text: 'ID',
-                    align: 'left',
-                    value: 'id'
-                },
-                {
                     text: 'Last Name',
-                    align: 'center',
+                    align: 'left',
                     value: 'employee.last_name'
                 },
                 {
                     text: 'First Name',
                     align: 'center',
                     value: 'employee.first_name'
+                },
+                {
+                    text: 'Department',
+                    align: 'center',
+                    value: 'employee.department.display_name'
                 },
                 {
                     text: 'Type',

@@ -59,8 +59,8 @@
 
 <script>
 import DownloadExcel from '@/components/exportToExcel/downloadToExcel.vue';
-import FilterTrip from "@/components/modal/hr/requests/trip/FilterTrip.vue";
-import ViewTrip from "@/components/modal/hr/requests/trip/ViewTrip.vue";
+import FilterTrip from "@/components/modal/admin/requests/trip/employee/FilterTrip.vue";
+import ViewTrip from "@/components/modal/admin/requests/trip/employee/ViewTrip.vue";
 export default {
     middleware: ['auth'],
     components: {

@@ -31,9 +31,9 @@
                     :items="overtimes"
                 >
                     <template v-slot:items="props">
-                        <td>{{ props.item.id }}</td>
-                        <td class="text-xs-center">{{ props.item.employee.last_name }}</td>
+                        <td>{{ props.item.employee.last_name }}</td>
                         <td class="text-xs-center">{{ props.item.employee.first_name }}</td>
+                        <td class="text-xs-center">{{ props.item.employee.department.display_name }}</td>
                         <td class="text-xs-center">{{ props.item.date }}</td>
                         <td class="text-xs-center">{{ props.item.from.standard }}</td>
                         <td class="text-xs-center">{{ props.item.to.standard }}</td>
@@ -56,8 +56,8 @@
 
 <script>
     import DownloadExcel from '@/components/exportToExcel/downloadToExcel.vue';    
-    import ViewOvertime from "@/components/modal/hr/requests/overtime/ViewOvertime.vue";
-    import FilterOvertime from "@/components/modal/hr/requests/overtime/FilterOvertime.vue";
+    import ViewOvertime from "@/components/modal/admin/requests/overtime/supervisor/ViewOvertime.vue";
+    import FilterOvertime from "@/components/modal/admin/requests/overtime/supervisor/FilterOvertime.vue";
     export default {
         middleware: ['auth'],
         components: {
@@ -77,6 +77,7 @@
                 fields: {
                     'Last Name': 'employee.last_name',
                     'First Name': 'employee.first_name',
+                    'Department': 'employee.department.display_name',
                     'Date': 'date',
                     'From': 'from.standard',
                     'To': 'to.standard',
@@ -86,11 +87,6 @@
                 },
                 headers: [
                     {
-                        text: 'ID',
-                        align: 'left',
-                        value: 'id'
-                    },
-                    {
                         text: 'Last Name',
                         align: 'center',
                         value: 'employee.last_name'
@@ -99,6 +95,11 @@
                         text: 'First Name',
                         align: 'center',
                         value: 'employee.first_name'
+                    },
+                    {
+                        text: 'Department',
+                        align: 'center',
+                        value: 'employee.department.display_name'
                     },
                     {
                         text: 'Date',

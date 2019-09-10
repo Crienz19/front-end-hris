@@ -23,6 +23,14 @@ export const actions = {
         let {data} = await this.$axios.$get('/hr/leaves');
         commit('SET_LEAVES', data);
     },
+    async loadAdminLeaveSup ({ commit }) {
+        let {data} = await this.$axios.$get('/admin/leaves/getSupervisor');
+        commit('SET_LEAVES', data);
+    },
+    async loadAdminLeaveEmp ({ commit }) {
+        let {data} = await this.$axios.$get('/admin/leaves/getEmployee');
+        commit('SET_LEAVES', data);
+    },
     async loadSupervisorLeaves ({ commit }) {
         let {data} = await this.$axios.$get('/sv/leaves');
         commit('SET_LEAVES', data);
