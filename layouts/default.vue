@@ -96,6 +96,107 @@
           </v-list-group>
         </v-list>
       <!-- End of Superadmin -->
+      <!-- Administrator -->
+      <v-list class="pa-0" v-if="auth.role === 'administrator'">
+          <v-divider></v-divider>
+          <nuxt-link to="/admin/dashboard" tag="v-list-tile">
+            <v-list-tile-action>
+              <v-icon>dashboard</v-icon>
+            </v-list-tile-action>
+
+            <v-list-tile-content>
+              <v-list-tile-title>Dashboard</v-list-tile-title>
+            </v-list-tile-content>
+          </nuxt-link>
+          
+          <v-list-group prepend-icon="book">
+            <template v-slot:activator>
+              <v-list-tile>
+                <v-list-tile-title>Requests</v-list-tile-title>
+              </v-list-tile>
+            </template>
+
+            <v-list-group sub-group no-action>
+              <template v-slot:activator>
+                <v-list-tile>
+                  <v-list-tile-title>Leave</v-list-tile-title>
+                </v-list-tile>
+              </template>
+
+              <nuxt-link to="/admin/requests/leave/supervisor" tag="v-list-tile">
+                <v-list-tile-action>
+                  <v-icon>dashboard</v-icon>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                  <v-list-tile-title>Supervisor</v-list-tile-title>
+                </v-list-tile-content>
+              </nuxt-link>
+
+              <nuxt-link to="/admin/requests/leave/employee" tag="v-list-tile">
+                <v-list-tile-action>
+                  <v-icon>dashboard</v-icon>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                  <v-list-tile-title>Employee</v-list-tile-title>
+                </v-list-tile-content>
+              </nuxt-link>
+            </v-list-group>
+
+            <v-list-group sub-group no-action>
+              <template v-slot:activator>
+                <v-list-tile>
+                  <v-list-tile-title>Overtime</v-list-tile-title>
+                </v-list-tile>
+              </template>
+
+              <nuxt-link to="/admin/requests/overtime/supervisor" tag="v-list-tile">
+                <v-list-tile-action>
+                  <v-icon>dashboard</v-icon>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                  <v-list-tile-title>Supervisor</v-list-tile-title>
+                </v-list-tile-content>
+              </nuxt-link>
+
+              <nuxt-link to="/admin/requests/overtime/employee" tag="v-list-tile">
+                <v-list-tile-action>
+                  <v-icon>dashboard</v-icon>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                  <v-list-tile-title>Employee</v-list-tile-title>
+                </v-list-tile-content>
+              </nuxt-link>
+            </v-list-group>
+            
+
+            <v-list-group sub-group no-action>
+              <template v-slot:activator>
+                <v-list-tile>
+                  <v-list-tile-title>Official Business Trip</v-list-tile-title>
+                </v-list-tile>
+              </template>
+              
+              <nuxt-link to="/admin/requests/trip/supervisor" tag="v-list-tile">
+                <v-list-tile-action>
+                  <v-icon>dashboard</v-icon>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                  <v-list-tile-title>Supervisor</v-list-tile-title>
+                </v-list-tile-content>
+              </nuxt-link>
+
+              <nuxt-link to="/admin/requests/trip/employee" tag="v-list-tile">
+                <v-list-tile-action>
+                  <v-icon>dashboard</v-icon>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                  <v-list-tile-title>Employee</v-list-tile-title>
+                </v-list-tile-content>
+              </nuxt-link>
+            </v-list-group>
+          </v-list-group>
+        </v-list>
+      <!-- End of Administrator -->
       <!-- Human Resource -->
         <v-list class="pa-0" v-if="auth.role === 'hr'">
           <v-divider></v-divider>

@@ -84,11 +84,12 @@ export default {
                         break;
                     case 'hr':
                         if (this.auth.isActivated) {
-                            if (this.auth.isFilled) {
-                                this.$router.push('/hr/dashboard');
-                            } else {
-                                this.$router.push('/auth/form');
-                            }
+                            this.$router.push('/hr/dashboard');
+                        }
+                        break;
+                    case 'administrator':
+                        if (this.auth.isActivated) {
+                            this.$router.push('/admin/dashboard');
                         }
                         break;
                     case 'supervisor':

@@ -71,7 +71,7 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    baseURL: "http://prototype.ziptravel.com.ph/v1/api"
+    baseURL: "http://hris-api.test/api"
   },
 
   auth: {

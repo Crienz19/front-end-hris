@@ -61,7 +61,7 @@
               </td>
               <td class="text-xs-center">{{ props.item.created_at }}</td>
               <td class="text-xs-center">
-                  <view-employee-details :employee="props.item.employee"></view-employee-details>
+                  <view-employee-details v-if="props.item.employee" :employee="props.item.employee"></view-employee-details>
                   <v-btn class="ma-0" v-if="props.item.isActivated" icon small @click="deactivateUser(props.item.id)">
                     <v-icon>lock</v-icon>
                   </v-btn>

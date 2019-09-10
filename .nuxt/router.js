@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import { interopDefault } from './utils'
 
+const _60b26bd2 = () => interopDefault(import('..\\pages\\admin\\dashboard\\index.vue' /* webpackChunkName: "pages_admin_dashboard_index" */))
 const _1f8d7e9e = () => interopDefault(import('..\\pages\\auth\\activation\\index.vue' /* webpackChunkName: "pages_auth_activation_index" */))
 const _522eaca0 = () => interopDefault(import('..\\pages\\auth\\form\\index.vue' /* webpackChunkName: "pages_auth_form_index" */))
 const _484789d2 = () => interopDefault(import('..\\pages\\auth\\login\\index.vue' /* webpackChunkName: "pages_auth_login_index" */))
@@ -30,6 +31,12 @@ const _8aa0ade0 = () => interopDefault(import('..\\pages\\sup\\filing\\overtime\
 const _6d99e8e8 = () => interopDefault(import('..\\pages\\sup\\filing\\trip\\index.vue' /* webpackChunkName: "pages_sup_filing_trip_index" */))
 const _684f0a97 = () => interopDefault(import('..\\pages\\sup\\requests\\leave\\index.vue' /* webpackChunkName: "pages_sup_requests_leave_index" */))
 const _60c2e165 = () => interopDefault(import('..\\pages\\sup\\requests\\overtime\\index.vue' /* webpackChunkName: "pages_sup_requests_overtime_index" */))
+const _0a1d132a = () => interopDefault(import('..\\pages\\admin\\requests\\leave\\employee\\index.vue' /* webpackChunkName: "pages_admin_requests_leave_employee_index" */))
+const _0887caa0 = () => interopDefault(import('..\\pages\\admin\\requests\\leave\\supervisor\\index.vue' /* webpackChunkName: "pages_admin_requests_leave_supervisor_index" */))
+const _ea54a554 = () => interopDefault(import('..\\pages\\admin\\requests\\overtime\\employee\\index.vue' /* webpackChunkName: "pages_admin_requests_overtime_employee_index" */))
+const _30b6d9dc = () => interopDefault(import('..\\pages\\admin\\requests\\overtime\\supervisor\\index.vue' /* webpackChunkName: "pages_admin_requests_overtime_supervisor_index" */))
+const _9ac6c25c = () => interopDefault(import('..\\pages\\admin\\requests\\trip\\employee\\index.vue' /* webpackChunkName: "pages_admin_requests_trip_employee_index" */))
+const _faf14750 = () => interopDefault(import('..\\pages\\admin\\requests\\trip\\supervisor\\index.vue' /* webpackChunkName: "pages_admin_requests_trip_supervisor_index" */))
 const _8ed1913e = () => interopDefault(import('..\\pages\\sa\\dashboard\\profile\\_id\\index.vue' /* webpackChunkName: "pages_sa_dashboard_profile__id_index" */))
 const _8a75cd04 = () => interopDefault(import('..\\pages\\sa\\timekeeping\\leave-requests\\_id\\index.vue' /* webpackChunkName: "pages_sa_timekeeping_leave-requests__id_index" */))
 const _379c236c = () => interopDefault(import('..\\pages\\sa\\timekeeping\\overtime-requests\\_id\\index.vue' /* webpackChunkName: "pages_sa_timekeeping_overtime-requests__id_index" */))
@@ -112,6 +119,10 @@ export function createRouter() {
     scrollBehavior,
 
     routes: [{
+      path: "/admin/dashboard",
+      component: _60b26bd2,
+      name: "admin-dashboard"
+    }, {
       path: "/auth/activation",
       component: _1f8d7e9e,
       name: "auth-activation"
@@ -223,6 +234,30 @@ export function createRouter() {
       path: "/sup/requests/overtime",
       component: _60c2e165,
       name: "sup-requests-overtime"
+    }, {
+      path: "/admin/requests/leave/employee",
+      component: _0a1d132a,
+      name: "admin-requests-leave-employee"
+    }, {
+      path: "/admin/requests/leave/supervisor",
+      component: _0887caa0,
+      name: "admin-requests-leave-supervisor"
+    }, {
+      path: "/admin/requests/overtime/employee",
+      component: _ea54a554,
+      name: "admin-requests-overtime-employee"
+    }, {
+      path: "/admin/requests/overtime/supervisor",
+      component: _30b6d9dc,
+      name: "admin-requests-overtime-supervisor"
+    }, {
+      path: "/admin/requests/trip/employee",
+      component: _9ac6c25c,
+      name: "admin-requests-trip-employee"
+    }, {
+      path: "/admin/requests/trip/supervisor",
+      component: _faf14750,
+      name: "admin-requests-trip-supervisor"
     }, {
       path: "/sa/dashboard/profile/:id?",
       component: _8ed1913e,
