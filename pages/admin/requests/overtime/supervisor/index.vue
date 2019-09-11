@@ -67,10 +67,7 @@
         },
         async asyncData({store, $axios}) {
             let {data} = await $axios.$get('/admin/overtimes/getSupervisor');
-
-            return {
-                overtimes: data
-            }
+            store.commit('overtime/SET_OVERTIMES', data);
         },
         data () {
             return {

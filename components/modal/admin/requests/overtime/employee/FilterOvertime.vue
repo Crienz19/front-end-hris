@@ -65,7 +65,7 @@
         },
         methods: {
             async filterNow () {
-                await this.$axios.$post('/hr/overtimes/filter', this.form)
+                await this.$axios.$post('/admin/overtimes/employee/filter', this.form)
                 .then((response) => {
                     this.$store.commit('overtime/SET_OVERTIMES', response.data);
                     this.dialog = false;

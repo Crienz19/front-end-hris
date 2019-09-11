@@ -70,10 +70,7 @@ export default {
     },
     async asyncData({store, $axios}) {
         let {data} = await $axios.$get('/admin/trips/getSupervisor');
-
-        return {
-            trips: data
-        }
+        store.commit('trip/SET_TRIPS', data);
     },
     data () {
         return {
