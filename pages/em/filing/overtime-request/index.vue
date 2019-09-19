@@ -1,18 +1,17 @@
 <template>
-    <v-layout row wrap>
-        <v-flex xs12>
+    <v-row dense>
+        <v-col cols="12">
             <v-alert
-                    value="true"
                     type="info"
                     transition="scale-transition"
                 >
                     This is information alert.
                 </v-alert>
-        </v-flex>
-        <v-flex xs12>
+        </v-col>
+        <v-col cols="12">
             <v-card>
                 <v-card-title>
-                    <h3>Overtime Requests</h3>
+                    <h5>Overtime Requests</h5>
                     <v-spacer></v-spacer>
                     <create-overtime />
                 </v-card-title>
@@ -21,29 +20,22 @@
                     :headers="headers"
                     :items="overtimes"
                 >
-                    <template v-slot:items="props">
-                        <td>{{ props.item.id }}</td> 
-                        <td class="text-xs-center">{{ props.item.date }}</td>
-                        <td class="text-xs-center">{{ props.item.from.standard }}</td>
-                        <td class="text-xs-center">{{ props.item.to.standard }}</td>
-                        <td class="text-xs-center">{{ props.item.reason }}</td>
-                        <td class="text-xs-center">
-                            <v-chip color="warning" v-if="props.item.status == 'Pending'">{{ props.item.status }}</v-chip>
-                            <v-chip color="info" v-if="props.item.status == 'Approved'">{{ props.item.status }}</v-chip>
-                            <v-chip color="error" v-if="props.item.status == 'Disapproved'">{{ props.item.status }}</v-chip>
-                        </td>
-                        <td class="text-xs-center">
-                            <edit-overtime v-if="props.item.status == 'Pending'" :overtime="props.item" />
-                            <v-btn v-if="props.item.status == 'Pending'" @click="deleteOvertime(props.item.actions.delete)" class="ma-1" color="error" icon small>
-                                <v-icon small>delete</v-icon>
-                            </v-btn>
-                            <label v-if="props.item.status != 'Pending'">Not Applicable</label>
-                        </td>    
+                    <template v-slot:item.status="{ item }">
+                        <v-chip color="warning" v-if="item.status == 'Pending'">{{ item.status }}</v-chip>
+                        <v-chip color="success" v-if="item.status == 'Approved'">{{ item.status }}</v-chip>
+                        <v-chip color="error" v-if="item.status == 'Disapproved'">{{ item.status }}</v-chip>
+                    </template>
+                    <template v-slot:item.actions="{ item }">
+                        <edit-overtime v-if="item.status == 'Pending'" :overtime="item" />
+                        <v-btn v-if="item.status == 'Pending'" @click="deleteOvertime(item.actions.delete)" class="ma-1" color="error" icon small>
+                            <v-icon small>delete</v-icon>
+                        </v-btn>
+                        <label v-if="item.status != 'Pending'">Not Applicable</label>
                     </template>
                 </v-data-table>
             </v-card>
-        </v-flex>
-    </v-layout>
+        </v-col>
+    </v-row>
 </template>
 
 <script>
@@ -74,12 +66,12 @@
                     {
                         text: 'From',
                         align: 'center',
-                        value: 'from'
+                        value: 'from.standard'
                     },
                     {
                         text: 'To',
                         align: 'center',
-                        value: 'to'
+                        value: 'to.standard'
                     },
                     {
                         text: 'Reason',
@@ -89,11 +81,12 @@
                     {
                         text: 'Status',
                         align: 'center',
-                        value: 'statue'
+                        value: 'status'
                     },
                     {
                         text: 'Actions',
                         align: 'center',
+                        value: 'actions',
                         sortable: false
                     }
                 ]

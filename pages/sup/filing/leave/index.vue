@@ -22,30 +22,24 @@
                         :headers="headers"
                         :items="leaves"
                     >
-                        <template v-slot:items="props">
-                            <td>{{ props.item.id }}</td>
-                            <td class="text-xs-center">{{ props.item.type }}</td>
-                            <td class="text-xs-center">{{ props.item.pay_type }}</td>
-                            <td class="text-xs-center">{{ props.item.from }}</td>
-                            <td class="text-xs-center">{{ props.item.to }}</td>
-                            <td class="text-xs-center">{{ props.item.time_from ? props.item.time_from : 'N/A' }}</td>
-                            <td class="text-xs-center">{{ props.item.time_to ? props.item.time_to : 'N/A'}}</td>
-                            <td class="text-xs-center">
-                                <v-chip color="warning" v-if="props.item.recommending_approval == 'Pending'">{{ props.item.recommending_approval }}</v-chip>
-                                <v-chip color="info" v-if="props.item.recommending_approval == 'Approved'">{{ props.item.recommending_approval }}</v-chip>
-                                <v-chip color="error" v-if="props.item.recommending_approval == 'Disapproved'">{{ props.item.recommending_approval }}</v-chip>
-                            </td>
-                            <td class="text-xs-center">
-                                <v-chip color="warning" v-if="props.item.final_approval == 'Pending'">{{ props.item.final_approval }}</v-chip>
-                                <v-chip color="info" v-if="props.item.final_approval == 'Approved'">{{ props.item.final_approval }}</v-chip>
-                                <v-chip color="error" v-if="props.item.final_approval == 'Disapproved'">{{ props.item.final_approval }}</v-chip>
-                            </td>
-                            <td class="text-xs-center">
-                                <edit-leave :leave="props.item" />
-                                <v-btn @click="$store.dispatch('leave/deleteEmployeeLeave', props.item)" class="ma-0" small icon>
-                                    <v-icon small>delete</v-icon>
-                                </v-btn>
-                            </td>
+                        <template v-slot:item.recommending_approval="{ item }">
+                            <v-chip color="warning" v-if="item.recommending_approval == 'Pending'">{{ item.recommending_approval }}</v-chip>
+                            <v-chip color="success" v-if="item.recommending_approval == 'Approved'">{{ item.recommending_approval }}</v-chip>
+                            <v-chip color="error" v-if="item.recommending_approval == 'Disapproved'" text-color="white">{{ item.recommending_approval }}</v-chip>
+                        </template>
+
+                        <template v-slot:item.final_approval="{ item }">
+                            <v-chip color="warning" v-if="item.final_approval == 'Pending'">{{ item.final_approval }}</v-chip>
+                            <v-chip color="success" v-if="item.final_approval == 'Approved'">{{ item.final_approval }}</v-chip>
+                            <v-chip color="error" v-if="item.final_approval == 'Disapproved'" text-color="white">{{ item.final_approval }}</v-chip>
+                        </template>
+
+                        <template v-slot:item.actions="{ item }">
+                            <edit-leave v-if="item.final_approval == 'Pending'" :leave="item" />
+                            <v-btn v-if="item.final_approval == 'Pending'" @click="$store.dispatch('leave/deleteEmployeeLeave', item)" class="ma-0" color="error" small icon>
+                                <v-icon>delete</v-icon>
+                            </v-btn>
+                            <label v-if="item.final_approval == 'Approved' || item.final_approval == 'Disapproved'">Not Applicable</label>
                         </template>
                     </v-data-table>
                 </v-card>
@@ -83,7 +77,7 @@
                     {
                         text: 'Pay',
                         align: 'center',
-                        value: 'pay'
+                        value: 'pay_type'
                     },
                     {
                         text: 'From',
@@ -118,6 +112,7 @@
                     {
                         text: 'Actions',
                         align: 'center',
+                        value: 'actions',
                         sortable: false
                     }
                 ]

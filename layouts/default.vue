@@ -1,396 +1,353 @@
 <template>
-    <v-app>
-      <!-- Sidebar -->
-      <v-navigation-drawer 
-        app
-        absolute
-        dark 
-        :mini-variant.sync="mini"
-        permanent
-        v-if="$store.getters['auth/authenticated']"
-      >
-        <v-toolbar flat class="transparent">
-          <v-list class="pa-0">
-            <v-list-tile avatar>
-              <v-list-tile-avatar>
-                <img src="https://randomuser.me/api/portraits/men/85.jpg">
-              </v-list-tile-avatar>
+  <v-app app>
+    <v-navigation-drawer app width="310" color="grey lighten-2">
+      <v-list-item class="pa-2">
+        <v-list-item-avatar>
+          <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
+        </v-list-item-avatar>
+        <v-list-item-content>
+          <v-list-item-title class="title">
+            HRIS
+          </v-list-item-title>
+          <v-list-item-subtitle>
+            Human Resource System
+          </v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+      <v-divider></v-divider>
+      
+      <v-list class="pa-0" v-if="auth.role === 'superadministrator'">
+        <v-list-item to="/sa/dashboard">
+          <v-list-item-icon>
+            <v-icon>dashboard</v-icon>
+          </v-list-item-icon>
 
-              <v-list-tile-content>
-                <v-list-tile-title>HRIS</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-          </v-list>
-        </v-toolbar>
+          <v-list-item-content>
+            <v-list-item-title>Dashboard</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-divider></v-divider>
+        <v-subheader>Timekeeping</v-subheader>
+        <v-list-item to="/sa/timekeeping/leave-requests">
+          <v-list-item-icon>
+            <v-icon>card_travel</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Leave Request</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
 
-        <!-- Superadmin -->
-        <v-list class="pa-0" v-if="auth.role === 'superadministrator'">
-          <v-divider></v-divider>
-          <nuxt-link to="/sa/dashboard" tag="v-list-tile">
-            <v-list-tile-action>
-              <v-icon>dashboard</v-icon>
-            </v-list-tile-action>
+        <v-list-item to="/sa/timekeeping/overtime-requests">
+          <v-list-item-icon>
+            <v-icon>av_timer</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Overtime Request</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        
+        <v-list-item to="/sa/timekeeping/trip-requests">
+          <v-list-item-icon>
+            <v-icon>emoji_transportation</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Business Trip Request</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-divider></v-divider>
+        <v-subheader>Settings</v-subheader>
+        <v-list-item to="/sa/settings/branch">
+          <v-list-item-icon>
+            <v-icon>timeline</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Branch</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/sa/settings/department">
+          <v-list-item-icon>
+            <v-icon>bookmark_border</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Department</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/sa/settings/role">
+          <v-list-item-icon>
+            <v-icon>assignment_ind</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Role</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+      
+      <v-list class="pa-0" v-if="auth.role === 'supervisor'">
+        <v-list-item to="/sup/dashboard">
+          <v-list-item-icon>
+            <v-icon>dashboard</v-icon>
+          </v-list-item-icon>
 
-            <v-list-tile-content>
-              <v-list-tile-title>Dashboard</v-list-tile-title>
-            </v-list-tile-content>
-          </nuxt-link>
+          <v-list-item-content>
+            <v-list-item-title>Dashboard</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-divider></v-divider>
+        <v-subheader>Filing</v-subheader>
+        <v-list-item to="/sup/filing/leave">
+          <v-list-item-icon>
+            <v-icon>card_travel</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Leave Request</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/sup/filing/overtime">
+          <v-list-item-icon>
+            <v-icon>av_timer</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Overtime Request</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/sup/filing/trip">
+          <v-list-item-icon>
+            <v-icon>emoji_transportation</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Business Trip Request</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/sup/filing/coe">
+          <v-list-item-icon>
+            <v-icon>layers</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>COE Request</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-divider></v-divider>
+        <v-subheader>Requests</v-subheader>
+        <v-list-item to="/sup/requests/leave">
+          <v-list-item-icon>
+            <v-icon>card_travel</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Leave</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/sup/requests/overtime">
+          <v-list-item-icon>
+            <v-icon>av_timer</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Overtime</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
 
-          <v-list-group prepend-icon="book">
-            <template v-slot:activator>
-              <v-list-tile>
-                <v-list-tile-title>Time Keeping</v-list-tile-title>
-              </v-list-tile>
-            </template>
+      <v-list v-if="auth.role === 'administrator'">
+        <v-list-item to="/admin/dashboard">
+          <v-list-item-icon>
+            <v-icon>dashboard</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Dashboard</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-divider></v-divider>
+        <v-subheader>Requests</v-subheader>
+        <v-list-group>
+          <template v-slot:activator>
+            <v-list-item-icon>
+              <v-icon>card_travel</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Leave</v-list-item-title>
+            </v-list-item-content>
+          </template>
 
-            <nuxt-link to="/sa/timekeeping/leave-requests" tag="v-list-tile">
-              <v-list-tile-action></v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>Leave Request</v-list-tile-title>
-              </v-list-tile-content>
-            </nuxt-link>
+          <v-list-item to="/admin/requests/leave/supervisor">
+            <v-list-item-icon></v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Supervisor</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
 
-            <nuxt-link to="/sa/timekeeping/overtime-requests" tag="v-list-tile">
-              <v-list-tile-action></v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>Overtime Request</v-list-tile-title>
-              </v-list-tile-content>
-            </nuxt-link>
+          <v-list-item to="/admin/requests/leave/employee">
+            <v-list-item-icon></v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Employee</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
+        <v-divider></v-divider>
+        <v-list-group>
+          <template v-slot:activator>
+            <v-list-item-icon>
+              <v-icon>av_timer</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Overtime</v-list-item-title>
+            </v-list-item-content>
+          </template>
 
-            <nuxt-link to="/sa/timekeeping/trip-requests" tag="v-list-tile">
-              <v-list-tile-action></v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>Business Trip Request</v-list-tile-title>
-              </v-list-tile-content>
-            </nuxt-link>
-          </v-list-group>
+          <v-list-item to="/admin/requests/overtime/supervisor">
+            <v-list-item-icon></v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Supervisor</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
 
-          <v-list-group prepend-icon="settings">
-            <template v-slot:activator>
-              <v-list-tile>
-                <v-list-tile-title>Settings</v-list-tile-title>
-              </v-list-tile>
-            </template>
-
-            <nuxt-link to="/sa/settings/branch" tag="v-list-tile">
-              <v-list-tile-action></v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>Branch</v-list-tile-title>
-              </v-list-tile-content>
-            </nuxt-link>
-            
-            <nuxt-link to="/sa/settings/department" tag="v-list-tile">
-              <v-list-tile-action></v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>Department</v-list-tile-title>
-              </v-list-tile-content>
-            </nuxt-link>
-
-            <nuxt-link to="/sa/settings/role" tag="v-list-tile">
-              <v-list-tile-action></v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>Role</v-list-tile-title>
-              </v-list-tile-content>
-            </nuxt-link>
-
-          </v-list-group>
-        </v-list>
-      <!-- End of Superadmin -->
-      <!-- Administrator -->
-      <v-list class="pa-0" v-if="auth.role === 'administrator'">
-          <v-divider></v-divider>
-          <nuxt-link to="/admin/dashboard" tag="v-list-tile">
-            <v-list-tile-action>
-              <v-icon>dashboard</v-icon>
-            </v-list-tile-action>
-
-            <v-list-tile-content>
-              <v-list-tile-title>Dashboard</v-list-tile-title>
-            </v-list-tile-content>
-          </nuxt-link>
+          <v-list-item to="/admin/requests/overtime/employee">
+            <v-list-item-icon></v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Employee</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
+        <v-divider></v-divider>
+        <v-list-group>
+          <template v-slot:activator>
+            <v-list-item-icon>
+              <v-icon>emoji_transportation</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Official Business Trip</v-list-item-title>
+            </v-list-item-content>
+          </template>
           
-          <v-list-group prepend-icon="book">
-            <template v-slot:activator>
-              <v-list-tile>
-                <v-list-tile-title>Requests</v-list-tile-title>
-              </v-list-tile>
-            </template>
+          <v-list-item to="/admin/requests/trip/supervisor">
+            <v-list-item-icon></v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Supervisor</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
 
-            <v-list-group sub-group no-action>
-              <template v-slot:activator>
-                <v-list-tile>
-                  <v-list-tile-title>Leave</v-list-tile-title>
-                </v-list-tile>
-              </template>
+          <v-list-item to="/admin/requests/trip/employee">
+            <v-list-item-icon></v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Employee</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
+      </v-list> 
+      <v-divider></v-divider>
+      <v-list class="pa-0" v-if="auth.role === 'hr'">
+        <nuxt-link to="/hr/dashboard" tag="v-list-item">
+          <v-list-item-icon>
+            <v-icon>dashboard</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Dashboard</v-list-item-title>
+          </v-list-item-content>
+        </nuxt-link>
+        <v-divider></v-divider>
+        <v-subheader>Requests</v-subheader>
+        <v-list-item to="/hr/requests/leave">
+          <v-list-item-icon>
+            <v-icon>card_travel</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Leave</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/hr/requests/overtime">
+          <v-list-item-icon>
+            <v-icon>av_timer</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Overtime</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/hr/requests/trip">
+          <v-list-item-icon>
+            <v-icon>emoji_transportation</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Business Trip</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/hr/requests/coe">
+          <v-list-item-icon>
+            <v-icon>layers</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>COE</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
 
-              <nuxt-link to="/admin/requests/leave/supervisor" tag="v-list-tile">
-                <v-list-tile-action>
-                  <v-icon>dashboard</v-icon>
-                </v-list-tile-action>
-                <v-list-tile-content>
-                  <v-list-tile-title>Supervisor</v-list-tile-title>
-                </v-list-tile-content>
-              </nuxt-link>
-
-              <nuxt-link to="/admin/requests/leave/employee" tag="v-list-tile">
-                <v-list-tile-action>
-                  <v-icon>dashboard</v-icon>
-                </v-list-tile-action>
-                <v-list-tile-content>
-                  <v-list-tile-title>Employee</v-list-tile-title>
-                </v-list-tile-content>
-              </nuxt-link>
-            </v-list-group>
-
-            <v-list-group sub-group no-action>
-              <template v-slot:activator>
-                <v-list-tile>
-                  <v-list-tile-title>Overtime</v-list-tile-title>
-                </v-list-tile>
-              </template>
-
-              <nuxt-link to="/admin/requests/overtime/supervisor" tag="v-list-tile">
-                <v-list-tile-action>
-                  <v-icon>dashboard</v-icon>
-                </v-list-tile-action>
-                <v-list-tile-content>
-                  <v-list-tile-title>Supervisor</v-list-tile-title>
-                </v-list-tile-content>
-              </nuxt-link>
-
-              <nuxt-link to="/admin/requests/overtime/employee" tag="v-list-tile">
-                <v-list-tile-action>
-                  <v-icon>dashboard</v-icon>
-                </v-list-tile-action>
-                <v-list-tile-content>
-                  <v-list-tile-title>Employee</v-list-tile-title>
-                </v-list-tile-content>
-              </nuxt-link>
-            </v-list-group>
-            
-
-            <v-list-group sub-group no-action>
-              <template v-slot:activator>
-                <v-list-tile>
-                  <v-list-tile-title>Official Business Trip</v-list-tile-title>
-                </v-list-tile>
-              </template>
-              
-              <nuxt-link to="/admin/requests/trip/supervisor" tag="v-list-tile">
-                <v-list-tile-action>
-                  <v-icon>dashboard</v-icon>
-                </v-list-tile-action>
-                <v-list-tile-content>
-                  <v-list-tile-title>Supervisor</v-list-tile-title>
-                </v-list-tile-content>
-              </nuxt-link>
-
-              <nuxt-link to="/admin/requests/trip/employee" tag="v-list-tile">
-                <v-list-tile-action>
-                  <v-icon>dashboard</v-icon>
-                </v-list-tile-action>
-                <v-list-tile-content>
-                  <v-list-tile-title>Employee</v-list-tile-title>
-                </v-list-tile-content>
-              </nuxt-link>
-            </v-list-group>
-          </v-list-group>
-        </v-list>
-      <!-- End of Administrator -->
-      <!-- Human Resource -->
-        <v-list class="pa-0" v-if="auth.role === 'hr'">
-          <v-divider></v-divider>
-          <nuxt-link to="/hr/dashboard" tag="v-list-tile">
-            <v-list-tile-action>
+      <v-list class="pa-0" v-if="auth.role === 'employee'">
+          <v-list-item to="/em/dashboard">
+            <v-list-item-icon>
               <v-icon>dashboard</v-icon>
-            </v-list-tile-action>
+            </v-list-item-icon>
 
-            <v-list-tile-content>
-              <v-list-tile-title>Dashboard</v-list-tile-title>
-            </v-list-tile-content>
-          </nuxt-link>
-          
-          <v-list-group prepend-icon="book">
-            <template v-slot:activator>
-              <v-list-tile>
-                <v-list-tile-title>Requests</v-list-tile-title>
-              </v-list-tile>
-            </template>
-
-            <nuxt-link to="/hr/requests/leave" tag="v-list-tile">
-              <v-list-tile-action></v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>Leave</v-list-tile-title>
-              </v-list-tile-content>
-            </nuxt-link>
-
-            <nuxt-link to="/hr/requests/overtime" tag="v-list-tile">
-              <v-list-tile-action></v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>Overtime</v-list-tile-title>
-              </v-list-tile-content>
-            </nuxt-link>
-
-            <nuxt-link to="/hr/requests/trip" tag="v-list-tile">
-              <v-list-tile-action></v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>Business Trip</v-list-tile-title>
-              </v-list-tile-content>
-            </nuxt-link>
-
-            <nuxt-link to="/hr/requests/coe" tag="v-list-tile">
-              <v-list-tile-action></v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>COE</v-list-tile-title>
-              </v-list-tile-content>
-            </nuxt-link>
-          </v-list-group>
-        </v-list>
-      <!-- End of Human Resource -->
-      <!-- Supervisor -->
-        <v-list class="pa-0" v-if="auth.role === 'supervisor'">
+            <v-list-item-content>
+              <v-list-item-title>Dashboard</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
           <v-divider></v-divider>
-          <nuxt-link to="/sup/dashboard" tag="v-list-tile">
-            <v-list-tile-action>
-              <v-icon>dashboard</v-icon>
-            </v-list-tile-action>
-
-            <v-list-tile-content>
-              <v-list-tile-title>Dashboard</v-list-tile-title>
-            </v-list-tile-content>
-          </nuxt-link>
-
-          <v-list-group prepend-icon="book">
-            <template v-slot:activator>
-              <v-list-tile>
-                <v-list-tile-title>Filing</v-list-tile-title>
-              </v-list-tile>
-            </template>
-
-            <nuxt-link to="/sup/filing/leave" tag="v-list-tile">
-              <v-list-tile-action></v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>Leave Request</v-list-tile-title>
-              </v-list-tile-content>
-            </nuxt-link>
-
-            <nuxt-link to="/sup/filing/overtime" tag="v-list-tile">
-              <v-list-tile-action></v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>Overtime Request</v-list-tile-title>
-              </v-list-tile-content>
-            </nuxt-link>
-
-            <nuxt-link to="/sup/filing/trip" tag="v-list-tile">
-              <v-list-tile-action></v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>Business Trip Request</v-list-tile-title>
-              </v-list-tile-content>
-            </nuxt-link>
-            <nuxt-link to="/sup/filing/coe" tag="v-list-tile">
-              <v-list-tile-action></v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>COE Request</v-list-tile-title>
-              </v-list-tile-content>
-            </nuxt-link>
-          </v-list-group>
-          <v-list-group prepend-icon="book">
-            <template v-slot:activator>
-              <v-list-tile>
-                <v-list-tile-title>Requests</v-list-tile-title>
-              </v-list-tile>
-            </template>
-
-            <nuxt-link to="/sup/requests/leave" tag="v-list-tile">
-              <v-list-tile-action></v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>Leave Request</v-list-tile-title>
-              </v-list-tile-content>
-            </nuxt-link>
-
-            <nuxt-link to="/sup/requests/overtime" tag="v-list-tile">
-              <v-list-tile-action></v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>Overtime Request</v-list-tile-title>
-              </v-list-tile-content>
-            </nuxt-link>
-          </v-list-group>
+          <v-subheader>Filing</v-subheader>
+          <v-list-item to="/em/filing/leave-request">
+            <v-list-item-icon>
+              <v-icon>card_travel</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Leave Request</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item to="/em/filing/overtime-request">
+            <v-list-item-icon>
+              <v-icon>av_timer</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Overtime Request</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item to="/em/filing/trip-request">
+            <v-list-item-icon>
+              <v-icon>emoji_transportation</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Business Trip Request</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item to="/em/filing/coe-request">
+            <v-list-item-icon>
+              <v-icon>layers</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>COE Request</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
         </v-list>
-      <!-- End of Supervisor -->
-      <!-- Employee -->
-        <v-list class="pa-0" v-if="auth.role === 'employee'">
-          <v-divider></v-divider>
-          <nuxt-link to="/em/dashboard" tag="v-list-tile">
-            <v-list-tile-action>
-              <v-icon>dashboard</v-icon>
-            </v-list-tile-action>
+    </v-navigation-drawer>
 
-            <v-list-tile-content>
-              <v-list-tile-title>Dashboard</v-list-tile-title>
-            </v-list-tile-content>
-          </nuxt-link>
+    <v-app-bar app height="75">
+      <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
-          <v-list-group prepend-icon="book">
-            <template v-slot:activator>
-              <v-list-tile>
-                <v-list-tile-title>Filing</v-list-tile-title>
-              </v-list-tile>
-            </template>
+      <v-spacer></v-spacer>
+      
+      <v-btn icon @click="logout">
+        <v-icon>logout</v-icon>
+      </v-btn>
+    </v-app-bar>
 
-            <nuxt-link to="/em/filing/leave-request" tag="v-list-tile">
-              <v-list-tile-action></v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>Leave Request</v-list-tile-title>
-              </v-list-tile-content>
-            </nuxt-link>
+    <!-- Sizes your content based upon application components -->
+    <v-content>
 
-            <nuxt-link to="/em/filing/overtime-request" tag="v-list-tile">
-              <v-list-tile-action></v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>Overtime Request</v-list-tile-title>
-              </v-list-tile-content>
-            </nuxt-link>
+      <!-- Provides the application the proper gutter -->
+      <v-container grid-list-lg>
+        <nuxt />
+      </v-container>
+    </v-content>
 
-            <nuxt-link to="/em/filing/trip-request" tag="v-list-tile">
-              <v-list-tile-action></v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>Business Trip Request</v-list-tile-title>
-              </v-list-tile-content>
-            </nuxt-link>
-
-            <nuxt-link to="/em/filing/coe-request" tag="v-list-tile">
-              <v-list-tile-action></v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>COE Request</v-list-tile-title>
-              </v-list-tile-content>
-            </nuxt-link>
-          </v-list-group>
-        </v-list>
-      <!-- End of Employee -->
-      </v-navigation-drawer>
-      <!-- End of Sidebar -->
-
-      <v-toolbar app>
-        <v-toolbar-side-icon @click="mini = !mini"></v-toolbar-side-icon>
-        <v-spacer></v-spacer>
-        <v-toolbar-items v-if="auth">
-          <v-btn flat>
-            {{ auth.name }}
-          </v-btn>
-        </v-toolbar-items>
-        <v-toolbar-items class="hidden-sm-and-down">
-            <v-btn @click="logout" flat>
-              <v-icon>logout</v-icon>  
-            </v-btn>
-        </v-toolbar-items>
-      </v-toolbar>
-      <v-content>
-        <v-container grid-list-lg>
-          <nuxt />
-        </v-container>
-      </v-content>
-      <!--<v-footer app></v-footer>-->
-    </v-app>
+    <v-footer app>
+      <!-- -->
+    </v-footer>
+  </v-app>
 </template>
 
 <script>

@@ -1,47 +1,46 @@
 <template>
-    <v-layout row wrap>
-        <v-flex xs12>
+    <v-row dense>
+        <v-col cols="12"> 
             <v-alert
-                value="true"
                 type="info"
                 transition="scale-transition"
             >
                 This is information alert.
             </v-alert>
-        </v-flex>
-        <v-flex xs12>
+        </v-col>
+        <v-col cols="12">
             <v-card>
                 <v-card-title>
-                    <h3>COE Request</h3>
+                    <h5>COE Request</h5>
                     <v-spacer></v-spacer>
                     <create-COE />
                 </v-card-title>
+                <v-divider></v-divider>
                 <v-data-table
                     :headers="headers"
                     :items="coes"
                 >
-                    <template v-slot:items="props">
-                        <td>{{ props.item.id }}</td>
-                        <td class="text-xs-center">{{ props.item.created_at }}</td>
-                        <td class="text-xs-center">{{ props.item.date_needed }}</td>
-                        <td class="text-xs-center">{{ props.item.reason }}</td>
-                        <td class="text-xs-center">
-                            <v-icon color="green" v-if="props.item.compensation">check</v-icon>
-                            <v-icon color="error" v-else>block</v-icon>
-                        </td>
-                        <td class="text-xs-center">{{ props.item.status }}</td>
-                        <td class="text-xs-center">
-                            <edit-COE v-if="props.item.status == 'Pending'" :coe="props.item"></edit-COE>
-                            <v-btn v-if="props.item.status == 'Pending'" @click="removeCOE(props.item.actions.delete)" class="ma-1" color="error" icon small>
-                                <v-icon small>delete</v-icon>
-                            </v-btn>
-                            <label v-if="props.item.status == 'Acknowledged'">Not Applicable</label>
-                        </td>
+                    <template v-slot:item.compensation="{ item }">
+                        <v-icon color="success" v-if="item.compensation == true">check</v-icon>
+                        <v-icon color="error" v-if="item.compensation == false">remove</v-icon>
+                    </template>
+
+                    <template v-slot:item.status="{ item }">
+                        <v-chip color="warning" v-if="item.status == 'Pending'">{{ item.status }}</v-chip>
+                        <v-chip color="success" v-if="item.status == 'Acknowledged'">{{ item.status }}</v-chip>
+                    </template>
+
+                    <template v-slot:item.actions="{ item }">
+                        <edit-COE v-if="item.status == 'Pending'" :coe="item"></edit-COE>
+                        <v-btn v-if="item.status == 'Pending'" @click="removeCOE(item.actions.delete)" class="ma-1" color="error" icon small>
+                            <v-icon small>delete</v-icon>
+                        </v-btn>
+                        <label v-if="item.status == 'Acknowledged'">Not Applicable</label>
                     </template>
                 </v-data-table>
             </v-card>
-        </v-flex>
-    </v-layout>
+        </v-col>
+    </v-row>
 </template>
 
 <script>
@@ -91,6 +90,7 @@
                     {
                         text: 'Actions',
                         align: 'center',
+                        value: 'actions',
                         sortable: false
                     }
                 ]

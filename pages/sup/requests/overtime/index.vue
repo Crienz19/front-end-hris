@@ -15,22 +15,13 @@
                     :headers="headers"
                     :items="overtimes"
                 >
-                    <template v-slot:items="props">
-                        <td>{{ props.item.id }}</td>
-                        <td class="text-xs-center">{{ props.item.employee.first_name }} {{ props.item.employee.last_name }}</td>
-                        <td class="text-xs-center">{{ props.item.date }}</td>
-                        <td class="text-xs-center">{{ props.item.from.standard }}</td>
-                        <td class="text-xs-center">{{ props.item.to.standard }}</td>
-                        <td class="text-xs-center">{{ props.item.reason }}</td>
-                        <td class="text-xs-center">
-                            <v-chip color="warning" v-if="props.item.status == 'Pending'">{{ props.item.status }}</v-chip>
-                            <v-chip color="info" v-if="props.item.status == 'Approved'">{{ props.item.status }}</v-chip>
-                            <v-chip color="error" v-if="props.item.status == 'Disapproved'">{{ props.item.status }}</v-chip>
-                        </td>
-                        <td class="text-xs-center">{{ props.item.created_at }}</td>
-                        <td class="text-xs-center">
-                            <view-overtime :overtime="props.item"></view-overtime>
-                        </td>
+                    <template v-slot:item.status="{ item }">
+                        <v-chip color="warning" v-if="item.status == 'Pending'">{{ item.status }}</v-chip>
+                        <v-chip color="success" v-if="item.status == 'Approved'">{{ item.status }}</v-chip>
+                        <v-chip color="error" v-if="item.status == 'Disapproved'">{{ item.status }}</v-chip>
+                    </template>
+                    <template v-slot:item.actions="{ item }">
+                        <view-overtime :overtime="item"></view-overtime>
                     </template>
                 </v-data-table>
             </v-card>
@@ -39,7 +30,7 @@
 </template>
 
 <script>
-    import ViewOvertime from "@/components/modal/hr/requests/overtime/ViewOvertime.vue";
+    import ViewOvertime from "@/components/modal/supervisor/requests/overtime/ViewOvertime.vue";
     export default {
         middleware: ['auth'],
         components: {
@@ -57,9 +48,14 @@
                         value: 'id'
                     },
                     {
-                        text: 'Full Name',
+                        text: 'First Name',
                         align: 'center',
-                        value: 'full_name'
+                        value: 'employee.first_name'
+                    },
+                    {
+                        text: 'Last Name',
+                        align: 'center',
+                        value: 'employee.last_name'
                     },
                     {
                         text: 'Date',
@@ -69,12 +65,12 @@
                     {
                         text: 'From',
                         align: 'center',
-                        value: 'from'
+                        value: 'from.standard'
                     },
                     {
                         text: 'To',
                         align: 'center',
-                        value: 'to'
+                        value: 'to.standard'
                     },
                     {
                         text: 'Reason',
@@ -93,7 +89,9 @@
                     },
                     {
                         text: 'Actions',
-                        align: 'center'
+                        align: 'center',
+                        value: 'actions',
+                        sortable: false
                     }
                 ]
             }

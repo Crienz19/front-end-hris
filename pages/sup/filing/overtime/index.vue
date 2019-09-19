@@ -21,6 +21,19 @@
                     :headers="headers"
                     :items="overtimes"
                 >
+                    <template v-slot:item.status="{ item }">
+                        <v-chip color="warning" v-if="item.status == 'Pending'">{{ item.status }}</v-chip>
+                        <v-chip color="success" v-if="item.status == 'Approved'">{{ item.status }}</v-chip>
+                        <v-chip color="error" v-if="item.status == 'Disapproved'" text-color="white">{{ item.status }}</v-chip>
+                    </template>
+
+                    <template v-slot:item.actions="{ item }">
+                        <edit-overtime v-if="item.status == 'Pending'" :overtime="item" />
+                        <v-btn v-if="item.status == 'Pending'" @click="$store.dispatch('overtime/deleteEmployeeOvertime', item)" class="ma-0" color="error" icon small>
+                            <v-icon>delete</v-icon>
+                        </v-btn>
+                        <label v-if="item.status == 'Approved' || item.status == 'Disapproved'">Not Applicable</label>
+                    </template>
                     <template v-slot:items="props">
                         <td>{{ props.item.id }}</td> 
                         <td class="text-xs-center">{{ props.item.date }}</td>
@@ -28,15 +41,10 @@
                         <td class="text-xs-center">{{ props.item.to.standard }}</td>
                         <td class="text-xs-center">{{ props.item.reason }}</td>
                         <td class="text-xs-center">
-                            <v-chip color="warning" v-if="props.item.status == 'Pending'">{{ props.item.status }}</v-chip>
-                            <v-chip color="info" v-if="props.item.status == 'Approved'">{{ props.item.status }}</v-chip>
-                            <v-chip color="error" v-if="props.item.status == 'Disapproved'">{{ props.item.status }}</v-chip>
+                            
                         </td>
                         <td class="text-xs-center">
-                            <edit-overtime :overtime="props.item" />
-                            <v-btn @click="$store.dispatch('overtime/deleteEmployeeOvertime', props.item)" class="ma-0" icon small>
-                                <v-icon small>delete</v-icon>
-                            </v-btn>
+                            
                         </td>    
                     </template>
                 </v-data-table>
@@ -73,12 +81,12 @@
                     {
                         text: 'From',
                         align: 'center',
-                        value: 'from'
+                        value: 'from.standard'
                     },
                     {
                         text: 'To',
                         align: 'center',
-                        value: 'to'
+                        value: 'to.standard'
                     },
                     {
                         text: 'Reason',
@@ -88,11 +96,12 @@
                     {
                         text: 'Status',
                         align: 'center',
-                        value: 'statue'
+                        value: 'status'
                     },
                     {
                         text: 'Actions',
                         align: 'center',
+                        value: 'actions',
                         sortable: false
                     }
                 ]

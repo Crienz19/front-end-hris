@@ -16,28 +16,20 @@
                         :headers="headers"
                         :items="leaves"
                     >
-                        <template v-slot:items="props">
-                            <td>{{ props.item.id }}</td>
-                            <td class="text-xs-center">{{ props.item.employee.first_name }}</td>
-                            <td class="text-xs-center">{{ props.item.employee.last_name }}</td>
-                            <td class="text-xs-center">{{ props.item.type }}</td>
-                            <td class="text-xs-center">{{ props.item.pay_type }}</td>
-                            <td class="text-xs-center">{{ props.item.from }}</td>
-                            <td class="text-xs-center">{{ props.item.to }}</td>
-                            <td class="text-xs-center">
-                                <v-chip color="warning" v-if="props.item.recommending_approval == 'Pending'">{{ props.item.recommending_approval }}</v-chip>
-                                <v-chip color="info" v-if="props.item.recommending_approval == 'Approved'">{{ props.item.recommending_approval }}</v-chip>
-                                <v-chip color="error" v-if="props.item.recommending_approval == 'Disapproved'">{{ props.item.recommending_approval }}</v-chip>
-                            </td>
-                            <td class="text-xs-center">
-                                <v-chip color="warning" v-if="props.item.final_approval == 'Pending'">{{ props.item.final_approval }}</v-chip>
-                                <v-chip color="info" v-if="props.item.final_approval == 'Approved'">{{ props.item.final_approval }}</v-chip>
-                                <v-chip color="error" v-if="props.item.final_approval == 'Disapproved'">{{ props.item.final_approval }}</v-chip>
-                            </td>
-                            <td class="text-xs-center">{{ props.item.created_at }}</td>
-                            <td class="text-xs-center">
-                                <view-leave :leave="props.item" />
-                            </td>
+                        <template v-slot:item.recommending_approval="{ item }">
+                            <v-chip color="warning" v-if="item.recommending_approval == 'Pending'">{{ item.recommending_approval }}</v-chip>
+                            <v-chip color="success" v-if="item.recommending_approval == 'Approved'">{{ item.recommending_approval }}</v-chip>
+                            <v-chip color="error" v-if="item.recommending_approval == 'Disapproved'">{{ item.recommending_approval }}</v-chip>
+                        </template>
+
+                        <template v-slot:item.final_approval="{ item }">
+                            <v-chip color="warning" v-if="item.final_approval == 'Pending'">{{ item.final_approval }}</v-chip>
+                            <v-chip color="success" v-if="item.final_approval == 'Approved'">{{ item.final_approval }}</v-chip>
+                            <v-chip color="error" v-if="item.final_approval == 'Disapproved'">{{ item.final_approval }}</v-chip>
+                        </template>
+
+                        <template v-slot:item.actions="{ item }">
+                            <view-leave :leave="item" />
                         </template>
                     </v-data-table>
                 </v-card>
@@ -115,6 +107,7 @@ export default {
                 {
                     text: 'Actions',
                     align: 'center',
+                    value: 'actions',
                     sortable: false
                 }
             ]

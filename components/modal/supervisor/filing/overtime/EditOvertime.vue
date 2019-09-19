@@ -2,7 +2,7 @@
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on }">
         <v-btn color="info" class="ma-1" small icon v-on="on">
-            <v-icon small>edit</v-icon>
+            <v-icon>edit</v-icon>
         </v-btn>
       </template>
       <v-card>
@@ -71,8 +71,8 @@
                 form: {
                     id: this.overtime.id,
                     date: this.overtime.date,
-                    from: this.overtime.from,
-                    to: this.overtime.to,
+                    from: this.overtime.from.other,
+                    to: this.overtime.to.other,
                     reason: this.overtime.reason
                 }
             }

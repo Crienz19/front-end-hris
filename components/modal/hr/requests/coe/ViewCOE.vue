@@ -1,11 +1,11 @@
 <template>
-    <v-dialog v-model="dialog" persistent max-width="600px">
+    <v-dialog v-model="dialog" persistent max-width="550px">
       <template v-slot:activator="{ on }">
-        <v-btn class="ma-0" color="info" small icon v-on="on">
-            <v-icon small>search</v-icon>
+        <v-btn class="ma-0" small icon v-on="on">
+            <v-icon >search</v-icon>
         </v-btn>
       </template>
-      <v-card>
+      <v-card :loading="loading">
         <v-card-title>
           <span class="headline">COE Request</span>
           <v-spacer></v-spacer>
@@ -15,16 +15,16 @@
         </v-card-title>
         <v-divider></v-divider>
         <v-container grid-list-lg>
-            <v-layout row wrap>
-                <v-flex xs12>
+            <v-row dense>
+                <v-col cols="12">
                     <date-picker
                         label="Date Needed"
                         placeholder="Select Date Needed"
                         v-model="form.date_needed"
                         disabled
                     ></date-picker>
-                </v-flex>
-                <v-flex xs12>
+                </v-col>
+                <v-col cols="12">
                     <v-textarea
                         label="Reason"
                         placeholder="Please enter your valid reason..."
@@ -34,17 +34,16 @@
                         ]"
                         disabled
                     ></v-textarea>
-                </v-flex>
-                <v-flex xs12>
+                </v-col>
+                <v-col cols="12">
                     <i>Please check if we need to indicate your compensation</i>
                     <v-checkbox v-model="form.compensation" label="With Compensation" disabled></v-checkbox>
-                </v-flex>
-            </v-layout>
+                </v-col>
+                <v-col cols="12">
+                    <v-btn :disabled="coe.status == 'Acknowledged'" color="primary" block @click="acknowledgeRequest">Acknowledge Request</v-btn>
+                </v-col>
+            </v-row>
         </v-container>
-        <v-divider></v-divider>
-        <v-card-actions>
-            <v-btn :disabled="coe.status == 'Acknowledged'" :loading="loading" color="primary" block text @click="acknowledgeRequest">Acknowledge Request</v-btn>
-        </v-card-actions>
       </v-card>
     </v-dialog>
 </template>

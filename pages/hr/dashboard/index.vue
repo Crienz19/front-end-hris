@@ -1,169 +1,136 @@
 <template>
     <v-layout row wrap>
-      <v-flex xs12>
-        <v-alert
-          value=true
-          type="info"
-          transition="scale-transition"
-        >
-          This is information alert.
-        </v-alert>
-      </v-flex>
-      <v-flex xs12 lg4>
-        <v-card elevate="24">
-          <v-card-title class="light-blue white--text">
-            <h3>VL</h3>
-            <v-spacer></v-spacer>
-            <v-icon @click="" color="white">refresh</v-icon>
-          </v-card-title>
-          <v-divider></v-divider>
-          <v-card-text>
-            <ChartBar />
-          </v-card-text>
-        </v-card>
-      </v-flex>
+        <v-flex xs12>
+            <v-alert elevation-19 type="info" :value="true">
+                Human Resource Dashboard
+            </v-alert>
+        </v-flex>
+        <v-flex xs12>
+            <v-card>
+                <v-card-title>
+                    <h3>Registered Employees</h3>
+                    <v-spacer></v-spacer>
+                    <v-btn @click="refreshEmployee" color="info" icon>
+                        <v-icon>refresh</v-icon>
+                    </v-btn>
+                </v-card-title>
+                <v-divider></v-divider>
+                <v-data-table
+                    :headers="headers"
+                    :items="registeredEmployees"
+                >
+                    <template v-slot:item.credits.VL="{ item }">
+                        <v-progress-linear
+                            color="primary"
+                            height="20"
+                            :value="(item.credit.VL / item.credit.total_VL) * 100"
+                        >
+                            <template>
+                                <strong>{{ item.credit.VL }} / {{ item.credit.total_VL}}</strong>
+                            </template>
+                        </v-progress-linear>
+                    </template>
 
-      <v-flex xs12 lg4>
-        <v-card elevate="24">
-          <v-card-title class="light-blue white--text">
-            <h3>SL</h3>
-            <v-spacer></v-spacer>
-            <v-icon @click="" color="white">refresh</v-icon>
-          </v-card-title>
-          <v-divider></v-divider>
-          <v-card-text>
-            <ChartBar />
-          </v-card-text>
-        </v-card>
-      </v-flex>
+                    <template v-slot:item.credits.SL="{ item }">
+                        <v-progress-linear
+                            color="warning"
+                            height="20"
+                            :value="(item.credit.SL / item.credit.total_SL) * 100"
+                        >
+                            <template>
+                                <strong>{{ item.credit.SL }} / {{ item.credit.total_SL }}</strong>
+                            </template>
+                        </v-progress-linear>                            
+                    </template>
 
-      <v-flex xs12 lg4>
-        <v-card elevate="24">
-          <v-card-title class="light-blue white--text">
-            <h3>PTO</h3>
-            <v-spacer></v-spacer>
-            <v-icon @click="" color="white">refresh</v-icon>
-          </v-card-title>
-          <v-divider></v-divider>
-          <v-card-text>
-            <ChartBar />
-          </v-card-text>
-        </v-card>
-      </v-flex>
+                    <template v-slot:item.credits.PTO="{ item }">
+                        <v-progress-linear
+                            color="error"
+                            height="20"
+                            :value="(item.credit.PTO / item.credit.total_PTO) * 100"
+                        >
+                            <template>
+                                <strong>{{ item.credit.PTO }} / {{ item.credit.total_PTO }}</strong>
+                            </template>
+                        </v-progress-linear>
+                    </template>
 
-      <v-flex xs12>
-        <v-card elevate="24">
-          <v-data-table
-            :headers="headers"
-            :items="users"
-            :loading="true"
-            class="elevation-1"
-          >
-            <v-progress-linear v-slot:progress color="blue" indeterminate></v-progress-linear>
-            <template v-slot:items="props">
-              <td>{{ props.item.id }}</td>
-              <td class="text-xs-center">{{ props.item.name }}</td>
-              <td class="text-xs-center">{{ props.item.email }}</td>
-              <td class="text-xs-center">{{ props.item.role }}</td>
-              <td class="text-xs-center">
-                <v-icon v-if="props.item.isActivated" color="success">check_circle_outline</v-icon>
-                <v-icon v-else color="error">error_outline</v-icon>
-              </td>
-              <td class="text-xs-center">
-                <v-icon v-if="props.item.isFilled" color="success">check_circle_outline</v-icon>
-                <v-icon v-else color="error">error_outline</v-icon>
-              </td>
-              <td class="text-xs-center">{{ props.item.created_at }}</td>
-              <td class="text-xs-center">
-                  <view-employee-details v-if="props.item.employee" :employee="props.item.employee"></view-employee-details>
-                  <v-btn class="ma-0" v-if="props.item.isActivated" icon small @click="deactivateUser(props.item.id)">
-                    <v-icon>lock</v-icon>
-                  </v-btn>
-                  <v-btn class="ma-0" v-else icon small @click="activateUser(props.item.id)">
-                    <v-icon>lock_open</v-icon>                    
-                  </v-btn>
-                  <assign-role-modal :user="props.item.id" />
-              </td>
-            </template>
-          </v-data-table>
-        </v-card>
-      </v-flex>
+                    <template v-slot:item.actions="{ item }">
+                        <employee-details :employee="item"></employee-details>
+                    </template>
+                </v-data-table>
+            </v-card>
+        </v-flex>
     </v-layout>
 </template>
 
 <script>
-import ChartBar from "@/components/chart/chart-bar.vue";
-import Menu from "@/components/menu/MenuWithSlot.vue";
-import AssignRoleModal from "@/components/modal/superadmin/dashboard/AssignRole.vue";
-import ViewEmployeeDetails from "@/components/modal/superadmin/dashboard/EmployeeDetails.vue";
-export default {
-  middleware: ['auth'],
-  components: {
-    ChartBar,
-    AssignRoleModal,
-    ViewEmployeeDetails
-  },
-  head () {
-    return {
-      title: 'Dashboard'
+    import EmployeeDetails from '@/components/modal/superadmin/dashboard/EmployeeDetails.vue';
+    export default {
+        components: {
+            EmployeeDetails
+        },
+        async asyncData({$axios}) {
+            let {data} = await $axios.$get('/employees/registered');
+            return {
+                registeredEmployees: data
+            }
+        },
+        data() {
+            return {
+                headers: [
+                    {
+                        text: 'ID',
+                        align: 'left',
+                        value: 'id'
+                    },
+                    {
+                        text: 'Last Name',
+                        align: 'center',
+                        value: 'last_name'
+                    },
+                    {
+                        text: 'First Name',
+                        align: 'center',
+                        value: 'first_name'
+                    },
+                    {
+                        text: 'Department',
+                        align: 'center',
+                        value: 'department.display_name'
+                    },
+                    {
+                        text: 'VL',
+                        align: 'center',
+                        value: 'credits.VL',
+                        sortable: false
+                    },
+                    {
+                        text: 'SL',
+                        align: 'center',
+                        value: 'credits.SL',
+                        sortable: false
+                    },
+                    {
+                        text: 'PTO',
+                        align: 'center',
+                        value: 'credits.PTO',
+                        sortable: false
+                    },
+                    {
+                        text: 'Actions',
+                        align: 'center',
+                        value: 'actions',
+                        sortable: false
+                    }
+                ]
+            }
+        },
+        methods: {
+            async refreshEmployee () {
+                let {data} = await this.$axios.$get('/employees/registered');
+                this.registeredEmployees = data;
+            }
+        },
     }
-  },
-  async asyncData({$axios, store}) {
-    await store.dispatch('user/loadUsers');
-  },
-  data () {
-      return {
-        headers: [
-          {
-            text: 'ID',
-            align: 'left',
-            value: 'id'
-          },
-          { 
-            text: 'Username',
-            align: 'center',
-            value: 'name'
-          },
-          { 
-            text: 'Email', 
-            align: 'center',
-            value: 'email' 
-          },
-          { 
-            text: 'Role', 
-            align: 'center',
-            value: 'role' 
-          },
-          {
-            text: 'Activated',
-            align: 'center',
-            value: 'isActivated'
-          },
-          {
-            text: 'Filled',
-            align: 'center',
-            value: 'isFilled'
-          },
-          {
-            text: 'Created At',
-            align: 'center',
-            value: 'created_at'
-          },
-          {
-            text: 'Actions',
-            align: 'center',
-            sortable: false
-          }
-        ]
-      }
-  },
-  methods: {
-    async activateUser (id) {
-      await this.$store.dispatch('user/updateUser', { 'id':id, 'isActivated': true});
-    },
-    async deactivateUser (id) {
-      await this.$store.dispatch('user/updateUser', { 'id':id, 'isActivated': false});
-    }
-  }
-}
 </script>

@@ -19,35 +19,44 @@
                     :headers="headers"
                     :items="registeredEmployees"
                 >
-                    <template v-slot:items="props">
-                        <td>{{ props.item.id }}</td>
-                        <td class="text-xs-center">{{ props.item.last_name }}</td>
-                        <td class="text-xs-center">{{ props.item.first_name }}</td>
-                        <td class="text-xs-center">{{ props.item.department ? props.item.department.display_name : '' }}</td>
-                        <td class="text-xs-center">
-                            <v-progress-linear
-                                color="info"
-                                height="20"
-                                :value="(props.item.credit.VL / props.item.credit.total_VL) * 100"
-                            >{{ props.item.credit.VL }}</v-progress-linear>
-                        </td>
-                        <td class="text-xs-center">
-                            <v-progress-linear 
-                                color="warning"
-                                height="20"
-                                :value="(props.item.credit.SL / props.item.credit.total_SL) * 100"
-                            >{{ props.item.credit.SL }}</v-progress-linear>
-                        </td>
-                        <td class="text-xs-center">
-                            <v-progress-linear 
-                                color="primary"
-                                height="20"
-                                :value="(props.item.credit.PTO / props.item.credit.total_PTO) * 100"
-                            >{{ props.item.credit.PTO }}</v-progress-linear>
-                        </td>
-                        <td class="text-xs-center">
-                            <employee-details :employee="props.item"></employee-details>
-                        </td>
+                    <template v-slot:item.credit.VL="{ item }">
+                        <v-progress-linear
+                            color="info"
+                            height="20"
+                            :value="(item.credit.VL / item.credit.total_VL) * 100"
+                        >
+                            <template>
+                                <strong>{{ item.credit.VL }} / {{ item.credit.total_VL }}</strong>
+                            </template>
+                        </v-progress-linear>
+                    </template>
+
+                    <template v-slot:item.credit.SL="{ item }">
+                        <v-progress-linear
+                            color="warning"
+                            height="20"
+                            :value="(item.credit.SL / item.credit.total_SL) * 100"
+                        >
+                            <template>
+                                <strong>{{ item.credit.SL }} / {{ item.credit.total_SL }}</strong>
+                            </template>
+                        </v-progress-linear>
+                    </template>
+
+                    <template v-slot:item.credit.PTO="{ item }">
+                        <v-progress-linear
+                            color="error"
+                            height="20"
+                            :value="(item.credit.PTO / item.credit.total_PTO) * 100"
+                        >
+                            <template>
+                                <strong>{{ item.credit.PTO }} / {{ item.credit.total_PTO }}</strong>
+                            </template>
+                        </v-progress-linear>
+                    </template>
+
+                    <template v-slot:item.actions="{ item }">
+                        <employee-details :employee="item" />
                     </template>
                 </v-data-table>
             </v-card>
@@ -93,24 +102,25 @@
                     {
                         text: 'VL',
                         align: 'center',
-                        value: 'credits.VL',
+                        value: 'credit.VL',
                         sortable: false
                     },
                     {
                         text: 'SL',
                         align: 'center',
-                        value: 'credits.SL',
+                        value: 'credit.SL',
                         sortable: false
                     },
                     {
                         text: 'PTO',
                         align: 'center',
-                        value: 'credits.PTO',
+                        value: 'credit.PTO',
                         sortable: false
                     },
                     {
                         text: 'Actions',
                         align: 'center',
+                        value: 'actions',
                         sortable: false
                     }
                 ]

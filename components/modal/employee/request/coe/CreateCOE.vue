@@ -1,9 +1,11 @@
 <template>
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on }">
-        <v-btn color="primary" small round v-on="on">Create</v-btn>
+        <v-btn color="primary" v-on="on">Create</v-btn>
       </template>
-      <v-card>
+      <v-card 
+        :loading="loading"
+      >
         <v-card-title>
           <span class="headline">Create COE</span>
           <v-spacer></v-spacer>
@@ -13,15 +15,15 @@
         </v-card-title>
         <v-divider></v-divider>
         <v-container grid-list-lg>
-            <v-layout row wrap>
-                <v-flex xs12>
+            <v-row dense>
+                <v-col cols="12">
                     <date-picker
                         label="Date Needed"
                         placeholder="Select Date Needed"
                         v-model="form.date_needed"
                     ></date-picker>
-                </v-flex>
-                <v-flex xs12>
+                </v-col>
+                <v-col cols="12">
                     <v-textarea
                         label="Reason"
                         placeholder="Please enter your valid reason..."
@@ -30,17 +32,16 @@
                             () => !!form.reason || 'This field is required.'
                         ]"
                     ></v-textarea>
-                </v-flex>
-                <v-flex xs12>
+                </v-col>
+                <v-col cols="12">
                     <i>Please check if we need to indicate your compensation</i>
                     <v-checkbox v-model="form.compensation" label="With Compensation"></v-checkbox>
-                </v-flex>
-            </v-layout>
+                </v-col>
+                <v-col cols="12">
+                    <v-btn :disabled="isFilled" color="primary" block @click="addCOE">Submit Request</v-btn>
+                </v-col>
+            </v-row>
         </v-container>
-        <v-divider></v-divider>
-        <v-card-actions>
-            <v-btn :disabled="isFilled" :loading="loading" color="primary" block text @click="addCOE">Submit Request</v-btn>
-        </v-card-actions>
       </v-card>
     </v-dialog>
 </template>

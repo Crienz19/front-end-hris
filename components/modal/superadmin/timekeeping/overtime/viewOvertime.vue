@@ -3,7 +3,7 @@
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on }">
         <v-btn icon v-on="on" small>
-          <v-icon small>search</v-icon>
+          <v-icon>search</v-icon>
         </v-btn>
       </template>
       <v-card>

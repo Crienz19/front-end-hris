@@ -1,50 +1,40 @@
 <template>
-    <v-layout row wrap>
-        <v-flex xs12>
+    <v-row dense>
+        <v-col cols="12">
             <v-alert
-                value="true"
                 type="info"
                 transition="scale-transition"
             >
                 This is information alert.
             </v-alert>
-        </v-flex>
-        <v-flex xs12>
+        </v-col>
+        <v-col cols="12">
             <v-card>
                 <v-card-title>
-                    <h3>Business Trip Request</h3>
+                    <h5>Business Trip Request</h5>
                     <v-spacer></v-spacer>
                     <create-trip />
                 </v-card-title>
+                <v-divider></v-divider>
                 <v-data-table
                     :headers="headers"
                     :items="trips"
                 >
-                    <template v-slot:items="props">
-                        <td>{{ props.item.id }}</td>
-                        <td class="text-xs-center">{{ props.item.date_from }}</td>
-                        <td class="text-xs-center">{{ props.item.date_to }}</td>
-                        <td class="text-xs-center">{{ props.item.time_in.standard }}</td>
-                        <td class="text-xs-center">{{ props.item.time_out.standard }}</td>
-                        <td class="text-xs-center">{{ props.item.destination_from }}</td>
-                        <td class="text-xs-center">{{ props.item.destination_to }}</td>
-                        <td class="text-xs-center">{{ props.item.purpose }}</td>
-                        <td class="text-xs-center">
-                            <v-chip color="warning" v-if="props.item.status == 'Pending'">{{ props.item.status }}</v-chip>
-                            <v-chip color="info" v-if="props.item.status == 'Acknowledged'">{{ props.item.status }}</v-chip>
-                        </td>  
-                        <td class="text-xs-center">
-                            <edit-trip v-if="props.item.status == 'Pending'" :trip="props.item" />
-                            <v-btn v-if="props.item.status == 'Pending'" class="ma-0" @click="$store.dispatch('trip/deleteEmployeeTrip', props.item)" color="error" small icon>
-                                <v-icon small>delete</v-icon>
-                            </v-btn>
-                            <label v-if="props.item.status != 'Pending'">Not Applicable</label>
-                        </td>
+                    <template v-slot:item.status="{ item }">
+                        <v-chip color="warning" v-if="item.status == 'Pending'">{{ item.status }}</v-chip>
+                        <v-chip color="success" v-if="item.status == 'Acknowledged'">{{ item.status }}</v-chip>
+                    </template>
+                    <template v-slot:item.actions="{ item }">
+                    <edit-trip v-if="item.status == 'Pending'" :trip="item" />
+                        <v-btn v-if="item.status == 'Pending'" class="ma-0" @click="$store.dispatch('trip/deleteEmployeeTrip', item)" color="error" small icon>
+                            <v-icon small>delete</v-icon>
+                        </v-btn>
+                        <label v-if="item.status != 'Pending'">Not Applicable</label>
                     </template>
                 </v-data-table>
             </v-card>
-        </v-flex>
-    </v-layout>
+        </v-col>
+    </v-row>
 </template>
 
 <script>
@@ -81,12 +71,12 @@
                     {
                         text: 'Time In',
                         align: 'center',
-                        value: 'time_in'
+                        value: 'time_in.standard'
                     },
                     {
                         text: 'Time Out',
                         align: 'center',
-                        value: 'time_out'
+                        value: 'time_out.standard'
                     },
                     {
                         text: 'Dest. From',
@@ -111,6 +101,7 @@
                     {
                         text: 'Actions',
                         align: 'center',
+                        value: 'actions',
                         sortable: false
                     }
                 ]

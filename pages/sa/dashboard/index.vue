@@ -42,34 +42,27 @@
           <v-data-table
             :headers="headers"
             :items="users"
-            :loading="true"
             class="elevation-1"
           >
-            <v-progress-linear v-slot:progress color="blue" indeterminate></v-progress-linear>
-            <template v-slot:items="props">
-              <td>{{ props.item.id }}</td>
-              <td class="text-xs-center">{{ props.item.name }}</td>
-              <td class="text-xs-center">{{ props.item.email }}</td>
-              <td class="text-xs-center">{{ props.item.role }}</td>
-              <td class="text-xs-center">
-                <v-icon v-if="props.item.isActivated" color="success">check_circle_outline</v-icon>
-                <v-icon v-else color="error">error_outline</v-icon>
-              </td>
-              <td class="text-xs-center">
-                <v-icon v-if="props.item.isFilled" color="success">check_circle_outline</v-icon>
-                <v-icon v-else color="error">error_outline</v-icon>
-              </td>
-              <td class="text-xs-center">{{ props.item.created_at }}</td>
-              <td class="text-xs-center">
-                  <view-employee-details v-if="props.item.employee" :employee="props.item.employee"></view-employee-details>
-                  <v-btn class="ma-0" v-if="props.item.isActivated" icon small @click="deactivateUser(props.item.id)">
-                    <v-icon>lock</v-icon>
-                  </v-btn>
-                  <v-btn class="ma-0" v-else icon small @click="activateUser(props.item.id)">
-                    <v-icon>lock_open</v-icon>                    
-                  </v-btn>
-                  <assign-role-modal :user="props.item.id" />
-              </td>
+            <template v-slot:item.isActivated="{ item }">
+              <v-icon color="success" v-if="item.isActivated == true">check_circle_outline</v-icon>
+              <v-icon color="error" v-if="item.isActivated == false">error_outline</v-icon>
+            </template>
+
+            <template v-slot:item.isFilled="{ item }">
+              <v-icon color="success" v-if="item.isFilled == true">check_circle_outline</v-icon>
+              <v-icon color="error" v-if="item.isFilled == false">error_outline</v-icon>
+            </template>
+
+            <template v-slot:item.actions="{ item }">
+              <view-employee-details v-if="item.employee" :employee="item.employee"></view-employee-details>
+              <v-btn class="ma-0" v-if="item.isActivated" icon small @click="deactivateUser(item.id)">
+                <v-icon>lock</v-icon>
+              </v-btn>
+              <v-btn class="ma-0" v-else icon small @click="activateUser(item.id)">
+                <v-icon>lock_open</v-icon>                    
+              </v-btn>
+              <assign-role-modal :user="item.id" />
             </template>
           </v-data-table>
         </v-card>
@@ -181,6 +174,7 @@ export default {
           {
             text: 'Actions',
             align: 'center',
+            value: 'actions',
             sortable: false
           }
         ]

@@ -1,58 +1,50 @@
 <template>
-    <div>
-        <v-layout row wrap>
-            <v-flex xs12 lg12 xl12>
-                <v-alert
-                    value="true"
-                    type="info"
-                    transition="scale-transition"
+    <v-row dense>
+        <v-col cols="12">
+            <v-alert
+                type="info"
+                transition="scale-transition"
+            >
+                This is information alert.
+            </v-alert>
+        </v-col>
+        <v-col cols="12">
+            <v-card>
+                <v-card-title>
+                    <h5>Leave Requests</h5>
+                    <v-spacer></v-spacer>
+                    <create-leave />
+                </v-card-title>
+                <v-divider></v-divider>
+                <v-data-table
+                    :headers="headers"
+                    :items="leaves"
+                    :search="search"
                 >
-                    This is information alert.
-                </v-alert>
-            </v-flex>
-            <v-flex xs12 lg12>
-                <v-card>
-                    <v-card-title>
-                        <h3>Leave Requests</h3>
-                        <v-spacer></v-spacer>
-                        <create-leave />
-                    </v-card-title>
-                    <v-divider></v-divider>
-                    <v-data-table
-                        :headers="headers"
-                        :items="leaves"
-                    >
-                        <template v-slot:items="props">
-                            <td>{{ props.item.id }}</td>
-                            <td class="text-xs-center">{{ props.item.type }}</td>
-                            <td class="text-xs-center">{{ props.item.pay_type }}</td>
-                            <td class="text-xs-center">{{ props.item.from }}</td>
-                            <td class="text-xs-center">{{ props.item.to }}</td>
-                            <td class="text-xs-center">{{ props.item.time_from ? props.item.time_from : 'N/A' }}</td>
-                            <td class="text-xs-center">{{ props.item.time_to ? props.item.time_to : 'N/A'}}</td>
-                            <td class="text-xs-center">
-                                <v-chip color="warning" v-if="props.item.recommending_approval == 'Pending'">{{ props.item.recommending_approval }}</v-chip>
-                                <v-chip color="info" v-if="props.item.recommending_approval == 'Approved'">{{ props.item.recommending_approval }}</v-chip>
-                                <v-chip color="error" v-if="props.item.recommending_approval == 'Disapproved'">{{ props.item.recommending_approval }}</v-chip>
-                            </td>
-                            <td class="text-xs-center">
-                                <v-chip color="warning" v-if="props.item.final_approval == 'Pending'">{{ props.item.final_approval }}</v-chip>
-                                <v-chip color="info" v-if="props.item.final_approval == 'Approved'">{{ props.item.final_approval }}</v-chip>
-                                <v-chip color="error" v-if="props.item.final_approval == 'Disapproved'">{{ props.item.final_approval }}</v-chip>
-                            </td>
-                            <td class="text-xs-center">
-                                <edit-leave v-if="props.item.recommending_approval == 'Pending'" :leave="props.item" />
-                                <v-btn v-if="props.item.recommending_approval == 'Pending'" @click="deleteLeave(props.item.actions.delete)" color="error" class="ma-1" small icon>
-                                    <v-icon small>delete</v-icon>
-                                </v-btn>
-                                <label v-if="props.item.recommending_approval != 'Pending'">Not Applicable</label>
-                            </td>
-                        </template>
-                    </v-data-table>
-                </v-card>
-            </v-flex>
-        </v-layout>
-    </div>
+                    <template v-slot:item.recommending_approval="{ item }">
+                        <v-chip color="warning" v-if="item.recommending_approval == 'Pending'">{{ item.recommending_approval }}</v-chip>
+                        <v-chip color="success" text-color="white" v-if="item.recommending_approval == 'Approved'">{{ item.recommending_approval }}</v-chip>
+                        <v-chip color="error" text-color="white" v-if="item.recommending_approval == 'Disapproved'">{{ item.recommending_approval }}</v-chip>
+                    </template>
+            
+                    <template v-slot:item.final_approval="{ item }">
+                        <v-chip color="warning" v-if="item.final_approval == 'Pending'">{{ item.final_approval }}</v-chip>
+                        <v-chip color="success" text-color="white" v-if="item.final_approval == 'Approved'">{{ item.final_approval }}</v-chip>
+                        <v-chip color="error" text-color="white" v-if="item.final_approval == 'Disapproved'">{{ item.final_approval }}</v-chip>
+                    </template>
+
+                    <template v-slot:item.actions="{ item }">
+                        <edit-leave v-if="item.recommending_approval == 'Pending'" :leave="item" />
+                        <v-btn v-if="item.recommending_approval == 'Pending'" @click="deleteLeave(item.actions.delete)" color="error" class="ma-1" small icon>
+                            <v-icon small>delete</v-icon>
+                        </v-btn>
+                        <label v-if="item.recommending_approval != 'Pending'">Not Applicable</label>  
+                    </template>
+
+                </v-data-table>
+            </v-card>
+        </v-col>
+    </v-row>
 </template>
 
 <script>
@@ -69,6 +61,7 @@
         },
         data () {
             return {
+                search: '',
                 dialog: false,
                 headers: [
                     {
@@ -84,7 +77,7 @@
                     {
                         text: 'Pay',
                         align: 'center',
-                        value: 'pay'
+                        value: 'pay_type'
                     },
                     {
                         text: 'From',
@@ -119,7 +112,8 @@
                     {
                         text: 'Actions',
                         align: 'center',
-                        sortable: false
+                        sortable: false,
+                        value: 'actions'
                     }
                 ]
             }

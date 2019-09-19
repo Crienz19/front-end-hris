@@ -1,15 +1,14 @@
 <template>
-    <v-layout row wrap>
-        <v-flex xs12>
+    <v-row dense>
+        <v-col cols="12">
             <v-alert
-                value="true"
                 type="info"
                 transition="scale-transition"
             >
                 This is information alert.
             </v-alert>
-        </v-flex>
-        <v-flex xs12>
+        </v-col>
+        <v-col cols="12">
             <v-card elevate="24">
                 <v-card-title>
                     <h4>Business Trip Requests</h4>
@@ -32,29 +31,18 @@
                     :headers="headers"
                     :items="trips"
                 >
-                    <template v-slot:items="props">
-                        <td>{{ props.item.id }}</td>
-                        <td class="text-xs center">{{ props.item.employee.last_name }}</td>
-                        <td class="text-xs-center">{{ props.item.employee.first_name }}</td>
-                        <td class="text-xs-center">{{ props.item.date_from }}</td>
-                        <td class="text-xs-center">{{ props.item.date_to }}</td>
-                        <td class="text-xs-center">{{ props.item.time_in.standard }}</td>
-                        <td class="text-xs-center">{{ props.item.time_out.standard }}</td>
-                        <td class="text-xs-center">{{ props.item.destination_from }}</td>
-                        <td class="text-xs-center">{{ props.item.destination_to }}</td>
-                        <td class="text-xs-center">
-                            <v-chip color="warning" v-if="props.item.status == 'Pending'">{{ props.item.status }}</v-chip>
-                            <v-chip color="info" v-if="props.item.status == 'Acknowledged'">{{ props.item.status }}</v-chip>
-                        </td>
-                        <td class="text-xs-center">{{ props.item.created_at }}</td>
-                        <td class="text-xs-center">
-                            <view-trip :trip="props.item" />
-                        </td>
+                    <template v-slot:item.status="{ item }">
+                        <v-chip color="warning" v-if="item.status == 'Pending'">{{ item.status }}</v-chip>
+                        <v-chip color="success" v-if="item.status == 'Acknowledged'">{{ item.status }}</v-chip>
+                    </template>
+
+                    <template v-slot:item.actions="{ item }">
+                        <view-trip :trip="item" />
                     </template>
                 </v-data-table>
             </v-card>
-        </v-flex>
-    </v-layout>
+        </v-col>
+    </v-row>
 </template>
 
 <script>
@@ -114,12 +102,12 @@ export default {
                 {
                     text: 'Time In',
                     align: 'center',
-                    value: 'time_in'
+                    value: 'time_in.standard'
                 },
                 {
                     text: 'Time Out',
                     align: 'center',
-                    value: 'time_out'
+                    value: 'time_out.standard'
                 },
                 {
                     text: 'Dest. From',
@@ -143,7 +131,9 @@ export default {
                 },
                 {
                     text: 'Actions',
-                    align: 'center'
+                    align: 'center',
+                    value: 'actions',
+                    sortable: false
                 }
             ]
         }

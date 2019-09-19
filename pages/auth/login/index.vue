@@ -1,6 +1,6 @@
 <template>
     <v-flex xs12 sm10 md5 lg4 xl3>
-        <v-card dark>
+        <v-card dark hover>
             <v-card-title>
                 <v-layout row align-center justify-center>
                     <v-avatar

@@ -1,218 +1,236 @@
 <template>
-    <v-layout row wrap>
-        <v-flex xs12 lg3>
-            <v-layout row wrap>
-                <v-flex xs12>
-                    <v-card class="pa-3">
-                        <v-card-text>
-                            <v-layout row justify-center>
-                            <v-avatar
-                                size="250"
-                                color="grey lighten-4"
-                            >
-                                <v-img :src="$auth.user.profile_image" alt="avatar" />
-                            </v-avatar>
-                        </v-layout>
-                        </v-card-text>
-                    </v-card>
-                </v-flex>
-                <v-flex xs12>
-                    <v-card>
-                        <v-card-title class="light-blue white--text">
-                            <h3>Filing Credits</h3>
-                        </v-card-title>
-                        <v-divider></v-divider>
-                        <v-card-text>
-                            <div id="vl-meter">
-                                <label class="caption">Vacation Leave</label>
-                                <v-progress-linear v-model="getVL" height="20" color="info">
-                                    <p style="text-align: center;">{{ this.employee.credit.VL }}/{{ this.employee.credit.total_VL }}</p>
-                                </v-progress-linear>
-                            </div>
-                            <div id="sl-meter">
-                                <label class="caption">Sick Leave</label>
-                                <v-progress-linear v-model="getSL" height="20" color="error">
-                                    <p style="text-align: center;">{{ this.employee.credit.SL }}/{{ this.employee.credit.total_SL }}</p>
-                                </v-progress-linear>
-                            </div>
-                            <div id="pto-meter">
-                                <label class="caption">Personal Time Off</label>
-                                <v-progress-linear v-model="getPTO" height="20" color="warning">
-                                    <p style="text-align: center;">{{ this.employee.credit.PTO }}/{{ this.employee.credit.total_PTO }}</p>
-                                </v-progress-linear>
-                            </div>
-                        </v-card-text>
-                    </v-card>
-                </v-flex>
-            </v-layout>
-        </v-flex>
-        <v-flex xs12 lg9>
-            <v-layout row wrap>
-                <v-flex xs12>
-                    <v-card>
-                        <v-card-title class="light-blue white--text">
-                            <h3>Personal Details</h3>
-                            <v-spacer></v-spacer>
-                            <v-icon @click="(isEditPersonal) ? isEditPersonal = false : isEditPersonal = true;" color="white">{{ (isEditPersonal) ? 'check' : 'edit' }}</v-icon>
-                        </v-card-title>
-                        <v-divider></v-divider>
-                        <v-card-text>
-                            <v-layout row wrap>
-                                <v-flex xs12 lg4>
-                                    <v-text-field
-                                        label="First Name"
-                                        v-model="employee.first_name"
-                                        :disabled="!isEditPersonal"
-                                    ></v-text-field>
-                                </v-flex>
-                                <v-flex xs12 lg4>
-                                    <v-text-field
-                                        label="Middle Name"
-                                        v-model="employee.middle_name"
-                                        :disabled="!isEditPersonal"
-                                    ></v-text-field>
-                                </v-flex>
-                                <v-flex xs12 lg4>
-                                    <v-text-field
-                                        label="Last Name"
-                                        v-model="employee.last_name"
-                                        :disabled="!isEditPersonal"
-                                    ></v-text-field>
-                                </v-flex>
-                                <v-flex xs12 lg6>
-                                    <v-text-field
-                                        label="Birthdate"
-                                        v-model="employee.birth_date"
-                                        :disabled="!isEditPersonal"
-                                    ></v-text-field>
-                                </v-flex>
-                                <v-flex xs12 lg6>
-                                    <v-text-field
-                                        label="Civil Status"
-                                        placeholder="SINGLE"
-                                        :disabled="!isEditPersonal"
-                                    ></v-text-field>
-                                </v-flex>
-                                <v-flex xs12 lg6>
-                                    <v-text-field
-                                        label="Contact Number #1"
-                                        v-model="employee.contact_no_1"
-                                        :disabled="!isEditPersonal"
-                                    ></v-text-field>
-                                </v-flex>
-                                <v-flex xs12 lg6>
-                                    <v-text-field
-                                        label="Contact Number #2"
-                                        v-model="employee.contact_no_2"
-                                        :disabled="!isEditPersonal"
-                                    ></v-text-field>
-                                </v-flex>
-                                <v-flex xs12 lg6>
-                                    <v-text-field
-                                        label="Present Address"
-                                        v-model="employee.present_address"
-                                        :disabled="!isEditPersonal"
-                                    ></v-text-field>
-                                </v-flex>
-                                <v-flex xs12 lg6>
-                                    <v-text-field
-                                        label="Permanent Address"
-                                        v-model="employee.permanent_address"
-                                        :disabled="!isEditPersonal"
+    <div>
+        <v-row dense>
+            <v-col sm="12" lg="3">
+                <v-row dense>
+                    <v-col>
+                        <v-card class="pa-3">
+                            <v-card-text>
+                                <v-layout row justify-center>
+                                    <v-avatar
+                                        size="250"
+                                        color="grey lighten-4"
                                     >
-                                    </v-text-field>
-                                </v-flex>
-                                <v-flex xs12 lg3>
-                                    <v-text-field
-                                        label="SSS No."
-                                        v-model="employee.sss"
-                                        :disabled="!isEditPersonal"
-                                    ></v-text-field>
-                                </v-flex>
-                                <v-flex xs12 lg3>
-                                    <v-text-field
-                                        label="PAGIBIG No."
-                                        v-model="employee.pagibig"
-                                        :disabled="!isEditPersonal"
-                                    ></v-text-field>
-                                </v-flex>
-                                <v-flex xs12 lg3>
-                                    <v-text-field
-                                        label="PhilHealth No."
-                                        v-model="employee.philhealth"
-                                        :disabled="!isEditPersonal"
-                                    ></v-text-field>
-                                </v-flex>
-                                <v-flex xs12 lg3>
-                                    <v-text-field
-                                        label="Tax Identification No"
-                                        v-model="employee.tin"
-                                        :disabled="!isEditPersonal"
-                                    ></v-text-field>
-                                </v-flex>
-                            </v-layout>
-                        </v-card-text>
-                    </v-card>
-                </v-flex>
-                <v-flex xs12>
-                    <v-card>
-                        <v-card-title class="light-blue white--text">
-                            <h3>Company Details</h3>
-                            <v-spacer></v-spacer>
-                            <v-icon @click="(isEditCompany) ? isEditCompany = false : isEditCompany = true;" color="white">{{ (isEditCompany) ? 'check' : 'edit' }}</v-icon>
-                        </v-card-title>
-                        <v-divider></v-divider>
-                        <v-card-text>
-                            <v-layout row wrap>
-                                <v-flex xs12 lg6>
-                                    <v-text-field
-                                        label="Employee ID"
-                                        v-model="employee.employee_id"
-                                        :disabled="!isEditCompany"
-                                    ></v-text-field>
-                                </v-flex>
-                                <v-flex xs12 lg6>
-                                    <v-text-field
-                                        label="Date Hired"
-                                        v-model="employee.date_hired"
-                                        :disabled="!isEditCompany"
-                                    ></v-text-field>
-                                </v-flex>
-                                <v-flex xs12 lg6>
-                                    <v-text-field
-                                        label="Branch"
-                                        v-model="employee.branch.name"
-                                        :disabled="!isEditCompany"
-                                    ></v-text-field>
-                                </v-flex>
-                                <v-flex xs12 lg6>
-                                    <v-text-field
-                                        label="Skype ID"
-                                        v-model="employee.skype_id"
-                                        :disabled="!isEditCompany"
-                                    ></v-text-field>
-                                </v-flex>
-                                <v-flex xs12 lg6>
-                                    <v-text-field
-                                        label="Department"
-                                        v-model="employee.department.name"
-                                        :disabled="!isEditCompany"
-                                    ></v-text-field>
-                                </v-flex>
-                                <v-flex xs12 lg6>
-                                    <v-text-field
-                                        label="Position"
-                                        v-model="employee.position"
-                                        :disabled="!isEditCompany"
-                                    ></v-text-field>
-                                </v-flex>
-                            </v-layout>
-                        </v-card-text>
-                    </v-card>
-                </v-flex>
-            </v-layout>
-        </v-flex>
-    </v-layout>
+                                        <v-img :src="$auth.user.profile_image" alt="avatar" />
+                                    </v-avatar>
+                                </v-layout>
+                            </v-card-text>
+                        </v-card>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col>
+                        <v-card>
+                            <v-card-title class="light-blue white--text">
+                                <h3>Filing Credits</h3>
+                            </v-card-title>
+                            <v-divider></v-divider>
+                            <v-container grid-list-lg>
+                                <v-row dense>
+                                    <v-col id="vl-meter">
+                                        <label class="caption">Vacation Leave</label>
+                                        <v-progress-linear v-model="getVL" height="20" color="info">
+                                            <template>
+                                                <strong>{{ this.employee.credit.VL }}/{{ this.employee.credit.total_VL }}  </strong>  
+                                            </template>
+                                        </v-progress-linear>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col>
+                                        <label class="caption">Sick Leave</label>
+                                        <v-progress-linear v-model="getSL" height="20" color="error">
+                                            <template>
+                                                <strong>{{ this.employee.credit.SL }}/{{ this.employee.credit.total_SL }}</strong>
+                                            </template>
+                                        </v-progress-linear>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col>
+                                        <label class="caption">Personal Time Off</label>
+                                        <v-progress-linear v-model="getPTO" height="20" color="warning">
+                                            <template>
+                                                <strong>{{ this.employee.credit.PTO }}/{{ this.employee.credit.total_PTO }}</strong>
+                                            </template>
+                                        </v-progress-linear>
+                                    </v-col>
+                                </v-row>
+                            </v-container>
+                        </v-card>
+                    </v-col>
+                </v-row>
+            </v-col>
+            <v-col sm="12" lg="9">
+                <v-row dense>
+                    <v-col>
+                        <v-card>
+                            <v-card-title class="light-blue white--text">
+                                <h3>Personal Details</h3>
+                                <v-spacer></v-spacer>
+                                <v-icon @click="(isEditPersonal) ? isEditPersonal = false : isEditPersonal = true;" color="white">{{ (isEditPersonal) ? 'check' : 'edit' }}</v-icon>
+                            </v-card-title>
+                            <v-divider></v-divider>
+                            <v-container grid-list-lg>
+                                <v-row dense>
+                                    <v-col cols="12" sm="12" md="4" lg="4">
+                                        <v-text-field
+                                            label="First Name"
+                                            v-model="employee.first_name"
+                                            :disabled="!isEditPersonal"
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="4" lg="4">
+                                        <v-text-field
+                                            label="Middle Name"
+                                            v-model="employee.middle_name"
+                                            :disabled="!isEditPersonal"
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="4" lg="4">
+                                        <v-text-field
+                                            label="Last Name"
+                                            v-model="employee.last_name"
+                                            :disabled="!isEditPersonal"
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6" lg="6">
+                                        <v-text-field
+                                            label="Birthdate"
+                                            v-model="employee.birth_date"
+                                            :disabled="!isEditPersonal"
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6" lg="6">
+                                        <v-text-field
+                                            label="Civil Status"
+                                            placeholder="SINGLE"
+                                            :disabled="!isEditPersonal"
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6" lg="6">
+                                        <v-text-field
+                                            label="Contact Number #1"
+                                            v-model="employee.contact_no_1"
+                                            :disabled="!isEditPersonal"
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6" lg="6">
+                                        <v-text-field
+                                            label="Contact Number #2"
+                                            v-model="employee.contact_no_2"
+                                            :disabled="!isEditPersonal"
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6" lg="6">
+                                        <v-text-field
+                                            label="Present Address"
+                                            v-model="employee.present_address"
+                                            :disabled="!isEditPersonal"
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6" lg="6">
+                                        <v-text-field
+                                            label="Permanent Address"
+                                            v-model="employee.permanent_address"
+                                            :disabled="!isEditPersonal"
+                                        >
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="3" lg="3">
+                                        <v-text-field
+                                            label="SSS No."
+                                            v-model="employee.sss"
+                                            :disabled="!isEditPersonal"
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="3" lg="3">
+                                        <v-text-field
+                                            label="PAGIBIG No."
+                                            v-model="employee.pagibig"
+                                            :disabled="!isEditPersonal"
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="3" lg="3">
+                                        <v-text-field
+                                            label="PhilHealth No."
+                                            v-model="employee.philhealth"
+                                            :disabled="!isEditPersonal"
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="3" lg="3">
+                                        <v-text-field
+                                            label="Tax Identification No"
+                                            v-model="employee.tin"
+                                            :disabled="!isEditPersonal"
+                                        ></v-text-field>
+                                    </v-col>
+                                </v-row>
+                            </v-container>
+                        </v-card>
+                    </v-col>
+                </v-row>
+                <v-row dense>
+                    <v-col>
+                        <v-card>
+                            <v-card-title class="light-blue white--text">
+                                <h3>Company Details</h3>
+                                <v-spacer></v-spacer>
+                                <v-icon @click="(isEditCompany) ? isEditCompany = false : isEditCompany = true;" color="white">{{ (isEditCompany) ? 'check' : 'edit' }}</v-icon>
+                            </v-card-title>
+                            <v-divider></v-divider>
+                            <v-container>
+                                <v-row dense>
+                                    <v-col cols="12" sm="12" md="6" lg="6">
+                                        <v-text-field
+                                            label="Employee ID"
+                                            v-model="employee.employee_id"
+                                            :disabled="!isEditCompany"
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6" lg="6">
+                                        <v-text-field
+                                            label="Date Hired"
+                                            v-model="employee.date_hired"
+                                            :disabled="!isEditCompany"
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6" lg="6">
+                                        <v-text-field
+                                            label="Skype ID"
+                                            v-model="employee.skype_id"
+                                            :disabled="!isEditCompany"
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6" lg="6">
+                                        <v-text-field
+                                            label="Department"
+                                            v-model="employee.department.name"
+                                            :disabled="!isEditCompany"
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6" lg="6">
+                                        <v-text-field
+                                            label="Position"
+                                            v-model="employee.position"
+                                            :disabled="!isEditCompany"
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6" lg="6">
+                                        <v-text-field
+                                            label="Skype ID"
+                                            v-model="employee.skype_id"
+                                            :disabled="!isEditCompany"
+                                        ></v-text-field>
+                                    </v-col>
+                                </v-row>
+                            </v-container>
+                        </v-card>
+                    </v-col>
+                </v-row>
+            </v-col>
+        </v-row>
+    </div>
 </template>
 
 <script>

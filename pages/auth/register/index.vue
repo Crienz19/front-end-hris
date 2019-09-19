@@ -1,6 +1,6 @@
 <template>
     <v-flex xs12 sm3 md3 lg3>
-        <v-card dark>
+        <v-card dark hover>
             <v-card-title>
                 <h3>HRIS</h3>
             </v-card-title>

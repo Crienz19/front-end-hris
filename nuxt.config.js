@@ -56,11 +56,14 @@ export default {
     "~/plugins/mixins/coe",
     "~/plugins/mixins/validation"
   ],
+
+  buildModules: [
+    '@nuxtjs/vuetify',
+  ],
   /*
   ** Nuxt.js modules
   */
   modules: [
-    '@nuxtjs/vuetify',
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/auth',
@@ -71,7 +74,7 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    baseURL: 'http://prototype.ziptravel.com.ph/v1/api'
+    baseURL: 'http://hris-api.test/api'
   },
 
   auth: {
@@ -104,15 +107,21 @@ export default {
   ** https://github.com/nuxt-community/vuetify-module
   */
   vuetify: {
+    customVariables: ['~/assets/variables.scss'],
     theme: {
-      primary: colors.blue.darken2,
-      accent: colors.grey.darken3,
-      secondary: colors.amber.darken3,
-      info: colors.teal.lighten1,
-      warning: colors.amber.base,
-      error: colors.deepOrange.accent4,
-      success: colors.green.accent3
-    }
+      dark: false,
+      themes: {
+        dark: {
+          primary: colors.blue.darken4,
+          accent: colors.grey.darken3,
+          secondary: colors.amber.darken3,
+          info: colors.teal.lighten1,
+          warning: colors.yellow.darken2,
+          error: colors.red.darken4,
+          success: colors.green.accent3
+        }
+      }
+    },
   },
   /*
   ** Build configuration

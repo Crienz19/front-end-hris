@@ -17,18 +17,12 @@
                     :headers="headers"
                     :items="departments"
                 >
-                    <template v-slot:items="props">
-                        <td>{{ props.item.id }}</td>
-                        <td class="text-xs-center">{{ props.item.name }}</td>
-                        <td class="text-xs-center">{{ props.item.display_name }}</td>
-                        <td class="text-xs-center">{{ props.item.supervisor ? props.item.supervisor.email : 'No Supervisor Assigned' }}</td>
-                        <td class="text-xs-center">
-                            <assign-supervisor :department="props.item" />
-                            <edit-department :department="props.item" />
-                            <v-btn class="ma-0" @click="$store.dispatch('department/deleteDepartment', props.item)" color="error" icon small>
-                                <v-icon small>delete</v-icon>
-                            </v-btn>
-                        </td>
+                    <template v-slot:item.actions="{ item }">
+                        <assign-supervisor :department="item" />
+                        <edit-department :department="item" />
+                        <v-btn class="ma-0" @click="$store.dispatch('department/deleteDepartment', item)" color="error" icon small>
+                            <v-icon>delete</v-icon>
+                        </v-btn>
                     </template>
                 </v-data-table>
             </v-card>
@@ -71,11 +65,12 @@
                     {
                         text: 'Supervisor',
                         align: 'center',
-                        value: 'supervisor'
+                        value: 'supervisor.email'
                     },
                     {
                         text: 'Actions',
                         align: 'center',
+                        value: 'actions',
                         sortable: false
                     }
                 ]

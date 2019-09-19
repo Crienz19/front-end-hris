@@ -1,6 +1,6 @@
 <template>
-    <v-layout row wrap>
-        <v-flex xs12>
+    <v-row dense>
+        <v-col cols="12">
             <v-alert
                 value="true"
                 type="info"
@@ -8,8 +8,8 @@
             >
                 This is information alert.
             </v-alert>
-        </v-flex>
-        <v-flex xs12>
+        </v-col>
+        <v-col cols="12">
             <v-card elevate="24">
                 <v-card-title>
                     <h4>Overtime Requests</h4>
@@ -30,28 +30,19 @@
                     :headers="headers"
                     :items="overtimes"
                 >
-                    <template v-slot:items="props">
-                        <td>{{ props.item.employee.last_name }}</td>
-                        <td class="text-xs-center">{{ props.item.employee.first_name }}</td>
-                        <td class="text-xs-center">{{ props.item.employee.department.display_name }}</td>
-                        <td class="text-xs-center">{{ props.item.date }}</td>
-                        <td class="text-xs-center">{{ props.item.from.standard }}</td>
-                        <td class="text-xs-center">{{ props.item.to.standard }}</td>
-                        <td class="text-xs-center">{{ props.item.reason }}</td>
-                        <td class="text-xs-center">
-                            <v-chip color="warning" v-if="props.item.status == 'Pending'">{{ props.item.status }}</v-chip>
-                            <v-chip color="info" v-if="props.item.status == 'Approved'">{{ props.item.status }}</v-chip>
-                            <v-chip color="error" v-if="props.item.status == 'Disapproved'">{{ props.item.status }}</v-chip>
-                        </td>
-                        <td class="text-xs-center">{{ props.item.created_at }}</td>
-                        <td class="text-xs-center">
-                            <view-overtime :overtime="props.item"></view-overtime>
-                        </td>
+                    <template v-slot:item.status="{ item }">
+                        <v-chip color="warning" v-if="item.status == 'Pending'">{{ item.status }}</v-chip>
+                        <v-chip color="success" v-if="item.status == 'Approved'">{{ item.status }}</v-chip>
+                        <v-chip color="error" v-if="item.status == 'Disapproved'">{{ item.status }}</v-chip>
+                    </template>
+
+                    <template v-slot:item.actions="{ item }">
+                        <view-overtime :overtime="item" />
                     </template>
                 </v-data-table>
             </v-card>
-        </v-flex>
-    </v-layout>
+        </v-col>
+    </v-row>
 </template>
 
 <script>
@@ -130,7 +121,9 @@
                     },
                     {
                         text: 'Actions',
-                        align: 'center'
+                        align: 'center',
+                        value: 'actions',
+                        sortable: false
                     }
                 ]
             }

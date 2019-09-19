@@ -92,7 +92,7 @@
         </v-container>
         <v-divider></v-divider>
         <v-card-actions>
-          <v-btn :disabled="isFilled" color="primary" block text @click="updateLeave">Update</v-btn>
+          <v-btn color="primary" block @click="updateLeave">Update</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

@@ -1,7 +1,7 @@
 <template>
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on }">
-        <v-btn color="primary" small round v-on="on">Create</v-btn>
+        <v-btn color="primary" v-on="on">Create</v-btn>
       </template>
       <v-card>
         <v-card-title>
@@ -13,62 +13,61 @@
         </v-card-title>
         <v-divider></v-divider>
         <v-container grid-list-lg>
-            <v-layout row wrap>
-                <v-flex xs12 lg6>
+            <v-row dense>
+                <v-col cols="12" sm="12" md="6" lg="6">
                     <DatePicker
                         label="Date From"
                         placeholder="Select date from ..."
                         v-model="form.date_from"
                     ></DatePicker>
-                </v-flex>
-                <v-flex xs12 lg6>
+                </v-col>
+                <v-col cols="12" sm="12" md="6" lg="6">
                     <DatePicker
                         label="Date To"
                         placeholder="Select date to ..."
                         v-model="form.date_to"
                     ></DatePicker>
-                </v-flex>
-                <v-flex xs12 lg6>
+                </v-col>
+                <v-col cols="12" sm="12" md="6" lg="6">
                     <TimePicker
                         label="Time In"
                         placeholder="Select Time In"
                         v-model="form.time_in"
                     ></TimePicker>
-                </v-flex>
-                <v-flex xs12 lg6>
+                </v-col>
+                <v-col cols="12" sm="12" md="6" lg="6">
                     <TimePicker
                         label="Time Out"
                         placeholder="Select Time Out"
                         v-model="form.time_out"
                     ></TimePicker>
-                </v-flex>
-                <v-flex xs12 lg6>
+                </v-col>
+                <v-col cols="12" sm="12" md="6" lg="6">
                     <v-text-field
                         label="Destination From"
                         placeholder="Enter your destination from..."
                         v-model="form.destination_from"
                     ></v-text-field>
-                </v-flex>
-                <v-flex xs1 lg6>
+                </v-col>
+                <v-col cols="12" sm="12" md="6" lg="6">
                     <v-text-field
                         label="Destination To"
                         placeholder="Enter your destination to..."
                         v-model="form.destination_to"
                     ></v-text-field>
-                </v-flex>
-                <v-flex xs12>
+                </v-col>
+                <v-col cols="12">
                     <v-textarea
                         label="Purpose"
                         placeholder="Enter your purpose..."
                         v-model="form.purpose"
                     ></v-textarea>
-                </v-flex>
-            </v-layout>
+                </v-col>
+                <v-col cols="12">
+                    <v-btn :disabled="isFilled" color="primary" block @click="addTrip">Add</v-btn>
+                </v-col>
+            </v-row>
         </v-container>
-        <v-divider></v-divider>
-        <v-card-actions>
-          <v-btn :disabled="isFilled" color="primary" block text @click="addTrip">Add</v-btn>
-        </v-card-actions>
       </v-card>
     </v-dialog>
 </template>

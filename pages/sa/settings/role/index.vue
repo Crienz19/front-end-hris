@@ -17,18 +17,12 @@
                     :headers="headers"
                     :items="roles"
                 >
-                <template v-slot:items="props">
-                    <td>{{ props.item.id }}</td>
-                    <td class="text-xs-center">{{ props.item.name }}</td>
-                    <td class="text-xs-center">{{ props.item.display_name }}</td>
-                    <td class="text-xs-center">{{ props.item.created_at }}</td>
-                    <td class="text-xs-center">
-                        <edit-role :role="props.item" />
-                        <v-btn @click="$store.dispatch('role/deleteRole', props.item)" color="error" class="ma-1" icon small>
-                            <v-icon small>delete</v-icon>
+                    <template v-slot:item.actions="{ item }">
+                        <edit-role :role="item" />
+                        <v-btn @click="$store.dispatch('role/deleteRole', item)" color="error" class="ma-1" icon small>
+                            <v-icon>delete</v-icon>
                         </v-btn>
-                    </td>
-                </template>
+                    </template>
                 </v-data-table>
             </v-card>
         </v-flex>
@@ -73,6 +67,7 @@
                     {
                         text: 'Actions',
                         align: 'center',
+                        value: 'actions',
                         sortable: false
                     }
                 ]

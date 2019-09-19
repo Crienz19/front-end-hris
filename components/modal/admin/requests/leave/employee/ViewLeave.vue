@@ -1,9 +1,9 @@
 <template>
   <v-layout justify-center>
-    <v-dialog v-model="dialog" persistent max-width="600px">
+    <v-dialog v-model="dialog" persistent max-width="550px">
       <template v-slot:activator="{ on }">
-        <v-btn icon color="info" v-on="on" small>
-          <v-icon small>search</v-icon>
+        <v-btn icon v-on="on" small>
+          <v-icon>search</v-icon>
         </v-btn>
       </template>
       <v-card>
@@ -14,65 +14,65 @@
             <v-icon small>close</v-icon>
           </v-btn>
         </v-card-title>
-        <v-divider></v-divider>
-        <v-container grid-list-md>
-          <v-layout wrap>
-            <v-flex xs6>
+        <v-container grid-list-lg>
+          <v-row dense>
+            <v-col cols="12" sm="12" md="6" lg="6">
               <v-text-field
                 label="Type"
                 :value="leave.type"
                 disabled
               ></v-text-field>
-            </v-flex>
-            <v-flex xs6>
+            </v-col>
+            <v-col cols="12" sm="12" md="6" lg="6">
                 <v-text-field
                   label="Pay"
                   :value="leave.pay_type"
                   disabled
                 ></v-text-field>
-            </v-flex>
-            <v-flex xs12>
+            </v-col>
+            <v-col cols="12">
               <v-textarea
                 label="Reason"
                 :value="leave.reason"
                 disabled
               ></v-textarea>
-            </v-flex>
-            <v-flex xs12 md6>
+            </v-col>
+            <v-col cols="12" sm="12" md="6" lg="6">
               <v-text-field
                 label="From"
                 :value="leave.from"
                 disabled
               ></v-text-field>
-            </v-flex>
-            <v-flex xs12 md6>
+            </v-col>
+            <v-col cols="12" sm="12" md="6" lg="6">
               <v-text-field
                 label="To"
                 :value="leave.to"
                 disabled
               ></v-text-field>
-            </v-flex>
-            <v-flex xs12 md6 v-if="leave.time_from">
+            </v-col>
+            <v-col cols="12" sm="12" md="6" lg="6" v-if="leave.time_from">
               <v-text-field
                 label="Time From"
                 :value="leave.time_from"
                 disabled
               ></v-text-field>
-            </v-flex>
-            <v-flex xs12 md6 v-if="leave.time_to">
+            </v-col>
+            <v-col cols="12" sm="12" md="6" lg="6" v-if="leave.time_to">
               <v-text-field
                 label="Time To"
                 :value="leave.time_to"
                 disabled
               ></v-text-field>
-            </v-flex>
-          </v-layout>
+            </v-col>
+            <!--<v-col cols="12" sm="12" md="6" lg="6">
+              <v-btn :disabled="leave.final_approval == 'Approved'" color="success" block @click="approveLeave">Approve</v-btn>
+            </v-col>
+            <v-col cols="12" sm="12" md="6" lg="6">
+              <v-btn :disabled="leave.final_approval == 'Disapproved'" color="error" block @click="disapproveLeave">Disapprove</v-btn>
+            </v-col>-->
+          </v-row>
         </v-container>
-        <v-divider></v-divider>
-        <!--<v-card-actions>
-            <v-btn :disabled="leave.final_approval == 'Approved'" color="success" block @click="approveLeave">Approve</v-btn>
-            <v-btn :disabled="leave.final_approval == 'Disapproved'" color="error" block @click="disapproveLeave">Disapprove</v-btn>
-        </v-card-actions>-->
       </v-card>
     </v-dialog>
   </v-layout>

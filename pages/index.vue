@@ -1,6 +1,6 @@
 <template>
     <v-flex xs12 sm10 md5 lg4 xl3>
-        <v-card dark>
+        <v-card class="mx-auto" hover :loading="loading">
             <v-card-title>
                 <v-layout row align-center justify-center>
                     <v-avatar
@@ -40,12 +40,10 @@
                         ]"
                     >
                     </v-text-field>
+                    <v-btn class="mt-2" :disabled="isFilled" @click="login" color="blue" block>LOGIN</v-btn>
+                    <v-btn class="mt-2" to="/auth/register" color="green lighten-1" block>Create an account</v-btn>
                 </v-form>
             </v-card-text>
-            <v-card-actions>
-                <v-btn :disabled="isFilled" @click="login" color="warning" block>LOGIN</v-btn>
-                <v-btn to="/auth/register" color="info" block>Create an account</v-btn>
-            </v-card-actions>
         </v-card>
     </v-flex>
 </template>
@@ -58,6 +56,7 @@ export default {
                 name: '',
                 password: ''
             },
+            loading: false,
             errors: []
         }
     },
@@ -74,9 +73,11 @@ export default {
     },
     methods: {
         async login () {
+            this.loading = true;
             await this.$auth.loginWith('local', {
                 data: this.form
             }).then((response) => {
+                this.loading = false;
                 alert('Login Complete!');
                 switch (this.auth.role) {
                     case 'superadministrator':
@@ -119,6 +120,7 @@ export default {
                 }
             }).catch(error => {
                 alert(error.response.data.message);
+                this.loading = false;
             });
         }
     }

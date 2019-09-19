@@ -1,80 +1,76 @@
 <template>
-  <v-layout justify-center>
-    <v-dialog v-model="dialog" persistent max-width="600px">
-      <template v-slot:activator="{ on }">
-        <v-btn color="info" icon v-on="on" small>
-          <v-icon small>search</v-icon>
+  <v-dialog v-model="dialog" persistent max-width="550px">
+    <template v-slot:activator="{ on }">
+      <v-btn icon v-on="on" small>
+        <v-icon>search</v-icon>
+      </v-btn>
+    </template>
+    <v-card>
+      <v-card-title>
+        <h3>{{ this.trip.employee.first_name }} {{ this.trip.employee.last_name }}'s Trip Request</h3>
+        <v-spacer></v-spacer>
+        <v-btn @click="dialog = false" icon small>
+          <v-icon small>close</v-icon>
         </v-btn>
-      </template>
-      <v-card>
-        <v-card-title>
-          <h3>{{ this.trip.employee.first_name }} {{ this.trip.employee.last_name }}'s Trip Request</h3>
-          <v-spacer></v-spacer>
-          <v-btn @click="dialog = false" icon small>
-            <v-icon small>close</v-icon>
-          </v-btn>
-        </v-card-title>
-        <v-divider></v-divider>
-        <v-container grid-list-md>
-          <v-layout wrap>
-            <v-flex xs12 md6>
-                <v-text-field
-                    label="Date From"
-                    :value="trip.date_from"
-                    disabled
-                ></v-text-field>
-            </v-flex>
-            <v-flex xs12 md6>
-                <v-text-field
-                    label="Date To"
-                    :value="trip.date_to"
-                    disabled
-                ></v-text-field>
-            </v-flex>
-            <v-flex xs12 md6>
-                <v-text-field
-                    label="Time From"
-                    :value="trip.time_in.standard"
-                    disabled
-                ></v-text-field>
-            </v-flex>
-            <v-flex xs12 md6>
-                <v-text-field
-                    label="Time To"
-                    :value="trip.time_out.standard"
-                    disabled
-                ></v-text-field>
-            </v-flex>
-            <v-flex xs12 md6>
-                <v-text-field
-                    label="Destination From"
-                    :value="trip.destination_from"
-                    disabled
-                ></v-text-field>
-            </v-flex>
-            <v-flex xs12 md6>
-                <v-text-field
-                    label="Destination To"
-                    :value="trip.destination_to"
-                    disabled
-                ></v-text-field>
-            </v-flex>
-            <v-flex xs12>
-                <v-textarea
-                    label="Purpose of Trip"
-                    :value="trip.purpose"
-                    disabled
-                ></v-textarea>
-            </v-flex>
-          </v-layout>
-        </v-container>
-        <v-divider></v-divider>
-        <!--<v-card-actions>
-          <v-btn :disabled="trip.status == 'Acknowledged'" color="success" block @click="acknowledgedTrip">Acknowledge Trip</v-btn>
-        </v-card-actions>-->
-      </v-card>
-    </v-dialog>
-  </v-layout>
+      </v-card-title>
+      <v-container grid-list-lg>
+        <v-row dense>
+          <v-col cols="12" sm="12" md="6" lg="6">
+              <v-text-field
+                  label="Date From"
+                  :value="trip.date_from"
+                  disabled
+              ></v-text-field>
+          </v-col>
+          <v-col cols="12" sm="12" md="6" lg="6">
+              <v-text-field
+                  label="Date To"
+                  :value="trip.date_to"
+                  disabled
+              ></v-text-field>
+          </v-col>
+          <v-col cols="12" sm="12" md="6" lg="6">
+              <v-text-field
+                  label="Time From"
+                  :value="trip.time_in.standard"
+                  disabled
+              ></v-text-field>
+          </v-col>
+          <v-col cols="12" sm="12" md="6" lg="6">
+              <v-text-field
+                  label="Time To"
+                  :value="trip.time_out.standard"
+                  disabled
+              ></v-text-field>
+          </v-col>
+          <v-col cols="12" sm="12" md="6" lg="6">
+              <v-text-field
+                  label="Destination From"
+                  :value="trip.destination_from"
+                  disabled
+              ></v-text-field>
+          </v-col>
+          <v-col cols="12" sm="12" md="6" lg="6">
+              <v-text-field
+                  label="Destination To"
+                  :value="trip.destination_to"
+                  disabled
+              ></v-text-field>
+          </v-col>
+          <v-col cols="12">
+              <v-textarea
+                  label="Purpose of Trip"
+                  :value="trip.purpose"
+                  disabled
+              ></v-textarea>
+          </v-col>
+        </v-row>
+      </v-container>
+      <!--<v-card-actions>
+        <v-btn :disabled="trip.status == 'Acknowledged'" color="success" block @click="acknowledgedTrip">Acknowledge Trip</v-btn>
+      </v-card-actions>-->
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>

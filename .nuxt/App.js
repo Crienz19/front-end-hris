@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import { getMatchedComponentsInstances, promisify, globalHandleError } from './utils'
 import NuxtLoading from './components/nuxt-loading.vue'
 import NuxtBuildIndicator from './components/nuxt-build-indicator'
 
@@ -10,7 +11,7 @@ import _6f6c098b from '..\\layouts\\default.vue'
 const layouts = { "_auth": _2d217e9e,"_default": _6f6c098b }
 
 export default {
-  head: {"titleTemplate":"%s - hris","title":"hris","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"My laudable Nuxt.js project"}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"},{"rel":"stylesheet","href":"https:\u002F\u002Ffonts.googleapis.com\u002Fcss?family=Roboto:300,400,500,700|Material+Icons"},{"rel":"stylesheet","type":"text\u002Fcss","href":"\u002F\u002Ffonts.googleapis.com\u002Fcss?family=Roboto:300,400,500,700|Material+Icons"}],"style":[],"script":[]},
+  head: {"titleTemplate":"%s - hris","title":"hris","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"My laudable Nuxt.js project"}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"},{"rel":"stylesheet","href":"https:\u002F\u002Ffonts.googleapis.com\u002Fcss?family=Roboto:300,400,500,700|Material+Icons"},{"rel":"stylesheet","type":"text\u002Fcss","href":"https:\u002F\u002Ffonts.googleapis.com\u002Fcss?family=Roboto:100,300,400,500,700,900&display=swap"},{"rel":"stylesheet","type":"text\u002Fcss","href":"https:\u002F\u002Fcdn.jsdelivr.net\u002Fnpm\u002F@mdi\u002Ffont@latest\u002Fcss\u002Fmaterialdesignicons.min.css"}],"style":[],"script":[]},
 
   render(h, props) {
     const loadingEl = h('NuxtLoading', { ref: 'loading' })
@@ -64,6 +65,8 @@ export default {
     }
     // Add $nuxt.error()
     this.error = this.nuxt.error
+    // Add $nuxt.context
+    this.context = this.$options.context
   },
 
   mounted() {
@@ -90,6 +93,40 @@ export default {
           this.isOnline = window.navigator.onLine
         }
       }
+    },
+    async refresh() {
+      const pages = getMatchedComponentsInstances(this.$route)
+
+      if (!pages.length) {
+        return
+      }
+      this.$loading.start()
+      const promises = pages.map(async (page) => {
+        const p = []
+
+        if (page.$options.fetch) {
+          p.push(promisify(page.$options.fetch, this.context))
+        }
+        if (page.$options.asyncData) {
+          p.push(
+            promisify(page.$options.asyncData, this.context)
+              .then((newData) => {
+                for (const key in newData) {
+                  Vue.set(page.$data, key, newData[key])
+                }
+              })
+          )
+        }
+        return Promise.all(p)
+      })
+      try {
+        await Promise.all(promises)
+      } catch (error) {
+        this.$loading.fail()
+        globalHandleError(error)
+        this.error(error)
+      }
+      this.$loading.finish()
     },
 
     errorChanged() {

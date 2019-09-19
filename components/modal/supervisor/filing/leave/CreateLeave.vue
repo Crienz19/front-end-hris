@@ -1,9 +1,9 @@
 <template>
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on }">
-        <v-btn color="primary" small round v-on="on">Create</v-btn>
+        <v-btn color="primary" v-on="on">Create</v-btn>
       </template>
-      <v-card>
+      <v-card :loading="loading">
         <v-card-title>
           <span class="headline">Create Leave</span>
           <v-spacer></v-spacer>
@@ -11,10 +11,9 @@
               <v-icon>close</v-icon>
           </v-btn>
         </v-card-title>
-        <v-divider></v-divider>
-          <v-container grid-list-lg>
-            <v-layout row wrap>
-                <v-flex xs12 lg6>
+        <v-container grid-list-lg>
+            <v-row dense>
+                <v-col cols="12" sm="12" md="6" lg="6">
                     <v-select
                         placeholder="Select Leave"
                         :items="['VL', 'SL', 'PTO', 'VL - Half', 'SL - Half', 'PTO - Half']"
@@ -24,8 +23,8 @@
                             () => !!form.type || 'This field is required.'
                         ]"
                     ></v-select>
-                </v-flex>
-                <v-flex xs12 lg6>
+                </v-col>
+                <v-col cols="12" sm="12" md="6" lg="6">
                     <v-select
                         placeholder="Select Pay"
                         :items="['With Pay', 'Without Pay']"
@@ -35,8 +34,8 @@
                             () => !!form.pay_type || 'This field is required.'
                         ]"
                     ></v-select>
-                </v-flex>
-                <v-flex xs12>
+                </v-col>
+                <v-col cols="12">
                     <v-textarea
                         label="Reason"
                         placeholder="Type your valid reason..."
@@ -45,40 +44,40 @@
                             () => !!form.reason || 'This field is required.'
                         ]"
                     ></v-textarea>
-                </v-flex>
-                <v-flex xs12 lg6>
+                </v-col>
+                <v-col cols="12" sm="12" md="6" lg="6">
                     <DatePicker
                         label="From"
                         placeholder="Select Date From"
                         v-model="form.from"
                     ></DatePicker>
-                </v-flex>
-                <v-flex xs12 lg6>
+                </v-col>
+                <v-col cols="12" sm="12" md="6" lg="6">
                     <DatePicker
                         label="To"
                         placeholder="Select Date To"
                         v-model="form.to"
                     ></DatePicker>
-                </v-flex>
-                <v-flex xs12 lg6 v-if="form.type == 'VL - Half' || form.type == 'SL - Half' || form.type == 'PTO - Half' ? true : false">
+                </v-col>
+                <v-col cols="12" sm="12" md="6" lg="6" v-if="form.type == 'VL - Half' || form.type == 'SL - Half' || form.type == 'PTO - Half' ? true : false">
                     <TimePicker
                         label="Time From"
                         placeholder="Select Time From"
                         v-model="form.time_from"
                     ></TimePicker>
-                </v-flex>
-                <v-flex xs12 lg6 v-if="form.type == 'VL - Half' || form.type == 'SL - Half' || form.type == 'PTO - Half' ? true : false">
+                </v-col>
+                <v-col cols="12" sm="12" md="6" lg="6" v-if="form.type == 'VL - Half' || form.type == 'SL - Half' || form.type == 'PTO - Half' ? true : false">
                     <TimePicker
                         label="Time To"
                         placeholder="Select Time To"
                         v-model="form.time_to"
                     ></TimePicker>
-                </v-flex>
-            </v-layout>
+                </v-col>
+            </v-row>
         </v-container>
         <v-divider></v-divider>
         <v-card-actions>
-          <v-btn :disabled="isFilled" color="primary" block text @click="addLeave">Add</v-btn>
+          <v-btn :disabled="isFilled" color="primary" block @click="addLeave">Add</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -95,6 +94,7 @@
         data () {
             return {
                 dialog: false,
+                loading: false,
                 form: {
                     type: '',
                     pay_type: '',
@@ -124,8 +124,10 @@
         },
         methods: {
             async addLeave () {
+                this.loading = true;
                 await this.$axios.$post('/sv/leaves', this.form)
                     .then((response) => {
+                        this.loading = false;
                         this.$store.dispatch('leave/loadEmployeeLeaves');
                         this.form.type = '';
                         this.form.pay_type = '';
@@ -136,6 +138,7 @@
                         this.form.reason = '';
                         this.dialog = false;
                     }).catch(error => {
+                        this.loading = false;
                         console.log('Something went wrong');
                     });
             }
