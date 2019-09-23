@@ -18,8 +18,7 @@
             <v-layout row wrap>
                 <v-flex xs12 md3>
                     <v-img
-                        src="https://picsum.photos/id/11/500/300"
-                        lazy-src="https://picsum.photos/id/11/10/6"
+                        :src="employee.user.profile_image"
                         aspect-ratio="1"
                         class="grey lighten-2"
                         max-width="500"
