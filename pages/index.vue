@@ -1,51 +1,61 @@
 <template>
-    <v-flex xs12 sm10 md5 lg4 xl3>
-        <v-card class="mx-auto" hover :loading="loading">
-            <v-card-title>
-                <v-layout row align-center justify-center>
-                    <v-avatar
-                        size="150"
-                    >
-                        <v-img
-                            src="https://picsum.photos/id/11/500/300"
-                            lazy-src="https://picsum.photos/id/11/10/6"
-                            aspect-ratio="1"
-                            class="grey lighten-2"
-                            max-width="150"
-                            max-height="150"
-                            elevation-19
-                        ></v-img>
-                    </v-avatar>
-                </v-layout>
-            </v-card-title>
-            <v-card-text>
-                <v-form ref="loginForm">
-                    <v-text-field xs12
-                        v-model.trim="form.name"
-                        type="text"
-                        label="Username"
-                        prepend-icon="account_circle"
-                        :rules="[
-                            () => !!form.name || 'This field is required.'
-                        ]"
-                    >
-                    </v-text-field>
-                    <v-text-field xs12
-                        v-model.trim="form.password"
-                        type="password"
-                        label="Password"
-                        prepend-icon="remove_red_eye"
-                        :rules="[
-                            () => !!form.password || 'This field is required.'
-                        ]"
-                    >
-                    </v-text-field>
-                    <v-btn class="mt-2" :disabled="isFilled" @click="login" color="blue" block>LOGIN</v-btn>
-                    <v-btn class="mt-2" to="/auth/register" color="green lighten-1" block>Create an account</v-btn>
-                </v-form>
-            </v-card-text>
-        </v-card>
-    </v-flex>
+    <v-row align-content="center" justify="center">
+        <v-col cols="12" sm="10" md="5" lg="4" xl="3">
+            <v-card class="mx-auto" hover :loading="loading">
+                <v-card-title>
+                    <v-row justify="center">
+                        <v-avatar size="150">
+                            <v-img
+                                src="https://picsum.photos/id/11/500/300"
+                                lazy-src="https://picsum.photos/id/11/10/6"
+                                aspect-ratio="1"
+                                class="grey lighten-2"
+                                max-width="150"
+                                max-height="150"
+                                elevation-19
+                            ></v-img>
+                        </v-avatar>
+                    </v-row>
+                </v-card-title>
+                <v-container grid-list-lg>
+                    <v-form ref="loginForm">
+                        <v-row dense>
+                            <v-col cols="12">
+                                <v-text-field xs12
+                                    v-model.trim="form.name"
+                                    type="text"
+                                    label="Username"
+                                    prepend-icon="account_circle"
+                                    :rules="[
+                                        () => !!form.name || 'This field is required.'
+                                    ]"
+                                >
+                                </v-text-field>
+                            </v-col>
+                            <v-col cols="12">
+                                <v-text-field xs12
+                                    v-model.trim="form.password"
+                                    type="password"
+                                    label="Password"
+                                    prepend-icon="remove_red_eye"
+                                    :rules="[
+                                        () => !!form.password || 'This field is required.'
+                                    ]"
+                                >
+                                </v-text-field>
+                            </v-col>
+                            <v-col cols="12">
+                                <v-btn :disabled="isFilled" @click="login" color="blue" block>LOGIN</v-btn>
+                            </v-col>
+                            <v-col cols="12">
+                                <v-btn to="/auth/register" color="success" block>Create an account</v-btn>
+                            </v-col>
+                        </v-row>
+                    </v-form>
+                </v-container>
+            </v-card>
+        </v-col>
+    </v-row>
 </template>
 <script>
 export default {

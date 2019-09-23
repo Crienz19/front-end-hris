@@ -1,6 +1,26 @@
 <template>
     <v-row dense>
-        <upload-image :dialog="upload" />
+        <v-dialog v-model="upload" persistent max-width="500px">
+            <v-card :loading="loading.image">
+                <v-card-title>
+                    Upload Image
+                    <v-spacer></v-spacer>
+                    <v-btn @click="upload = false;" color="default" icon>
+                        <v-icon>close</v-icon>
+                    </v-btn>
+                </v-card-title>
+                <v-card-text>
+                    <v-file-input
+                        v-model="image"
+                        label="File input"
+                        filled
+                        prepend-icon="mdi-camera"
+                        show-size
+                    ></v-file-input>
+                    <v-btn @click="updateImage" color="primary" block>Upload</v-btn>
+                </v-card-text> 
+            </v-card>
+        </v-dialog>
         <v-col cols="12" sm="12" md="3" lg="3">
             <v-row dense>
                 <v-col>
@@ -12,7 +32,7 @@
                                         size="250"
                                         color="grey lighten-4"
                                     >
-                                        <v-img :src="$auth.user.profile_image" alt="avatar">
+                                        <v-img :src="employee.user.profile_image" alt="avatar">
                                             <v-expand-transition>
                                                 <div
                                                     v-if="hover"
@@ -85,11 +105,12 @@
         <v-col cols="12" sm="12" md="9" lg="9">
             <v-row dense>
                 <v-col cols="12">
-                    <v-card>
+                    <v-card :loading="loading.personal">
                         <v-card-title class="pa-5 blue darken-4 white--text">
                             <h3>Personal Details</h3>
                             <v-spacer></v-spacer>
-                            <v-icon @click="(isEditPersonal) ? isEditPersonal = false : isEditPersonal = true;" color="white">{{ (isEditPersonal) ? 'check' : 'edit' }}</v-icon>
+                            <v-icon v-if="isEditPersonal == true" @click="updatePersonal" color="white">check</v-icon>
+                            <v-icon v-else @click="isEditPersonal = true" color="white">edit</v-icon>
                         </v-card-title>
                         <v-divider></v-divider>
                         <v-container grid-list-lg>
@@ -193,11 +214,12 @@
                     </v-card>
                 </v-col>
                 <v-col cols="12">
-                    <v-card>
+                    <v-card :loading="loading.company">
                         <v-card-title class="pa-5 blue darken-4 white--text">
                             <h3>Company Details</h3>
                             <v-spacer></v-spacer>
-                            <v-icon @click="(isEditCompany) ? isEditCompany = false : isEditCompany = true;" color="white">{{ (isEditCompany) ? 'check' : 'edit' }}</v-icon>
+                            <v-icon v-if="isEditCompany == true" @click="updateCompany" color="white">check</v-icon>
+                            <v-icon v-else @click="isEditCompany = true" color="white">edit</v-icon>
                         </v-card-title>
                         <v-divider></v-divider>
                         <v-container grid-list-lg>
@@ -283,6 +305,12 @@
         },
         data () {
             return {
+                loading: {
+                    image: false,
+                    personal: false,
+                    company: false
+                },
+                image: [],
                 upload: false,
                 isEditPersonal: false,
                 isEditCompany: false,
@@ -291,35 +319,6 @@
                     first_name: 'Renz',
                     middle_name: 'Dumlao',
                     last_name: 'Mergenio'
-                }
-            }
-        },
-        watch: {
-            isEditPersonal (value) {
-                if (!value) {
-                    this.updatePersonal();
-
-                    this.$swal.fire({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        type: 'success',
-                        title: 'Update Successful!'
-                    });
-                }
-            },
-            isEditCompany (value) {
-                if (!value) {
-                    this.updatePersonal();
-                    this.$swal.fire({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        type: 'success',
-                        title: 'Update Successful!'
-                    });
                 }
             }
         },
@@ -336,6 +335,7 @@
         },
         methods: {
             async updatePersonal () {
+                this.loading.personal = true;
                 await this.$axios.$patch(`/employees/${this.auth.id}`, {
                     first_name: this.employee.first_name,
                     middle_name: this.employee.middle_name,
@@ -358,8 +358,73 @@
                     position: this.employee.position
                 }).then((response) => {
                     this.data = response.data;
+                    this.isEditPersonal = false;
+                    this.loading.personal = false;
+                    this.$swal.fire({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        type: 'success',
+                        title: 'Update Successful!'
+                    });
                 }).catch(error => {
                     alert('Something went wrong');
+                })
+            },
+            async updateCompany () {
+                this.loading.company = true;
+                await this.$axios.$patch(`/employees/${this.auth.id}`, {
+                    first_name: this.employee.first_name,
+                    middle_name: this.employee.middle_name,
+                    last_name: this.employee.last_name,
+                    birth_date: this.employee.birth_date,
+                    civil_status: this.employee.civil_status,
+                    contact_no_1: this.employee.contact_no_1,
+                    contact_no_2: this.employee.contact_no_2,
+                    present_address: this.employee.present_address,
+                    permanent_address: this.employee.permanent_address,
+                    sss: this.employee.sss,
+                    pagibig: this.employee.pagibig,
+                    philhealth: this.employee.philhealth,
+                    tin: this.employee.tin,
+                    employee_id: this.employee.employee_id,
+                    date_hired: this.employee.date_hired,
+                    branch_id: this.employee.branch.id,
+                    skype_id: this.employee.skype_id,
+                    department_id: this.employee.department.id,
+                    position: this.employee.position
+                }).then((response) => {
+                    this.data = response.data;
+                    this.isEditCompany = false;
+                    this.loading.company = false;
+                    this.$swal.fire({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        type: 'success',
+                        title: 'Update Successful!'
+                    });
+                }).catch(error => {
+                    alert('Something went wrong');
+                })
+            },
+            async updateImage () {
+                this.loading.image = true;
+                let formData = new FormData();
+                formData.append('image', this.image)
+                await this.$axios.$post(`/employees/photo`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }).then((response) => {
+                    this.loading.image = false;
+                    this.data = response.data;
+                    alert('Uploaded!');
+                }).catch(error => {
+                    this.loading.image = false;
+                    alert('Not Uploaded')
                 })
             }
         }

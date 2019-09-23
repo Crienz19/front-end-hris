@@ -234,14 +234,14 @@
       </v-list> 
       <v-divider></v-divider>
       <v-list class="pa-0" v-if="auth.role === 'hr'">
-        <nuxt-link to="/hr/dashboard" tag="v-list-item">
+        <v-list-item to="/hr/dashboard">
           <v-list-item-icon>
             <v-icon>dashboard</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Dashboard</v-list-item-title>
           </v-list-item-content>
-        </nuxt-link>
+        </v-list-item>
         <v-divider></v-divider>
         <v-subheader>Requests</v-subheader>
         <v-list-item to="/hr/requests/leave">
@@ -343,10 +343,6 @@
         <nuxt />
       </v-container>
     </v-content>
-
-    <v-footer app>
-      <!-- -->
-    </v-footer>
   </v-app>
 </template>
 

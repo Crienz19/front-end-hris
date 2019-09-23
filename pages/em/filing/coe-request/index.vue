@@ -33,7 +33,7 @@
                     <template v-slot:item.actions="{ item }">
                         <edit-COE v-if="item.status == 'Pending'" :coe="item"></edit-COE>
                         <v-btn v-if="item.status == 'Pending'" @click="removeCOE(item.actions.delete)" class="ma-1" color="error" icon small>
-                            <v-icon small>delete</v-icon>
+                            <v-icon>delete</v-icon>
                         </v-btn>
                         <label v-if="item.status == 'Acknowledged'">Not Applicable</label>
                     </template>
