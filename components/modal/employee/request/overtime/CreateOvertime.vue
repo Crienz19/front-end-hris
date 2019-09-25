@@ -3,7 +3,7 @@
       <template v-slot:activator="{ on }">
         <v-btn color="primary" v-on="on">Create</v-btn>
       </template>
-      <v-card>
+      <v-card :loading="loading">
         <v-card-title>
           <span class="headline">Create Overtime</span>
           <v-spacer></v-spacer>
@@ -11,31 +11,30 @@
               <v-icon>close</v-icon>
           </v-btn>
         </v-card-title>
-        <v-divider></v-divider>
         <v-container grid-list-lg>
-            <v-layout row wrap>
-                <v-flex xs12>
+            <v-row dense>
+                <v-col cols="12">
                     <DatePicker
                         label="Date"
                         placeholder="Select Overtime Date"
                         v-model="form.date"
                     ></DatePicker>
-                </v-flex>
-                <v-flex xs12 lg6>
+                </v-col>
+                <v-col cols="12" sm="12" md="6" lg="6">
                     <TimePicker
                         label="From"
                         placeholder="Select Overtime From"
                         v-model="form.from"
                     ></TimePicker>
-                </v-flex>
-                <v-flex xs12 lg6>
+                </v-col>
+                <v-col cols="12" sm="12" md="6" lg="6">
                     <TimePicker
                         label="To"
                         placeholder="Select Overtime To"
                         v-model="form.to"
                     ></TimePicker>
-                </v-flex>
-                <v-flex xs12>
+                </v-col>
+                <v-col cols="12">
                     <v-textarea
                         label="Reason"
                         placeholder="Type your overtime reason..."
@@ -44,13 +43,12 @@
                             () => !!form.reason || 'This field is required.'
                         ]"
                     ></v-textarea>
-                </v-flex>
-            </v-layout>
+                </v-col>
+                <v-col cols="12">
+                    <v-btn :disabled="isFilled" color="primary" block @click="addOvertime">Submit Request</v-btn>
+                </v-col>
+            </v-row>
         </v-container>
-        <v-divider></v-divider>
-        <v-card-actions>
-          <v-btn :disabled="isFilled" :loading="loading" color="primary" block text @click="addOvertime">Add</v-btn>
-        </v-card-actions>
       </v-card>
     </v-dialog>
 </template>

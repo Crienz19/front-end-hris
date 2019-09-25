@@ -1,15 +1,14 @@
 <template>
-    <v-layout row wrap>
-      <v-flex xs12>
+    <v-row dense>
+      <v-col cols="12">
         <v-alert
-          value=true
           type="info"
           transition="scale-transition"
         >
           This is information alert.
         </v-alert>
-      </v-flex>
-      <v-flex xs12 lg6>
+      </v-col>
+      <v-col cols="12" sm="12" md="6" lg="6">
         <v-card elevate="24">
           <v-card-title class="light-blue white--text">
             <h3>Leave Summary</h3>
@@ -21,9 +20,9 @@
             <apex-chart width="100%" type="line" :data="chart_data"></apex-chart>
           </v-card-text>
         </v-card>
-      </v-flex>
+      </v-col>
 
-      <v-flex xs12 lg6>
+      <v-col cols="12" sm="12" md="6" lg="6">
         <v-card elevate="24">
           <v-card-title class="light-blue white--text">
             <h3>Overtime Summary</h3>
@@ -35,9 +34,9 @@
             <apex-chart width="100%" type="bar" :data="chart_data"></apex-chart>
           </v-card-text>
         </v-card>
-      </v-flex>
+      </v-col>
 
-      <v-flex xs12>
+      <v-col cols="12">
         <v-card elevate="24">
           <v-data-table
             :headers="headers"
@@ -66,8 +65,8 @@
             </template>
           </v-data-table>
         </v-card>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
 </template>
 
 <script>

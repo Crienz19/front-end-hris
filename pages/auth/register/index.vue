@@ -1,6 +1,6 @@
 <template>
     <v-row justify="center" align="center">
-        <v-col cols="12" sm="3" md="3" lg="3">
+        <v-col cols="12" sm="10" md="5" lg="4" xl="3">
             <v-card hover>
                 <v-card-title>
                     <v-row justify="center">

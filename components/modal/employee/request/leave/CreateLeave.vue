@@ -11,10 +11,9 @@
               <v-icon>close</v-icon>
           </v-btn>
         </v-card-title>
-        <v-divider></v-divider>
           <v-container grid-list-lg>
-            <v-row>
-                <v-col sm="12" md="6" lg="6">
+            <v-row dense>
+                <v-col cols="12" sm="12" md="6" lg="6">
                     <v-select
                         placeholder="Select Leave"
                         :items="['VL', 'SL', 'PTO', 'VL - Half', 'SL - Half', 'PTO - Half']"
@@ -25,7 +24,7 @@
                         ]"
                     ></v-select>
                 </v-col>
-                <v-col sm="12" md="6" lg="6">
+                <v-col cols="12" sm="12" md="6" lg="6">
                     <v-select
                         placeholder="Select Pay"
                         :items="['With Pay', 'Without Pay']"
@@ -36,9 +35,7 @@
                         ]"
                     ></v-select>
                 </v-col>
-            </v-row>
-            <v-row>
-                <v-col sm="12">
+                <v-col cols="12">
                     <v-textarea
                         label="Reason"
                         placeholder="Type your valid reason..."
@@ -48,25 +45,21 @@
                         ]"
                     ></v-textarea>
                 </v-col>
-            </v-row>
-            <v-row>
-                <v-col sm="12" md="6" lg="6">
+                <v-col cols="12" sm="12" md="6" lg="6">
                     <DatePicker
                         label="From"
                         placeholder="Select Date From"
                         v-model="form.from"
                     ></DatePicker>
                 </v-col>
-                <v-col sm="12" md="6" lg="6">
+                <v-col cols="12" sm="12" md="6" lg="6">
                     <DatePicker
                         label="To"
                         placeholder="Select Date To"
                         v-model="form.to"
                     ></DatePicker>
                 </v-col>
-            </v-row>
-            <v-row v-if="form.type == 'VL - Half' || form.type == 'SL - Half' || form.type == 'PTO - Half' ? true : false">
-                <v-col sm="12" md="6" lg="6">
+                <v-col cols="12" sm="12" md="6" lg="6" v-if="form.type == 'VL - Half' || form.type == 'SL - Half' || form.type == 'PTO - Half' ? true : false"> 
                     <TimePicker
                         label="Time From"
                         placeholder="Select Time From"
@@ -76,7 +69,7 @@
                         ]"
                     ></TimePicker>
                 </v-col>
-                <v-col sm="12" md="6" lg="6">
+                <v-col cols="12" sm="12" md="6" lg="6" v-if="form.type == 'VL - Half' || form.type == 'SL - Half' || form.type == 'PTO - Half' ? true : false">
                     <TimePicker
                         label="Time To"
                         placeholder="Select Time To"
@@ -86,12 +79,11 @@
                         ]"
                     ></TimePicker>
                 </v-col>
+                <v-col cols="12">
+                    <v-btn :disabled="isFilled" color="info" block @click="addLeave">Submit Request</v-btn>
+                </v-col>
             </v-row>
         </v-container>
-        <v-divider></v-divider>
-        <v-card-actions>
-          <v-btn :disabled="isFilled" color="info" block @click="addLeave">Add</v-btn>
-        </v-card-actions>
       </v-card>
     </v-dialog>
 </template>

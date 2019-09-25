@@ -1,56 +1,53 @@
 <template>
-    <div>
-        <v-layout row wrap>
-            <v-flex xs12>
-                <v-alert
-                    value="true"
-                    type="info"
-                    transition="scale-transition"
+    <v-row dense>
+        <v-col cols="12">
+            <v-alert
+                type="info"
+                transition="scale-transition"
+            >
+                This is information alert.
+            </v-alert>
+        </v-col>
+        <v-col cols="12">
+            <v-card elevate="24">
+                <v-card-title>
+                    <h3>Leave Requests</h3>
+                    <v-spacer></v-spacer>
+                    <download-excel
+                        title="Leave Requests"
+                        name="Leave Requests"
+                        :fields="fields"
+                        :data="leaves"
+                    ></download-excel>
+                    <filter-leave />
+                    <v-btn class="ma-1" @click="refreshLeave" color="warning" icon>
+                        <v-icon>refresh</v-icon>
+                    </v-btn>
+                </v-card-title>
+                <v-divider></v-divider>
+                <v-data-table
+                    :headers="headers"
+                    :items="leaves"
                 >
-                    This is information alert.
-                </v-alert>
-            </v-flex>
-            <v-flex xs12>
-                <v-card elevate="24">
-                    <v-card-title>
-                        <h3>Leave Requests</h3>
-                        <v-spacer></v-spacer>
-                        <download-excel
-                            title="Leave Requests"
-                            name="Leave Requests"
-                            :fields="fields"
-                            :data="leaves"
-                        ></download-excel>
-                        <filter-leave />
-                        <v-btn class="ma-1" @click="refreshLeave" color="warning" icon>
-                            <v-icon>refresh</v-icon>
-                        </v-btn>
-                    </v-card-title>
-                    <v-divider></v-divider>
-                    <v-data-table
-                        :headers="headers"
-                        :items="leaves"
-                    >
-                        <template v-slot:item.recommending_approval="{ item }">
-                            <v-chip color="warning" v-if="item.recommending_approval == 'Pending'">{{ item.recommending_approval }}</v-chip>
-                            <v-chip color="success" v-if="item.recommending_approval == 'Approved'">{{ item.recommending_approval }}</v-chip>
-                            <v-chip color="error" v-if="item.recommending_approval == 'Disapproved'">{{ item.recommending_approval }}</v-chip>
-                        </template>
+                    <template v-slot:item.recommending_approval="{ item }">
+                        <v-chip color="warning" v-if="item.recommending_approval == 'Pending'">{{ item.recommending_approval }}</v-chip>
+                        <v-chip color="success" v-if="item.recommending_approval == 'Approved'">{{ item.recommending_approval }}</v-chip>
+                        <v-chip color="error" v-if="item.recommending_approval == 'Disapproved'">{{ item.recommending_approval }}</v-chip>
+                    </template>
 
-                        <template v-slot:item.final_approval="{ item }">
-                            <v-chip color="warning" v-if="item.final_approval == 'Pending'">{{ item.final_approval }}</v-chip>
-                            <v-chip color="success" v-if="item.final_approval == 'Approved'">{{ item.final_approval }}</v-chip>
-                            <v-chip color="error" v-if="item.final_approval == 'Disapproved'">{{ item.final_approval }}</v-chip>
-                        </template>
+                    <template v-slot:item.final_approval="{ item }">
+                        <v-chip color="warning" v-if="item.final_approval == 'Pending'">{{ item.final_approval }}</v-chip>
+                        <v-chip color="success" v-if="item.final_approval == 'Approved'">{{ item.final_approval }}</v-chip>
+                        <v-chip color="error" v-if="item.final_approval == 'Disapproved'">{{ item.final_approval }}</v-chip>
+                    </template>
 
-                        <template v-slot:item.actions="{ item }">
-                            <view-leave :leave="item" />
-                        </template>
-                    </v-data-table>
-                </v-card>
-            </v-flex>
-        </v-layout>
-    </div>
+                    <template v-slot:item.actions="{ item }">
+                        <view-leave :leave="item" />
+                    </template>
+                </v-data-table>
+            </v-card>
+        </v-col>
+    </v-row>
 </template>
 
 <script>

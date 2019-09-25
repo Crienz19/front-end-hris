@@ -1,14 +1,14 @@
 <template>
-    <v-layout row wrap>
-        <v-flex xs12>
+    <v-row dense>
+        <v-col cols="12">
             <v-alert
                 type="info"
                 transition="scale-transition"
             >
                 This is information alert.
             </v-alert>
-        </v-flex>
-        <v-flex xs12>
+        </v-col>
+        <v-col cols="12">
             <v-card elevate="24">
                 <v-data-table
                     :headers="headers"
@@ -21,11 +21,10 @@
                     <template v-slot:item.actions="{ item }">
                         <view-trip :trip="item" />
                     </template>
-                    
                 </v-data-table>
             </v-card>
-        </v-flex>
-    </v-layout>
+        </v-col>
+    </v-row>
 </template>
 
 <script>

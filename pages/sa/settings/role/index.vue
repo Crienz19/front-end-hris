@@ -1,11 +1,11 @@
 <template>
-    <v-layout row wrap>
-        <v-flex xs12>
+    <v-row dense>
+        <v-col cols="12">
             <v-alert type="info" :value="true">
 
             </v-alert>
-        </v-flex>
-        <v-flex xs12>
+        </v-col>
+        <v-col cols="12">
             <v-card>
                 <v-card-title>
                     <h3>Role Management</h3>
@@ -25,8 +25,8 @@
                     </template>
                 </v-data-table>
             </v-card>
-        </v-flex>
-    </v-layout>
+        </v-col>
+    </v-row>
 </template>
 
 <script>

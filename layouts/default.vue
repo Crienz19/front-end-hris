@@ -330,16 +330,31 @@
 
       <v-spacer></v-spacer>
       
-      <v-btn icon @click="logout">
-        <v-icon>logout</v-icon>
-      </v-btn>
+      <v-menu
+        bottom
+      >
+        <template v-slot:activator="{ on }">
+          <v-btn text v-on="on">
+            {{ $auth.user.name }}
+          </v-btn>
+        </template>
+
+        <v-list>
+          <v-list-item to="/settings/change-password" v-if="$auth.user.role == 'employee' || $auth.user.role == 'supervisor'">
+            <v-list-item-title>Change Password</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="logout">
+            <v-list-item-title>Logout</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
 
     <!-- Sizes your content based upon application components -->
     <v-content>
 
       <!-- Provides the application the proper gutter -->
-      <v-container grid-list-lg>
+      <v-container>
         <nuxt />
       </v-container>
     </v-content>

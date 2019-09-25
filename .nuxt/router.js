@@ -11,6 +11,7 @@ const _4f40e171 = () => interopDefault(import('..\\pages\\auth\\register\\index.
 const _3064768c = () => interopDefault(import('..\\pages\\em\\dashboard\\index.vue' /* webpackChunkName: "pages_em_dashboard_index" */))
 const _d13dbd24 = () => interopDefault(import('..\\pages\\hr\\dashboard\\index.vue' /* webpackChunkName: "pages_hr_dashboard_index" */))
 const _7e2717b2 = () => interopDefault(import('..\\pages\\sa\\dashboard\\index.vue' /* webpackChunkName: "pages_sa_dashboard_index" */))
+const _7b16e6fa = () => interopDefault(import('..\\pages\\settings\\change-password\\index.vue' /* webpackChunkName: "pages_settings_change-password_index" */))
 const _240d3056 = () => interopDefault(import('..\\pages\\sup\\dashboard\\index.vue' /* webpackChunkName: "pages_sup_dashboard_index" */))
 const _73e34684 = () => interopDefault(import('..\\pages\\em\\filing\\coe-request\\index.vue' /* webpackChunkName: "pages_em_filing_coe-request_index" */))
 const _25555b00 = () => interopDefault(import('..\\pages\\em\\filing\\leave-request\\index.vue' /* webpackChunkName: "pages_em_filing_leave-request_index" */))
@@ -86,6 +87,10 @@ export const routerOptions = {
       path: "/sa/dashboard",
       component: _7e2717b2,
       name: "sa-dashboard"
+    }, {
+      path: "/settings/change-password",
+      component: _7b16e6fa,
+      name: "settings-change-password"
     }, {
       path: "/sup/dashboard",
       component: _240d3056,
