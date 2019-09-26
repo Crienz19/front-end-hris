@@ -8,7 +8,7 @@
           This is information alert.
         </v-alert>
       </v-col>
-      <v-col cols="12" sm="12" md="6" lg="6">
+      <!-- <v-col cols="12" sm="12" md="6" lg="6">
         <v-card elevate="24">
           <v-card-title class="light-blue white--text">
             <h3>Leave Summary</h3>
@@ -34,10 +34,13 @@
             <apex-chart width="100%" type="bar" :data="chart_data"></apex-chart>
           </v-card-text>
         </v-card>
-      </v-col>
+      </v-col> -->
 
       <v-col cols="12">
         <v-card elevate="24">
+          <v-card-title>
+            <h5>Registered Users</h5>
+          </v-card-title>
           <v-data-table
             :headers="headers"
             :items="users"
