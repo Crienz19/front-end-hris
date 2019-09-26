@@ -1,27 +1,17 @@
 <template>
     <v-row align-content="center" justify="center">
         <v-col cols="12" sm="10" md="5" lg="4" xl="3">
-            <v-card class="mx-auto" hover :loading="loading">
-                <v-card-title>
-                    <v-row justify="center">
-                        <v-avatar size="150">
-                            <v-img
-                                src="https://picsum.photos/id/11/500/300"
-                                lazy-src="https://picsum.photos/id/11/10/6"
-                                aspect-ratio="1"
-                                class="grey lighten-2"
-                                max-width="150"
-                                max-height="150"
-                                elevation-19
-                            ></v-img>
-                        </v-avatar>
-                    </v-row>
+            <v-card hover :loading="loading">
+                <v-card-title class="pa-5 display-1 justify-center">
+                    <div class="ma-9">
+                        <h1>HRIS</h1>
+                    </div>
                 </v-card-title>
                 <v-container grid-list-lg>
                     <v-form ref="loginForm">
                         <v-row dense>
                             <v-col cols="12">
-                                <v-text-field xs12
+                                <v-text-field 
                                     v-model.trim="form.name"
                                     type="text"
                                     label="Username"
@@ -33,7 +23,7 @@
                                 </v-text-field>
                             </v-col>
                             <v-col cols="12">
-                                <v-text-field xs12
+                                <v-text-field
                                     v-model.trim="form.password"
                                     type="password"
                                     label="Password"
