@@ -74,7 +74,7 @@
                         alert(response.message);
                     }).catch(error => {
                         this.loading = false;
-                        alert(errors)
+                        alert('Current password not match.');
                     });
             }
         },
