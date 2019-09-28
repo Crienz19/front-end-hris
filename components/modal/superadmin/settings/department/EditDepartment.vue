@@ -50,8 +50,7 @@
            id: this.department.id,
            name: this.department.name,
            display_name: this.department.display_name,
-           created_at: this.department.created_at,
-           updated_at: this.department.updated_at
+           supervisor_id: this.department.supervisor.id
          }
        }
     },
