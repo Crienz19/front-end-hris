@@ -1,15 +1,14 @@
 <template>
-    <v-layout row wrap>
-        <v-flex xs12>
+    <v-row dense>
+        <v-col cols="12">
             <v-alert
-                    value="true"
                     type="info"
                     transition="scale-transition"
                 >
                     This is information alert.
                 </v-alert>
-        </v-flex>
-        <v-flex xs12>
+        </v-col>
+        <v-col cols="12">
             <v-card>
                 <v-card-title>
                     <h3>Overtime Requests</h3>
@@ -34,23 +33,10 @@
                         </v-btn>
                         <label v-if="item.status == 'Approved' || item.status == 'Disapproved'">Not Applicable</label>
                     </template>
-                    <template v-slot:items="props">
-                        <td>{{ props.item.id }}</td> 
-                        <td class="text-xs-center">{{ props.item.date }}</td>
-                        <td class="text-xs-center">{{ props.item.from.standard }}</td>
-                        <td class="text-xs-center">{{ props.item.to.standard }}</td>
-                        <td class="text-xs-center">{{ props.item.reason }}</td>
-                        <td class="text-xs-center">
-                            
-                        </td>
-                        <td class="text-xs-center">
-                            
-                        </td>    
-                    </template>
                 </v-data-table>
             </v-card>
-        </v-flex>
-    </v-layout>
+        </v-col>
+    </v-row>
 </template>
 
 <script>
