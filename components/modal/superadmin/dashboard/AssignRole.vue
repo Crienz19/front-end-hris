@@ -33,9 +33,6 @@ export default {
     props: [
         'user'
     ],
-    async mounted () {
-        await this.$store.dispatch('role/loadRoles');
-    },
     data() {
         return {
             dialog: false,

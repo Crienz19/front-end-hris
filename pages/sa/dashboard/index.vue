@@ -89,6 +89,7 @@ export default {
   },
   async asyncData({$axios, store}) {
     await store.dispatch('user/loadUsers');
+    await store.dispatch('role/loadRoles');
   },
   created() {
     var date = new Date();
