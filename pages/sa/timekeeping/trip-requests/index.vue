@@ -34,6 +34,9 @@ export default {
     components: {
         ViewTrip
     },
+    head: {
+        title: 'Trip Requests'
+    },
     async asyncData({store}) {
         await store.dispatch('trip/loadSuperTrips');
     },

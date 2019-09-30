@@ -56,6 +56,9 @@ export default {
         FilterTrip,
         ViewTrip
     },
+    head: {
+        title: 'Employee Trip Requests'
+    },
     async asyncData({store, $axios}) {
         let {data} = await $axios.$get('/admin/trips/getEmployee');
         store.commit('trip/SET_TRIPS', data);

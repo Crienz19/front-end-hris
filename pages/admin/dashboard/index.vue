@@ -70,6 +70,9 @@
         components: {
             EmployeeDetails
         },
+        head: {
+            title: 'Dashboard'
+        },
         async asyncData({$axios}) {
             let {data} = await $axios.$get('/employees/registered');
             return {

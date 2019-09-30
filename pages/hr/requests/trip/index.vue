@@ -2,7 +2,6 @@
     <v-row dense>
         <v-col cols="12">
             <v-alert
-                value="true"
                 type="info"
                 transition="scale-transition"
             >
@@ -56,6 +55,9 @@ export default {
         DownloadExcel,
         FilterTrip,
         ViewTrip
+    },
+    head: {
+        title: 'Trip Requests'
     },
     async asyncData({store}) {
         await store.dispatch('trip/loadHrTrips');

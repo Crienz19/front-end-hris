@@ -38,6 +38,9 @@
             CreateBranch,
             EditBranch
         },
+        head: {
+            title: 'Branch Settings'
+        },
         async asyncData ({ store }) {
             await store.dispatch('branch/loadBranches');
         },

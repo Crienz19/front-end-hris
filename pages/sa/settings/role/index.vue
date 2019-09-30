@@ -38,6 +38,9 @@
             CreateRole,
             EditRole,
         },
+        head: {
+            title: 'Role Settings'
+        },
         async asyncData({store}) {
             await store.dispatch('role/loadRoles');
         },

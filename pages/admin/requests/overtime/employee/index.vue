@@ -55,6 +55,9 @@
             FilterOvertime,
             ViewOvertime
         },
+        head: {
+            title: 'Employee Overtime Requests'
+        },
         async asyncData({store, $axios}) {
             let {data} = await $axios.$get('/admin/overtimes/getEmployee');
             store.commit('overtime/SET_OVERTIMES', data);

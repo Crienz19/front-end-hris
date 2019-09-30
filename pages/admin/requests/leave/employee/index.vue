@@ -61,6 +61,9 @@ export default {
         FilterLeave,
         ViewLeave
     },
+    head: {
+        title: 'Employee Leave Requests'
+    },
     async asyncData({ $axios, store}) {
         let {data} = await $axios.$get('/admin/leaves/getEmployee');
         store.commit('leave/SET_LEAVES', data);

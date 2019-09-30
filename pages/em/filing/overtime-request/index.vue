@@ -47,6 +47,9 @@
             CreateOvertime,
             EditOvertime
         },
+        head: {
+            title: 'Overtime Requests'
+        },
         async asyncData({ store }) {
             await store.dispatch('overtime/loadEmployeeOvertimes');
         },

@@ -41,6 +41,9 @@
             EditDepartment,
             AssignSupervisor
         },
+        head: {
+            title: 'Department Settings'
+        },
         async asyncData ({ store }) {
             await store.dispatch('department/loadDepartments');
         },

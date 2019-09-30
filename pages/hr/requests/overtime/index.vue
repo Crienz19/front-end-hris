@@ -54,6 +54,9 @@
             FilterOvertime,
             ViewOvertime
         },
+        head: {
+            title: 'Overtime Requests'
+        },
         async asyncData({store}) {
             store.dispatch('overtime/loadHrOvertimes');
         },

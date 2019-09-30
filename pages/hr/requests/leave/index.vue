@@ -61,6 +61,9 @@ export default {
         FilterLeave,
         ViewLeave
     },
+    head: {
+        title: 'Leave Requests'
+    },
     async asyncData({store}) {
         await store.dispatch('leave/loadHrLeaves');
     },

@@ -56,6 +56,9 @@
             CreateLeave,
             EditLeave
         },
+        head: {
+            title: 'Leave Requests'
+        },
         async asyncData({ store }) {
             await store.dispatch('leave/loadEmployeeLeaves');
         },

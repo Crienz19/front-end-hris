@@ -43,6 +43,9 @@
         components: {
             ViewCOE
         },
+        head: {
+            title: 'COE Requests'
+        },
         async asyncData({store}) {
             await store.dispatch('coe/loadHumanResourceCOEs');
         },

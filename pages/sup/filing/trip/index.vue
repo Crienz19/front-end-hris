@@ -47,6 +47,9 @@
             CreateTrip,
             EditTrip
         },
+        head: {
+            title: 'Trip Filing'
+        },
         async asyncData({store}) {
             await store.dispatch('trip/loadEmployeeTrips');
         },

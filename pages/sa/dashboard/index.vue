@@ -84,10 +84,8 @@ export default {
     AssignRoleModal,
     ViewEmployeeDetails
   },
-  head () {
-    return {
-      title: 'Dashboard'
-    }
+  head: {
+    title: 'Dashboard'
   },
   async asyncData({$axios, store}) {
     await store.dispatch('user/loadUsers');

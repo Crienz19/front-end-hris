@@ -296,6 +296,9 @@
             DatePicker,
             UploadImage
         },
+        head: {
+            title: 'Dashboard'
+        },
         async asyncData({$axios, $auth}) {
             let {data} = await $axios.$get(`/employees/${$auth.user.id}`);
 

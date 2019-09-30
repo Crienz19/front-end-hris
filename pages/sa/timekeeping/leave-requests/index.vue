@@ -44,6 +44,9 @@ export default {
         DatePickerNoButton,
         ViewLeave
     },
+    head: {
+        title: 'Leave Requests'
+    },
     async asyncData({store}) {
         await store.dispatch('leave/loadSuperLeaves');
     },

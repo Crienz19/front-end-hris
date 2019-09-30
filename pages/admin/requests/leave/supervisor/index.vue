@@ -61,6 +61,9 @@ export default {
         FilterLeave,
         ViewLeave
     },
+    head: {
+        title: 'Supervisor Leave Requests'
+    },
     async asyncData({ $axios, store}) {
         let {data} = await $axios.$get('/admin/leaves/getSupervisor');
         store.commit('leave/SET_LEAVES', data);

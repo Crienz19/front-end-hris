@@ -51,6 +51,9 @@
             CreateCOE,
             EditCOE
         },
+        head: {
+            title: 'COE Requests'
+        },
         async asyncData({store}) {
             await store.dispatch('coe/loadEmployeeCOEs');
         },
