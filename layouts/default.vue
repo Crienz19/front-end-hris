@@ -1,10 +1,8 @@
 <template>
   <v-app app>
     <v-navigation-drawer :mini-variant.sync="mini" app width="310" color="grey lighten-2">
-      <v-list-item class="pa-2">
-        <v-list-item-avatar>
-          <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
-        </v-list-item-avatar>
+      <v-list-item class="">
+
         <v-list-item-content>
           <v-list-item-title class="title">
             HRIS
@@ -325,7 +323,7 @@
         </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app height="75">
+    <v-app-bar app height="74">
       <v-app-bar-nav-icon @click="mini = mini ? false : true"></v-app-bar-nav-icon>
       <v-btn text disabled>
         <iframe src="http://free.timeanddate.com/clock/i6yje5w2/n145/tlph/fn17/fs17/ftb/th2/ts1" frameborder="0" width="93" height="23"></iframe>
