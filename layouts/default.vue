@@ -1,8 +1,7 @@
 <template>
   <v-app app>
-    <v-navigation-drawer :mini-variant.sync="mini" app width="310" color="grey lighten-2">
-      <v-list-item class="">
-
+    <v-navigation-drawer app v-model="drawer" width="310" color="grey lighten-2">
+      <v-list-item>
         <v-list-item-content>
           <v-list-item-title class="title">
             HRIS
@@ -324,7 +323,7 @@
     </v-navigation-drawer>
 
     <v-app-bar app height="74">
-      <v-app-bar-nav-icon @click="mini = mini ? false : true"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click="drawer = drawer ? false : true"></v-app-bar-nav-icon>
       <v-btn text disabled>
         <iframe src="http://free.timeanddate.com/clock/i6yje5w2/n145/tlph/fn17/fs17/ftb/th2/ts1" frameborder="0" width="93" height="23"></iframe>
       </v-btn>
@@ -365,7 +364,8 @@
 export default {
   data () {
     return {
-      mini: false
+      mini: false,
+      drawer: null
     }
   },
   methods: {
