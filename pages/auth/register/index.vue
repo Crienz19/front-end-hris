@@ -114,9 +114,10 @@ export default {
                 name: this.form.name,
                 email: this.form.email,
                 password: this.form.password    
+            }).then((response) => {
+                alert('Returning to login page...')
+                this.$router.push('/');
             });
-
-            this.$router.push('/');
         }
     }
 }
