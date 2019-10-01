@@ -68,11 +68,6 @@
                 dialog: false,
                 headers: [
                     {
-                        text: 'Request #',
-                        align: 'left',
-                        value: 'id'
-                    },
-                    {
                         text: 'Type',
                         align: 'center',
                         value: 'type'
@@ -101,6 +96,11 @@
                         text: 'Time To',
                         align: 'center',
                         value: 'time_to'
+                    },
+                    {
+                        text: 'Reason',
+                        align: 'center',
+                        value: 'reason'
                     },
                     {
                         text: 'Recommending Approval',
