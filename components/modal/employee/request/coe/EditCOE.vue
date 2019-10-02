@@ -21,14 +21,14 @@
                 <v-col cols="12">
                     <date-picker
                         label="Date Needed"
-                        placeholder="Select Date Needed"
+                        :placeholder="coe.date_needed"
                         v-model="form.date_needed"
                     ></date-picker>
                 </v-col>
                 <v-col cols="12">
                     <v-textarea
                         label="Reason"
-                        placeholder="Please enter your valid reason..."
+                        :placeholder="coe.reason"
                         v-model="form.reason"
                         :rules="[
                             () => !!form.reason || 'This field is required.'
@@ -62,9 +62,9 @@
                 loading: false,
                 dialog: false,
                 form: {
-                    date_needed: this.coe.date_needed,
-                    compensation: this.coe.compensation,
-                    reason: this.coe.reason
+                    date_needed: '',
+                    compensation: '',
+                    reason: ''
                 }
             }
         },

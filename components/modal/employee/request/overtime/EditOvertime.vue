@@ -18,28 +18,28 @@
                 <v-col cols="12">
                     <DatePicker
                         label="Date"
-                        placeholder="Select Overtime Date"
+                        :placeholder="overtime.date"
                         v-model="form.date"
                     ></DatePicker>
                 </v-col>
                 <v-col cols="12" sm="12" md="6" lg="6">
                     <TimePicker
                         label="From"
-                        placeholder="Select Overtime From"
+                        :placeholder="overtime.from.standard"
                         v-model="form.from"
                     ></TimePicker>
                 </v-col>
                 <v-col cols="12" sm="12" md="6" lg="6">
                     <TimePicker
                         label="To"
-                        placeholder="Select Overtime To"
+                        :placeholder="overtime.to.standard"
                         v-model="form.to"
                     ></TimePicker>
                 </v-col>
                 <v-col cols="12">
                     <v-textarea
                         label="Reason"
-                        placeholder="Type your overtime reason..."
+                        :placeholder="overtime.reason"
                         v-model="form.reason"
                         :rules="[
                             () => !!form.reason || 'This field is required.'
@@ -47,7 +47,7 @@
                     ></v-textarea>
                 </v-col>
                 <v-col cols="12">
-                  <v-btn  color="primary" block @click="updateOvertime">Update</v-btn>
+                  <v-btn :disabled="isFilled" color="primary" block @click="updateOvertime">Update</v-btn>
                 </v-col>
             </v-row>
         </v-container>
@@ -71,11 +71,25 @@
                 dialog: false,
                 form: {
                     id: this.overtime.id,
-                    date: this.overtime.date,
-                    from: this.overtime.from.other,
-                    to: this.overtime.to.other,
-                    reason: this.overtime.reason
+                    date: '',
+                    from: '',
+                    to: '',
+                    reason: ''
                 }
+            }
+        },
+        computed: {
+            isFilled () {
+                if (!this.form.date) {
+                    return true;
+                } else if (!this.form.from) {
+                    return true;
+                } else if (!this.form.to) {
+                    return true;
+                } else if (!this.form.reason) {
+                    return true;
+                }
+                return false;
             }
         },
         methods: {
@@ -84,6 +98,10 @@
                 .then((response) => {
                     this.$store.dispatch('overtime/loadEmployeeOvertimes');
                     alert('Overtime Updated!');
+                    this.form.date = '';
+                    this.form.from = '';
+                    this.form.to = '';
+                    this.form.reason = '';
                 }).catch(error => {
                     alert('Something went wrong');
                 })

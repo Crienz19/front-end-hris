@@ -17,7 +17,7 @@
             v-on="on"
           ></v-text-field>
         </template>
-        <v-time-picker v-if="menu" v-model="time" full-width @change="$emit('input', time)">
+        <v-time-picker v-if="menu" v-model="time" full-width @change="$emit('input', time)" ampm-in-title>
           <div class="flex-grow-1"></div>
           <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
           <v-btn text color="primary" @click="$refs.dialog.save(time)">OK</v-btn>

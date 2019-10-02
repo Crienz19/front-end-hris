@@ -18,54 +18,54 @@
                 <v-col cols="12" sm="12" md="6" lg="6">
                     <DatePicker
                         label="Date From"
-                        placeholder="Select date from ..."
+                        :placeholder="trip.date_from"
                         v-model="form.date_from"
                     ></DatePicker>
                 </v-col>
                 <v-col cols="12" sm="12" md="6" lg="6">
                     <DatePicker
                         label="Date To"
-                        placeholder="Select date to ..."
+                        :placeholder="trip.date_to"
                         v-model="form.date_to"
                     ></DatePicker>
                 </v-col>
                 <v-col cols="12" sm="12" md="6" lg="6">
                     <TimePicker
                         label="Time In"
-                        placeholder="Select Time In"
+                        :placeholder="trip.time_in.standard"
                         v-model="form.time_in"
                     ></TimePicker>
                 </v-col>
                 <v-col cols="12" sm="12" md="6" lg="6">
                     <TimePicker
                         label="Time Out"
-                        placeholder="Select Time Out"
+                        :placeholder="trip.time_out.standard"
                         v-model="form.time_out"
                     ></TimePicker>
                 </v-col>
                 <v-col cols="12" sm="12" md="6" lg="6">
                     <v-text-field
                         label="Destination From"
-                        placeholder="Enter your destination from..."
+                        :placeholder="trip.destination_from"
                         v-model="form.destination_from"
                     ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="12" md="6" lg="6">
                     <v-text-field
                         label="Destination To"
-                        placeholder="Enter your destination to..."
+                        :placeholder="trip.destination_to"
                         v-model="form.destination_to"
                     ></v-text-field>
                 </v-col>
                 <v-col cols="12">
                     <v-textarea
                         label="Purpose"
-                        placeholder="Enter your purpose..."
+                        :placeholder="trip.purpose"
                         v-model="form.purpose"
                     ></v-textarea>
                 </v-col>
                 <v-col cols="12">
-                    <v-btn color="primary" block @click="updateTrip">Update</v-btn>
+                    <v-btn :disabled="isFilled" color="primary" block @click="updateTrip">Update</v-btn>
                 </v-col>
             </v-row>
         </v-container>
@@ -89,14 +89,34 @@
                 dialog: false,
                 form: {
                     id: this.trip.id,
-                    date_from: this.trip.date_from,
-                    date_to: this.trip.date_to,
-                    time_in: this.trip.time_in.other,
-                    time_out: this.trip.time_out.other,
-                    destination_from: this.trip.destination_from,
-                    destination_to: this.trip.destination_to,
-                    purpose: this.trip.purpose
+                    date_from: '',
+                    date_to: '',
+                    time_in: '',
+                    time_out: '',
+                    destination_from: '',
+                    destination_to: '',
+                    purpose: ''
                 }
+            }
+        },
+        computed: {
+            isFilled () {
+                if (!this.form.date_from) {
+                    return true;
+                } else if (!this.form.date_to) {
+                    return true;
+                } else if (!this.form.time_in) {
+                    return true;
+                } else if (!this.form.time_out) {
+                    return true;
+                } else if (!this.form.destination_from) {
+                    return true;
+                } else if (!this.form.destination_to) {
+                    return true;
+                } else if (!this.form.purpose) {
+                    return true;
+                }
+                return false;
             }
         },
         methods: {
@@ -105,6 +125,13 @@
                 .then((response) => {
                     this.$store.dispatch('trip/loadEmployeeTrips');
                     this.dialog = false;
+                    this.form.date_from = '';
+                    this.form.date_to = '';
+                    this.form.time_in = '';
+                    this.form.time_out = '';
+                    this.form.destination_from = '';
+                    this.form.destination_to = '';
+                    this.purpose = '';
                 })
                 
             }

@@ -17,7 +17,7 @@
             <v-row dense>
                 <v-col cols="12" sm="12" md="6" lg="6">
                     <v-select
-                        placeholder="Select Leave"
+                        :placeholder="leave.type"
                         :items="['VL', 'SL', 'PTO', 'VL - Half', 'SL - Half', 'PTO - Half']"
                         v-model="form.type"
                         label="Type"
@@ -28,7 +28,7 @@
                 </v-col>
                 <v-col cols="12" sm="12" md="6" lg="6">
                     <v-select
-                        placeholder="Select Pay"
+                        :placeholder="leave.pay_type"
                         :items="['With Pay', 'Without Pay']"
                         v-model="form.pay_type"
                         label="Pay"
@@ -40,7 +40,7 @@
                 <v-col cols="12">
                     <v-textarea
                         label="Reason"
-                        placeholder="Type your valid reason..."
+                        :placeholder="leave.reason"
                         v-model="form.reason"
                         :rules="[
                             () => !!form.reason || 'This field is required.'
@@ -50,7 +50,7 @@
                 <v-col cols="12" sm="12" md="6" lg="6">
                     <DatePicker
                         label="From"
-                        placeholder="Select Date From"
+                        :placeholder="leave.from"
                         v-model="form.from"
                         :rules="[
                             () => !!form.from || 'This field is required. '
@@ -60,7 +60,7 @@
                 <v-col cols="12" sm="12" md="6" lg="6">
                     <DatePicker
                         label="To"
-                        placeholder="Select Date To"
+                        :placeholder="leave.to"
                         v-model="form.to"
                         :rules="[
                             () => !!form.to || 'This field is required.'
@@ -70,7 +70,7 @@
                 <v-col cols="12" sm="12" md="6" lg="6" v-if="form.type == 'VL - Half' || form.type == 'SL - Half' || form.type == 'PTO - Half' ? true : false">
                     <TimePicker
                         label="Time From"
-                        placeholder="Select Time From"
+                        :placeholder="leave.time_from ? leave.time_from.standard : ''"
                         v-model="form.time_from"
                         :rules="[
                             () => !!form.time_from || 'This field is required.'
@@ -80,7 +80,7 @@
                 <v-col cols="12" sm="12" md="6" lg="6" xs12 lg6 v-if="form.type == 'VL - Half' || form.type == 'SL - Half' || form.type == 'PTO - Half' ? true : false">
                     <TimePicker
                         label="Time To"
-                        placeholder="Select Time To"
+                        :placeholder="leave.time_to ? leave.time_to.standard : ''"
                         v-model="form.time_to"
                         :rules="[
                             () => !!form.time_to || 'This field is required.'
@@ -88,7 +88,7 @@
                     ></TimePicker>
                 </v-col>
                 <v-col cols="12">
-                    <v-btn color="primary" block @click="updateLeave">Update</v-btn>
+                    <v-btn :disabled="isFilled" color="primary" block @click="updateLeave">Update</v-btn>
                 </v-col>
             </v-row>
         </v-container>
@@ -112,14 +112,30 @@
                 dialog: false,
                 form: {
                     id: this.leave.id,
-                    type: this.leave.type,
-                    pay_type: this.leave.pay_type,
-                    from: this.leave.from,
-                    to: this.leave.to,
-                    time_from: this.leave.time_from,
-                    time_to: this.leave.time_to,
-                    reason: this.leave.reason
+                    type: '',
+                    pay_type: '',
+                    from: '',
+                    to: '',
+                    time_from: '',
+                    time_to: '',
+                    reason: ''
                 }
+            }
+        },
+        computed: {
+            isFilled () {
+                if (!this.form.type) {
+                    return true;
+                } else if (!this.form.pay_type) {
+                    return true;
+                } else if (!this.form.from) {
+                    return true;
+                } else if (!this.form.to) {
+                    return true;
+                } else if (!this.form.reason) {
+                    return true;
+                }
+                return false;
             }
         },
         methods: {
@@ -127,6 +143,13 @@
                 await this.$axios.$patch(this.leave.actions.update, this.form)
                 this.$store.dispatch('leave/loadEmployeeLeaves');
                 this.dialog = false;
+                this.form.type = '';
+                this.form.pay_type = '';
+                this.form.from = '';
+                this.form.to = '';
+                this.form.time_from = '';
+                this.form.time_to = '';
+                this.form.reason = '';
             }
         }
     }
