@@ -15,41 +15,40 @@
         </v-card-title>
         <v-divider></v-divider>
         <v-container grid-list-lg>
-            <v-layout row wrap>
-                <v-flex xs12>
+            <v-row dense>
+                <v-col cols="12" sm="12" md="6" lg="6">
                     <DatePicker
                         label="Date"
                         placeholder="Select Overtime Date"
                         v-model="form.date"
                     ></DatePicker>
-                </v-flex>
-                <v-flex xs12 lg6>
+                </v-col>
+                <v-col cols="12" sm="12" md="6" lg="6">
                     <TimePicker
                         label="From"
                         placeholder="Select Overtime From"
                         v-model="form.from"
                     ></TimePicker>
-                </v-flex>
-                <v-flex xs12 lg6>
+                </v-col>
+                <v-col cols="12" sm="12" md="6" lg="6">
                     <TimePicker
                         label="To"
                         placeholder="Select Overtime To"
                         v-model="form.to"
                     ></TimePicker>
-                </v-flex>
-                <v-flex xs12>
+                </v-col>
+                <v-col cols="12">
                     <v-textarea
                         label="Reason"
                         placeholder="Type your overtime reason..."
                         v-model="form.reason"
                     ></v-textarea>
-                </v-flex>
-            </v-layout>
+                </v-col>
+                <v-col cols="12">
+                    <v-btn color="primary" block @click="updateOvertime">Update</v-btn>
+                </v-col>
+            </v-row>
         </v-container>
-        <v-divider></v-divider>
-        <v-card-actions>
-          <v-btn color="primary" block text @click="updateOvertime">Update</v-btn>
-        </v-card-actions>
       </v-card>
     </v-dialog>
 </template>

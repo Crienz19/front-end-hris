@@ -16,6 +16,7 @@
     "apexcharts": "^3.8.4",
     "chart.js": "^2.8.0",
     "hchs-vue-charts": "^1.2.8",
+    "js2excel": "^1.0.1",
     "lodash": "^4.17.15",
     "npm": "^6.11.2",
     "nuxt": "^2.0.0",

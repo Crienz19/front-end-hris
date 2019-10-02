@@ -1,28 +1,28 @@
 <template>
     <div>
-      <v-menu
-        v-model="menu"
-        :close-on-content-click="false"
-        :nudge-right="40"
-        lazy
-        transition="scale-transition"
-        offset-y
-        full-width
-        min-width="290px"
+      <v-dialog
+        ref="dialog"
+        v-model="modal"
+        :return-value.sync="date"
+        persistent
+        width="300px"
       >
         <template v-slot:activator="{ on }">
           <v-text-field
             v-model="date"
-            :placeholder="placeholder"
             :label="label"
-            :prepend-icon="icon"
+            :placeholder="placeholder"
             :disabled="disabled"
             readonly
             v-on="on"
           ></v-text-field>
         </template>
-        <v-date-picker :landscape="true" @change="$emit('input', date)" v-model="date" @input="menu = false"></v-date-picker>
-      </v-menu>
+        <v-date-picker @change="$emit('input', date)" v-model="date" scrollable>
+          <div class="flex-grow-1"></div>
+          <v-btn text color="primary" @click="modal = false">Cancel</v-btn>
+          <v-btn text color="primary" @click="$refs.dialog.save(date)">OK</v-btn>
+        </v-date-picker>
+      </v-dialog>
     </div>
 </template>
 
@@ -36,10 +36,10 @@
           'disabled'
         ],
         data () {
-            return {
-                menu: false,
-                date: this.value
-            }
+          return {
+            modal: false,
+            date: this.value
+          }
         }
     }
 </script>

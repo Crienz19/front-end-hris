@@ -15,64 +15,63 @@
         </v-card-title>
         <v-divider></v-divider>
           <v-container grid-list-lg>
-            <v-layout row wrap>
-                <v-flex xs12 lg6>
+            <v-row dense>
+                <v-col cols="12" sm="12" md="6" lg="6">
                     <v-select
                         placeholder="Select Leave"
                         :items="['VL', 'SL', 'PTO', 'VL - Half', 'SL - Half', 'PTO - Half']"
                         v-model="form.type"
                         label="Type"
                     ></v-select>
-                </v-flex>
-                <v-flex xs12 lg6>
+                </v-col>
+                <v-col cols="12" sm="12" md="6" lg="6">
                     <v-select
                         placeholder="Select Pay"
                         :items="['With Pay', 'Without Pay']"
                         v-model="form.pay_type"
                         label="Pay"
                     ></v-select>
-                </v-flex>
-                <v-flex xs12>
+                </v-col>
+                <v-col cols="12">
                     <v-textarea
                         label="Reason"
                         placeholder="Type your valid reason..."
                         v-model="form.reason"
                     ></v-textarea>
-                </v-flex>
-                <v-flex xs12 lg6>
+                </v-col>
+                <v-col cols="12" sm="12" md="6" lg="6">
                     <DatePicker
                         label="From"
                         placeholder="Select Date From"
                         v-model="form.from"
                     ></DatePicker>
-                </v-flex>
-                <v-flex xs12 lg6>
+                </v-col>
+                <v-col cols="12" sm="12" md="6" lg="6">
                     <DatePicker
                         label="To"
                         placeholder="Select Date To"
                         v-model="form.to"
                     ></DatePicker>
-                </v-flex>
-                <v-flex xs12 lg6 v-if="form.type == 'VL - Half' || form.type == 'SL - Half' || form.type == 'PTO - Half' ? true : false">
+                </v-col>
+                <v-col cols="12" sm="12" md="6" lg="6" v-if="form.type == 'VL - Half' || form.type == 'SL - Half' || form.type == 'PTO - Half' ? true : false">
                     <TimePicker
                         label="Time From"
                         placeholder="Select Time From"
                         v-model="form.time_from"
                     ></TimePicker>
-                </v-flex>
-                <v-flex xs12 lg6 v-if="form.type == 'VL - Half' || form.type == 'SL - Half' || form.type == 'PTO - Half' ? true : false">
+                </v-col>
+                <v-col cols="12" sm="12" md="6" lg="6" v-if="form.type == 'VL - Half' || form.type == 'SL - Half' || form.type == 'PTO - Half' ? true : false">
                     <TimePicker
                         label="Time To"
                         placeholder="Select Time To"
                         v-model="form.time_to"
                     ></TimePicker>
-                </v-flex>
-            </v-layout>
+                </v-col>
+                <v-col cols="12">
+                    <v-btn color="primary" block @click="updateLeave">Update</v-btn>
+                </v-col>
+            </v-row>
         </v-container>
-        <v-divider></v-divider>
-        <v-card-actions>
-          <v-btn color="primary" block @click="updateLeave">Update</v-btn>
-        </v-card-actions>
       </v-card>
     </v-dialog>
 </template>
