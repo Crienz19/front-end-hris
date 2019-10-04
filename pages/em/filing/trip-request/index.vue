@@ -64,7 +64,7 @@
                     {
                         text: 'Date From',
                         align: 'center',
-                        value: 'date_to'
+                        value: 'date_from'
                     },
                     {
                         text: 'Date To',
