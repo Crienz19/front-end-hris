@@ -325,7 +325,7 @@
     <v-app-bar app height="74">
       <v-app-bar-nav-icon @click="drawer = drawer ? false : true"></v-app-bar-nav-icon>
       <v-btn text disabled>
-        <iframe src="http://free.timeanddate.com/clock/i6yje5w2/n145/tlph/fn17/fs17/ftb/th2/ts1" frameborder="0" width="93" height="23"></iframe>
+        <iframe src="http://free.timeanddate.com/clock/i6z3w395/n145/tlph/fn7/fs16/tct/pct/ftb/tt0/tw0/tm1/th2/ts1" frameborder="0" width="200" height="23" allowTransparency="true"></iframe>
       </v-btn>
       <v-spacer></v-spacer>
       
