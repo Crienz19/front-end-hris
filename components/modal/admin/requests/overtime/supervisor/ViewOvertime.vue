@@ -45,7 +45,7 @@
           </v-col>
         </v-row>
       </v-container>
-      <!--<v-card-actions>
+      <v-card-actions>
           <v-btn :disabled="overtime.status == 'Approved'" color="success" block @click="approveOvertime">Approve</v-btn>
           <v-btn :disabled="overtime.status == 'Disapproved'" color="error" block @click="disapproveOvertime">Disapprove</v-btn>
       </v-card-actions>-->
