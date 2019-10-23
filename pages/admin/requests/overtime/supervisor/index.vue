@@ -100,12 +100,12 @@
                     {
                         text: 'From',
                         align: 'center',
-                        value: 'from'
+                        value: 'from.standard'
                     },
                     {
                         text: 'To',
                         align: 'center',
-                        value: 'to'
+                        value: 'to.standard'
                     },
                     {
                         text: 'Reason',
