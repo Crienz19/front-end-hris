@@ -137,6 +137,7 @@
                         this.form.time_to = '';
                         this.form.reason = '';
                         this.dialog = false;
+                        alert(response.message);
                     }).catch(error => {
                         this.loading = false;
                         console.log('Something went wrong');

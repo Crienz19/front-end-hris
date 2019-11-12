@@ -144,7 +144,7 @@
                         this.form.reason = '';
                         this.dialog = false;
                     }).catch(error => {
-                        alert('Something went wrong');
+                        alert(error.response.data.message);
                         this.loading = false;
                     });
             }
