@@ -13,6 +13,11 @@
                 <v-card-title>
                     <h3>Leave Requests</h3>
                     <v-spacer></v-spacer>
+                    <v-text-field
+                        label="Search"
+                        placeholder="Search by (id, last name, first name, type, pay, from, to)"
+                        v-model="search"
+                    ></v-text-field>
                     <download-excel
                         title="Leave Requests"
                         name="Leave Requests"
@@ -28,6 +33,7 @@
                 <v-data-table
                     :headers="headers"
                     :items="leaves"
+                    :search="search"
                 >
                     <template v-slot:item.recommending_approval="{ item }">
                         <v-chip color="warning" v-if="item.recommending_approval == 'Pending'">{{ item.recommending_approval }}</v-chip>
@@ -70,6 +76,7 @@ export default {
     },
     data () {
         return {
+            search: '',
             fields: {
                 'Last Name': 'employee.last_name',
                 'First Name': 'employee.first_name',

@@ -13,6 +13,11 @@
                 <v-card-title>
                     <h4>Overtime Requests</h4>
                     <v-spacer></v-spacer>
+                    <v-text-field
+                        label="Search"
+                        placeholder="Search by (last name, first name, type, pay, from, to)"
+                        v-model="search"
+                    ></v-text-field>
                     <download-excel
                         title="Overtime Requests"
                         name="Overtime Requests"
@@ -28,6 +33,7 @@
                 <v-data-table
                     :headers="headers"
                     :items="overtimes"
+                    :search="search"
                 >
                     <template v-slot:item.status="{ item }">
                         <v-chip color="warning" v-if="item.status == 'Pending'">{{ item.status }}</v-chip>
@@ -64,6 +70,7 @@
         },
         data () {
             return {
+                search: '',
                 fields: {
                     'Last Name': 'employee.last_name',
                     'First Name': 'employee.first_name',
