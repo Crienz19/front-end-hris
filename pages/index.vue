@@ -79,6 +79,16 @@ export default {
             }).then((response) => {
                 this.loading = false;
                 alert('Login Complete!');
+                this.$store.dispatch('user/load');
+                this.$store.dispatch('employee/load');
+                this.$store.dispatch('leave/load');
+                this.$store.dispatch('overtime/load');
+                this.$store.dispatch('trip/load');
+                this.$store.dispatch('coe/load');
+                this.$store.dispatch('branch/load');
+                this.$store.dispatch('role/load');
+                this.$store.dispatch('department/load');
+                this.$store.dispatch('credit/load');
                 switch (this.auth.role) {
                     case 'superadministrator':
                         this.$router.push('/sa/dashboard');

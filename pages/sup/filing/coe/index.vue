@@ -1,6 +1,6 @@
 <template>
-    <v-layout row wrap>
-        <v-flex xs12>
+    <v-row dense>
+        <v-col cols="12">
             <v-alert
                 value="true"
                 type="info"
@@ -8,8 +8,8 @@
             >
                 This is information alert.
             </v-alert>
-        </v-flex>
-        <v-flex xs12>
+        </v-col>
+        <v-col cols="12">
             <v-card>
                 <v-card-title>
                     <h3>COE Request</h3>
@@ -30,15 +30,15 @@
                     </template>
                     <template v-slot:item.actions="{ item }">
                         <edit-COE v-if="item.status == 'Pending'" :coe="item"></edit-COE>
-                        <v-btn v-if="item.status == 'Pending'" @click="removeCOE(item.actions.delete)" class="ma-1" color="error" icon small>
+                        <v-btn v-if="item.status == 'Pending'" @click="$store.dispatch('coe/delete', item.id)" class="ma-1" color="error" icon small>
                             <v-icon>delete</v-icon>
                         </v-btn>
                         <label v-if="item.status == 'Acknowledged'">Not Applicable</label>
                     </template>
                 </v-data-table>
             </v-card>
-        </v-flex>
-    </v-layout>
+        </v-col>
+    </v-row>
 </template>
 
 <script>
@@ -52,8 +52,10 @@
         head: {
             title: 'COE Filing'
         },
-        async asyncData({store}) {
-            await store.dispatch('coe/loadEmployeeCOEs');
+        computed: {
+            myCoeRequest () {
+                return this.$store.state.coe.coes.filter(coe => coe.user_id == this.$auth.user.id);
+            }
         },
         data() {
             return {
@@ -97,16 +99,5 @@
                 ]
             }
         },
-        methods: {
-            async removeCOE (action) {
-                await this.$axios.$delete(action)
-                .then((response) => {
-                    this.$store.dispatch('coe/loadEmployeeCOEs');
-                    alert('COE Deleted');
-                }).catch(error => {
-                    alert('Something went wrong!');
-                })
-            }
-        }
     }
 </script>

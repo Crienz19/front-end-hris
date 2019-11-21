@@ -32,7 +32,7 @@
                 <v-divider></v-divider>
                 <v-data-table
                     :headers="headers"
-                    :items="leaves"
+                    :items="supervisorLeave"
                     :search="search"
                 >
                     <template v-slot:item.recommending_approval="{ item }">
@@ -70,9 +70,18 @@ export default {
     head: {
         title: 'Supervisor Leave Requests'
     },
-    async asyncData({ $axios, store}) {
-        let {data} = await $axios.$get('/admin/leaves/getSupervisor');
-        store.commit('leave/SET_LEAVES', data);
+    mounted () {
+        console.log(this.supervisorLeave);
+    },
+    computed: {
+        supervisorLeave () {
+            return this.$store.state.leave.leaves.map(leave => ({
+                ...leave,
+                employee: this.$store.state.employee.employees.find(employee => employee.user_id == leave.user_id),
+                user: this.$store.state.user.users.find(user => user.id == leave.user_id)
+            }))
+            .filter(e => e.user.role == 'supervisor');
+        }
     },
     data () {
         return {
@@ -81,7 +90,7 @@ export default {
                 'Last Name': 'employee.last_name',
                 'First Name': 'employee.first_name',
                 'Type': 'type',
-                'Pay': 'pay',
+                'Pay': 'pay_type',
                 'From': 'from',
                 'To': 'to',
                 'Time From': 'time_from.standard',
@@ -92,11 +101,6 @@ export default {
                 'Date Filed': 'created_at'
             },
             headers: [
-                {
-                    text: 'ID',
-                    align: 'left',
-                    value: 'id'
-                },
                 {
                     text: 'Last Name',
                     align: 'center',
@@ -115,7 +119,7 @@ export default {
                 {
                     text: 'Pay',
                     align: 'center',
-                    value: 'pay'
+                    value: 'pay_type'
                 },
                 {
                     text: 'From',

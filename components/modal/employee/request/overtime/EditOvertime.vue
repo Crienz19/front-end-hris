@@ -71,10 +71,10 @@
                 dialog: false,
                 form: {
                     id: this.overtime.id,
-                    date: '',
-                    from: '',
-                    to: '',
-                    reason: ''
+                    date: this.overtime.data,
+                    from: this.overtime.from.other,
+                    to: this.overtime.to.other,
+                    reason: this.overtime.reason
                 }
             }
         },
@@ -94,17 +94,7 @@
         },
         methods: {
             async updateOvertime () {
-                await this.$axios.$patch(this.overtime.actions.update, this.form)
-                .then((response) => {
-                    this.$store.dispatch('overtime/loadEmployeeOvertimes');
-                    alert('Overtime Updated!');
-                    this.form.date = '';
-                    this.form.from = '';
-                    this.form.to = '';
-                    this.form.reason = '';
-                }).catch(error => {
-                    alert('Something went wrong');
-                })
+                await this.$store.dispatch('overtime/update', this.form);
                 this.dialog = false;
             }
         }

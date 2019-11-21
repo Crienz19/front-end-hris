@@ -17,7 +17,7 @@
         <v-divider></v-divider>
         <v-card-text style="height: 200px;">
           <v-radio-group v-model="dialogm1" column>
-            <v-radio v-for="role in usersByRole" :key="role.id" :label="role.name" :value="role.id"></v-radio>
+            <v-radio v-for="role in getUserByRole" :key="role.id" :label="role.name" :value="role.id"></v-radio>
           </v-radio-group>
         </v-card-text>
         <v-divider></v-divider>
@@ -39,12 +39,14 @@
                 dialogm1: ''
             }
         },
-        mounted () {
-            this.$store.dispatch('user/loadUsers');
+        computed: {
+            getUserByRole () {
+                return this.$store.state.user.users.filter(x => x.role == 'supervisor');
+            }
         },
         methods: {
             async assignSupervisor () {
-                await this.$store.dispatch('department/updateDepartment', {
+                await this.$store.dispatch('department/update', {
                     id: this.department.id,
                     name: this.department.name,
                     display_name: this.department.display_name,

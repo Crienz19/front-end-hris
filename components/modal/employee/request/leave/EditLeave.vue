@@ -112,13 +112,13 @@
                 dialog: false,
                 form: {
                     id: this.leave.id,
-                    type: '',
-                    pay_type: '',
-                    from: '',
-                    to: '',
-                    time_from: '',
-                    time_to: '',
-                    reason: ''
+                    type: this.leave.type,
+                    pay_type: this.leave.pay_type,
+                    from: this.leave.from,
+                    to: this.leave.to,
+                    time_from: this.leave.time_from,
+                    time_to: this.leave.time_to,
+                    reason: this.leave.reason
                 }
             }
         },
@@ -140,16 +140,9 @@
         },
         methods: {
             async updateLeave () {
-                await this.$axios.$patch(this.leave.actions.update, this.form)
-                this.$store.dispatch('leave/loadEmployeeLeaves');
+                await this.$store.dispatch('leave/update', this.form);
                 this.dialog = false;
-                this.form.type = '';
-                this.form.pay_type = '';
-                this.form.from = '';
-                this.form.to = '';
-                this.form.time_from = '';
-                this.form.time_to = '';
-                this.form.reason = '';
+                alert('Leave Updated!');
             }
         }
     }

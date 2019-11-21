@@ -90,20 +90,10 @@
         methods: {
             async addOvertime () {
                 this.loading = true;
-                await this.$axios.$post('/em/overtimes', this.form)
-                    .then((response) => {
-                        this.form.date = '';
-                        this.form.from = '';
-                        this.form.to = '';
-                        this.form.reason = '';
-                        this.dialog = false;
-                        this.loading = false;
-                        alert('Overtime Added!')
-                    }).catch(error => {
-                        this.dialog = false;
-                        this.loading = false;
-                        alert('Something went wrong');
-                    })
+                await this.$store.dispatch('overtime/save', this.form);
+                this.loading = false;
+                this.dialog = false;
+                alert('Overtime Added!');
             }
         }
     }

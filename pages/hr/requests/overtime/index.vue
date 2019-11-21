@@ -22,17 +22,17 @@
                         title="Overtime Requests"
                         name="Overtime Requests"
                         :fields="fields"
-                        :data="overtimes"
+                        :data="overtimesWithUser"
                     ></download-excel>
                     <filter-overtime></filter-overtime>
-                    <v-btn class="ma-1" @click="$store.dispatch('overtime/loadHrOvertimes')" color="warning" icon>
+                    <v-btn class="ma-1" @click="$store.dispatch('overtime/load')" color="warning" icon>
                             <v-icon>refresh</v-icon>
                         </v-btn>
                 </v-card-title>
                 <v-divider></v-divider>
                 <v-data-table
                     :headers="headers"
-                    :items="overtimes"
+                    :items="overtimesWithUser"
                     :search="search"
                 >
                     <template v-slot:item.status="{ item }">
@@ -63,8 +63,17 @@
         head: {
             title: 'Overtime Requests'
         },
-        async asyncData({store}) {
-            store.dispatch('overtime/loadHrOvertimes');
+        mounted () {
+            console.log(this.overtimesWithUser);
+        },
+        computed: {
+            overtimesWithUser () {
+                if (this.$store.state.overtime.overtimes) {
+                    return this.$store.state.overtime.overtimes.map((value) => ({...value,employee: this.$store.state.employee.employees.find(user => user.user_id == value.user_id)}));
+                } else {
+                    return []
+                }
+            }
         },
         data () {
             return {

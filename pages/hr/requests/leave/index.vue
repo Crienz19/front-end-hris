@@ -23,17 +23,17 @@
                         title="Leave Requests"
                         name="Leave Requests"
                         :fields="fields"
-                        :data="leaves"
+                        :data="leaveWithUser"
                     ></download-excel>
                     <filter-leave />
-                    <v-btn class="ma-1" @click="$store.dispatch('leave/loadHrLeaves')" color="warning" icon>
+                    <v-btn class="ma-1" @click="$store.dispatch('leave/load')" color="warning" icon>
                         <v-icon>refresh</v-icon>
                     </v-btn>
                 </v-card-title>
                 <v-divider></v-divider>
                 <v-data-table
                     :headers="headers"
-                    :items="leaves"
+                    :items="leaveWithUser"
                     :search="search"
                 >
                     <template v-slot:item.recommending_approval="{ item }">
@@ -70,8 +70,14 @@ export default {
     head: {
         title: 'Leave Requests'
     },
-    async asyncData({store}) {
-        await store.dispatch('leave/loadHrLeaves');
+    computed: {
+        leaveWithUser () {
+            if (this.$store.state.leave.leaves) {
+                return this.$store.state.leave.leaves.map((value) => ({...value, employee: this.$store.state.employee.employees.find(user => user.user_id == value.user_id) }));
+            } else {
+                return []
+            }
+        }
     },
     data () {
         return {

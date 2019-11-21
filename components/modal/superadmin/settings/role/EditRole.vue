@@ -7,7 +7,7 @@
       </template>
       <v-card>
         <v-card-title>
-          <span class="headline">Create Role</span>
+          <span class="headline">Edit Role</span>
           <v-spacer></v-spacer>
           <v-btn class="ma-0" @click="dialog = false" icon small>
               <v-icon>close</v-icon>
@@ -49,15 +49,13 @@
          form: {
            id: this.role.id,
            name: this.role.name,
-           display_name: this.role.display_name,
-           created_at: this.role.created_at,
-           updated_at: this.role.updated_at
+           display_name: this.role.display_name
          }
        }
     },
     methods: {
       async updateRole () {
-        await this.$store.dispatch('role/updateRole', this.form);
+        await this.$store.dispatch('role/update', this.form);
         this.dialog = false;
       }
     }

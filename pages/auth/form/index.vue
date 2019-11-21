@@ -1,6 +1,6 @@
 <template>
     <v-row justify="center" align="center">
-        <v-col cols="12" xs="12" sm="6" md="6" lg="5">
+        <v-col cols="12" xs="12" sm="12" md="8" lg="6">
             <v-card>
                 <v-card-title>
                     <h3>Registration Form</h3>
@@ -166,10 +166,6 @@
         components: {
             DatePicker
         },
-        async asyncData({store}) {
-            await store.dispatch('branch/loadBranches');
-            await store.dispatch('department/loadDepartments');
-        },
         data () {
             return {
                 form: {
@@ -196,14 +192,18 @@
                 }
             }
         },
+        computed: {
+            departments () {
+                return this.$store.state.department.departments;
+            },
+            branches () {
+                return this.$store.state.branch.branches;
+            }
+        },
         methods: {
             async submit () {
-                await this.$axios.$post('/employees', this.form)
-                    .then((response) => {
-                        this.$router.push('/em/dashboard');
-                    }).catch(error => {
-                        alert('Something went wrong!');
-                    });
+                await this.$store.dispatch('employee/store', this.form);
+                this.$router.push('/em/dashboard');
             }
         }
     }

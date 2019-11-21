@@ -34,7 +34,7 @@
                 <v-divider></v-divider>
                 <v-data-table
                     :headers="headers"
-                    :items="trips"
+                    :items="supervisorTrip"
                     :search="search"
                 >
                     <template v-slot:item.status="{ item }">
@@ -65,9 +65,15 @@ export default {
     head: {
         title: 'Supervisor Trip Requests'
     },
-    async asyncData({store, $axios}) {
-        let {data} = await $axios.$get('/admin/trips/getSupervisor');
-        store.commit('trip/SET_TRIPS', data);
+    computed: {
+        supervisorTrip () {
+            return this.$store.state.trip.trips.map(trip => ({
+                ...trip,
+                user: this.$store.state.user.users.find(user => user.id == trip.user_id),
+                employee: this.$store.state.employee.employees.find(employee => employee.user_id == trip.user_id)
+            }))
+            .filter(trip => trip.user.role == 'supervisor');
+        }
     },
     data () {
         return {

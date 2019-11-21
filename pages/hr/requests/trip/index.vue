@@ -21,20 +21,20 @@
                     <download-excel
                         title="Trip Request"
                         :fields="fields"
-                        :data="trips"
+                        :data="tripsWithUser"
                         :name="`trip_request`"
                     >
                     cloud_download
                     </download-excel>
                     <filter-trip></filter-trip>
-                    <v-btn @click="$store.dispatch('trip/loadHrTrips')" class="ma-1" color="warning" icon>
+                    <v-btn @click="$store.dispatch('trip/load')" class="ma-1" color="warning" icon>
                         <v-icon>refresh</v-icon>
                     </v-btn>
                 </v-card-title>
                 <v-divider></v-divider>
                 <v-data-table
                     :headers="headers"
-                    :items="trips"
+                    :items="tripsWithUser"
                     :search="search"
                 >
                     <template v-slot:item.status="{ item }">
@@ -65,8 +65,15 @@ export default {
     head: {
         title: 'Trip Requests'
     },
-    async asyncData({store}) {
-        await store.dispatch('trip/loadHrTrips');
+    computed: {
+        tripsWithUser () {
+            return this.$store.state.trip.trips.map(value => {
+                return {
+                    ...value,
+                    employee: this.$store.state.employee.employees.find(user => user.user_id === value.user_id)
+                }
+            })
+        }
     },
     data () {
         return {

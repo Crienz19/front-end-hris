@@ -43,7 +43,7 @@
           </v-card-title>
           <v-data-table
             :headers="headers"
-            :items="users"
+            :items="user"
             class="elevation-1"
           >
             <template v-slot:item.isActivated="{ item }">
@@ -57,14 +57,18 @@
             </template>
 
             <template v-slot:item.actions="{ item }">
-              <view-employee-details v-if="item.employee" :employee="item.employee"></view-employee-details>
+              <view-employee-details v-if="item.isFilled" :userId="item.id"></view-employee-details>
               <v-btn class="ma-0" v-if="item.isActivated" icon small @click="deactivateUser(item.id)">
                 <v-icon>lock</v-icon>
               </v-btn>
               <v-btn class="ma-0" v-else icon small @click="activateUser(item.id)">
                 <v-icon>lock_open</v-icon>                    
               </v-btn>
-              <assign-role-modal :user="item.id" />
+              <assign-role-modal :userId="item.id" />
+              <update-credit v-if="item.isFilled" :userId="item.id" />
+              <v-btn @click="$store.dispatch('user/setToDefault', item)" icon>
+                <v-icon>mdi-shield-refresh</v-icon>
+              </v-btn>
             </template>
           </v-data-table>
         </v-card>
@@ -77,9 +81,11 @@ import ApexChart from "@/components/apex-chart/ApexChart.vue";
 import Menu from "@/components/menu/MenuWithSlot.vue";
 import AssignRoleModal from "@/components/modal/superadmin/dashboard/AssignRole.vue";
 import ViewEmployeeDetails from "@/components/modal/superadmin/dashboard/EmployeeDetails.vue";
+import UpdateCredit from "@/components/modal/superadmin/dashboard/UpdateCredit.vue";
 export default {
   middleware: ['auth'],
   components: {
+    UpdateCredit,
     ApexChart,
     AssignRoleModal,
     ViewEmployeeDetails
@@ -87,16 +93,20 @@ export default {
   head: {
     title: 'Dashboard'
   },
-  async asyncData({$axios, store}) {
-    await store.dispatch('user/loadUsers');
-    await store.dispatch('role/loadRoles');
-  },
   created() {
     var date = new Date();
     let month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     for(var i=0; i<date.getMonth() + 1; i++) {
       console.log(month[i])
     }
+  },
+  mounted () {
+    console.log(this.user);
+  },
+  computed: {
+      user () {
+        return this.$store.state.user.users;
+      }
   },
   data () {
       return {
@@ -183,10 +193,10 @@ export default {
   },
   methods: {
     async activateUser (id) {
-      await this.$store.dispatch('user/updateUser', { 'id':id, 'isActivated': true});
+      await this.$store.dispatch('user/update', { 'id':id, 'isActivated': true});
     },
     async deactivateUser (id) {
-      await this.$store.dispatch('user/updateUser', { 'id':id, 'isActivated': false});
+      await this.$store.dispatch('user/update', { 'id':id, 'isActivated': false});
     }
   }
 }

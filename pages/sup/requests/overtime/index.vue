@@ -13,7 +13,7 @@
             <v-card elevate="24">
                 <v-data-table
                     :headers="headers"
-                    :items="overtimes"
+                    :items="yourSubsOvertimeRequest"
                 >
                     <template v-slot:item.status="{ item }">
                         <v-chip color="warning" v-if="item.status == 'Pending'">{{ item.status }}</v-chip>
@@ -39,8 +39,16 @@
         head: {
             title: 'Overtime Requests'
         },
-        async asyncData({store}) {
-            store.dispatch('overtime/loadSupervisorOvertimes');
+        computed: {
+            yourSubsOvertimeRequest () {
+                return this.$store.state.overtime.overtimes.map(leave => ({
+                    ...leave,
+                    employee: this.$store.state.employee.employees.map(employee => ({
+                        ...employee,
+                        department: this.$store.state.department.departments.find(department => department.id == employee.department_id)
+                    })).find(employee => employee.user_id == leave.user_id)
+                })).filter(leave => leave.employee.department.supervisor_id == this.$auth.user.id);
+            }
         },
         data () {
             return {

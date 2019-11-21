@@ -49,14 +49,13 @@
          form: {
            id: this.department.id,
            name: this.department.name,
-           display_name: this.department.display_name,
-           supervisor_id: this.department.supervisor.id
+           display_name: this.department.display_name
          }
        }
     },
     methods: {
       async updateDepartment () {
-        await this.$store.dispatch('department/updateDepartment', this.form);
+        await this.$store.dispatch('department/update', this.form);
         this.dialog = false;
       }
     }

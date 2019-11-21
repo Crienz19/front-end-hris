@@ -87,7 +87,7 @@
     }),
     methods: {
       async deleteTrip () {
-        await this.$store.dispatch(`trip/deleteSuperTrip`, this.trip);
+        await this.$store.dispatch(`trip/delete`, this.trip.id);
         this.dialog = false;
       }
     }

@@ -62,9 +62,10 @@
                 loading: false,
                 dialog: false,
                 form: {
-                    date_needed: '',
-                    compensation: '',
-                    reason: ''
+                    id: this.coe.id,
+                    date_needed: this.coe.date_needed,
+                    compensation: this.coe.compensation,
+                    reason: this.coe.reason
                 }
             }
         },
@@ -82,16 +83,9 @@
         methods: {
             async updateCOE () {
                 this.loading = true;
-                await this.$axios.$patch(this.coe.actions.update, this.form)
-                .then((response) => {
-                    this.$store.dispatch('coe/loadEmployeeCOEs');
-                    this.loading = false;
-                    this.dialog = false;
-                    alert('Request Submitted');
-                }).catch(error => {
-                    this.loading = false;
-                    alert('Something went wrong');
-                })
+                await this.$store.dispatch('coe/update', this.form);
+                this.loading = false;
+                this.dialog = false;
             }
         }
     }

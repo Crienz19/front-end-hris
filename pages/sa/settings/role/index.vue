@@ -15,11 +15,11 @@
                 <v-divider></v-divider>
                 <v-data-table
                     :headers="headers"
-                    :items="roles"
+                    :items="role"
                 >
                     <template v-slot:item.actions="{ item }">
                         <edit-role :role="item" />
-                        <v-btn @click="$store.dispatch('role/deleteRole', item)" color="error" class="ma-1" icon small>
+                        <v-btn @click="$store.dispatch('role/delete', item.id)" color="error" class="ma-1" icon small>
                             <v-icon>delete</v-icon>
                         </v-btn>
                     </template>
@@ -41,8 +41,10 @@
         head: {
             title: 'Role Settings'
         },
-        async asyncData({store}) {
-            await store.dispatch('role/loadRoles');
+        computed: {
+            role () {
+                return this.$store.state.role.roles;
+            }
         },
         data() {
             return {

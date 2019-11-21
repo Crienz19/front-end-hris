@@ -125,23 +125,8 @@
         methods: {
             async addLeave () {
                 this.loading = true;
-                await this.$axios.$post('/sv/leaves', this.form)
-                    .then((response) => {
-                        this.loading = false;
-                        this.$store.dispatch('leave/loadEmployeeLeaves');
-                        this.form.type = '';
-                        this.form.pay_type = '';
-                        this.form.from = '';
-                        this.form.to = '';
-                        this.form.time_from = '';
-                        this.form.time_to = '';
-                        this.form.reason = '';
-                        this.dialog = false;
-                        alert(response.message);
-                    }).catch(error => {
-                        this.loading = false;
-                        console.log('Something went wrong');
-                    });
+                await this.$store.dispatch('leave/save', this.form);
+                this.loading = false;
             }
         }
     }

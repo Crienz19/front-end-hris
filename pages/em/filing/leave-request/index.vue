@@ -35,7 +35,7 @@
 
                     <template v-slot:item.actions="{ item }">
                         <edit-leave v-if="item.recommending_approval == 'Pending'" :leave="item" />
-                        <v-btn v-if="item.recommending_approval == 'Pending'" @click="deleteLeave(item.actions.delete)" color="error" class="ma-1" small icon>
+                        <v-btn v-if="item.recommending_approval == 'Pending'" @click="$store.dispatch('leave/delete', item.id)" color="error" class="ma-1" small icon>
                             <v-icon small>delete</v-icon>
                         </v-btn>
                         <label v-if="item.recommending_approval != 'Pending'">Not Applicable</label>  
@@ -59,8 +59,10 @@
         head: {
             title: 'Leave Requests'
         },
-        async asyncData({ store }) {
-            await store.dispatch('leave/loadEmployeeLeaves');
+        computed: {
+            leaves () {
+                return this.$store.getters['leave/getLeavesByUserId'](this.$auth.user.id);
+            }
         },
         data () {
             return {
@@ -103,6 +105,11 @@
                         value: 'reason'
                     },
                     {
+                        text: 'Count',
+                        align: 'center',
+                        value: 'count'
+                    },
+                    {
                         text: 'Recommending Approval',
                         align: 'center',
                         value: 'recommending_approval'
@@ -119,16 +126,6 @@
                         value: 'actions'
                     }
                 ]
-            }
-        },
-        methods: {
-            async deleteLeave(action) {
-                await this.$axios.$delete(action)
-                .then((response) => {
-                    this.$store.dispatch('leave/loadEmployeeLeaves');
-                }).catch(error => {
-                    alert('Something went wrong');
-                })
             }
         }
     }

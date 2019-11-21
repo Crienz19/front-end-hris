@@ -18,7 +18,7 @@
                 <v-divider></v-divider>
                 <v-data-table
                     :headers="headers"
-                    :items="overtimes"
+                    :items="overtime"
                 >
                     <template v-slot:item.status="{ item }">
                         <v-chip color="warning" v-if="item.status == 'Pending'">{{ item.status }}</v-chip>
@@ -27,7 +27,7 @@
                     </template>
                     <template v-slot:item.actions="{ item }">
                         <edit-overtime v-if="item.status == 'Pending'" :overtime="item" />
-                        <v-btn v-if="item.status == 'Pending'" @click="deleteOvertime(item.actions.delete)" class="ma-1" color="error" icon small>
+                        <v-btn v-if="item.status == 'Pending'" @click="$store.dispatch('overtime/delete', item.id)" class="ma-1" color="error" icon small>
                             <v-icon small>delete</v-icon>
                         </v-btn>
                         <label v-if="item.status != 'Pending'">Not Applicable</label>
@@ -50,8 +50,10 @@
         head: {
             title: 'Overtime Requests'
         },
-        async asyncData({ store }) {
-            await store.dispatch('overtime/loadEmployeeOvertimes');
+        computed: {
+            overtime () {
+                return this.$store.getters['overtime/getOvertimeByUserId'](this.$auth.user.id);
+            }
         },
         data () {
             return {

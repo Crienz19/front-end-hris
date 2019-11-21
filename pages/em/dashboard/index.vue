@@ -299,13 +299,6 @@
         head: {
             title: 'Dashboard'
         },
-        async asyncData({$axios, $auth}) {
-            let {data} = await $axios.$get(`/employees/${$auth.user.id}`);
-
-            return {
-                employee: data
-            }
-        },
         data () {
             return {
                 loading: {
@@ -326,6 +319,16 @@
             }
         },
         computed: {
+            employee () {
+                return this.$store.state.employee.employees.map(employee => ({
+                    ...employee,
+                    user: this.$store.state.user.users.find(user => user.id == employee.user_id),
+                    credit: this.$store.state.credit.credits.find(credit => credit.user_id == employee.user_id),
+                    department: this.$store.state.department.departments.find(department => department.id == employee.department_id),
+                    branch: this.$store.state.branch.branches.find(branch => branch.id == employee.branch_id)
+                }))
+                .find(employee => employee.user_id == this.$auth.user.id)
+            },
             getVL () {
                 return (this.employee.credit.VL / this.employee.credit.total_VL) * 100;
             },
@@ -339,7 +342,8 @@
         methods: {
             async updatePersonal () {
                 this.loading.personal = true;
-                await this.$axios.$patch(`/employees/${this.auth.id}`, {
+                await this.$store.dispatch('employee/update', {
+                    user_id: this.$auth.user.id,
                     first_name: this.employee.first_name,
                     middle_name: this.employee.middle_name,
                     last_name: this.employee.last_name,
@@ -359,25 +363,14 @@
                     skype_id: this.employee.skype_id,
                     department_id: this.employee.department.id,
                     position: this.employee.position
-                }).then((response) => {
-                    this.data = response.data;
-                    this.isEditPersonal = false;
-                    this.loading.personal = false;
-                    this.$swal.fire({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        type: 'success',
-                        title: 'Update Successful!'
-                    });
-                }).catch(error => {
-                    alert('Something went wrong');
                 })
+                this.isEditPersonal = false;
+                this.loading.personal = false;
             },
             async updateCompany () {
                 this.loading.company = true;
-                await this.$axios.$patch(`/employees/${this.auth.id}`, {
+                await this.$store.dispatch('employee/update', {
+                    user_id: this.$auth.user.id,
                     first_name: this.employee.first_name,
                     middle_name: this.employee.middle_name,
                     last_name: this.employee.last_name,
@@ -397,21 +390,9 @@
                     skype_id: this.employee.skype_id,
                     department_id: this.employee.department.id,
                     position: this.employee.position
-                }).then((response) => {
-                    this.data = response.data;
-                    this.isEditCompany = false;
-                    this.loading.company = false;
-                    this.$swal.fire({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        type: 'success',
-                        title: 'Update Successful!'
-                    });
-                }).catch(error => {
-                    alert('Something went wrong');
                 })
+                this.isEditCompany = false;
+                this.loading.company = false;
             },
             async updateImage () {
                 this.loading.image = true;

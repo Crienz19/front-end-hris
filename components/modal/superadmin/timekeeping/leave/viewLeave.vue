@@ -87,7 +87,7 @@
     }),
     methods: {
       deleteLeave () {
-        this.$store.dispatch('leave/deleteSuperLeave', this.leave)
+        this.$store.dispatch('leave/delete', this.leave.id)
         this.dialog = false;
       }
     }

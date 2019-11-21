@@ -15,12 +15,20 @@
                 <v-divider></v-divider>
                 <v-data-table
                     :headers="headers"
-                    :items="departments"
+                    :items="department"
                 >
+                    <template v-slot:item.supervisor_id="{ item }">
+                        <span v-if="item.supervisor_id">
+                            {{ item.supervisor.email }}
+                        </span>
+                        <span v-else>
+                            No Supervisor Assigned
+                        </span>
+                    </template>
                     <template v-slot:item.actions="{ item }">
                         <assign-supervisor :department="item" />
                         <edit-department :department="item" />
-                        <v-btn class="ma-0" @click="$store.dispatch('department/deleteDepartment', item)" color="error" icon small>
+                        <v-btn class="ma-0" @click="$store.dispatch('department/delete', item.id)" color="error" icon small>
                             <v-icon>delete</v-icon>
                         </v-btn>
                     </template>
@@ -44,8 +52,15 @@
         head: {
             title: 'Department Settings'
         },
-        async asyncData ({ store }) {
-            await store.dispatch('department/loadDepartments');
+        computed: {
+            department () {
+                return this.$store.state.department.departments.map(d => {
+                    return {
+                        ...d,
+                        supervisor: this.$store.state.user.users.find(u => u.id == d.supervisor_id)
+                    }
+                });
+            }
         },
         data () {
             return {

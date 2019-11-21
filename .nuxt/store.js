@@ -18,12 +18,13 @@ void (function updateModules() {
   // Enforce store modules
   store.modules = store.modules || {}
 
-  resolveStoreModules(require('..\\store\\leave.js'), 'leave.js')
   resolveStoreModules(require('..\\store\\auth.js'), 'auth.js')
   resolveStoreModules(require('..\\store\\coe.js'), 'coe.js')
+  resolveStoreModules(require('..\\store\\credit.js'), 'credit.js')
   resolveStoreModules(require('..\\store\\department.js'), 'department.js')
   resolveStoreModules(require('..\\store\\employee.js'), 'employee.js')
   resolveStoreModules(require('..\\store\\branch.js'), 'branch.js')
+  resolveStoreModules(require('..\\store\\leave.js'), 'leave.js')
   resolveStoreModules(require('..\\store\\overtime.js'), 'overtime.js')
   resolveStoreModules(require('..\\store\\role.js'), 'role.js')
   resolveStoreModules(require('..\\store\\trip.js'), 'trip.js')
@@ -35,13 +36,14 @@ void (function updateModules() {
   if (process.client && module.hot) {
     // Whenever any Vuex module is updated...
     module.hot.accept([
-      '..\\store\\leave.js',
+      '..\\store\\index.js',
       '..\\store\\auth.js',
       '..\\store\\coe.js',
+      '..\\store\\credit.js',
       '..\\store\\department.js',
       '..\\store\\employee.js',
-      '..\\store\\index.js',
       '..\\store\\branch.js',
+      '..\\store\\leave.js',
       '..\\store\\overtime.js',
       '..\\store\\role.js',
       '..\\store\\trip.js',

@@ -17,33 +17,36 @@ export const mutations = {
         state.roles.unshift(role);
     },
     UPDATE_ROLE (state, role) {
-        let index = _.findIndex(state.roles, {id: role.id});
-        state.roles.splice(index, 1, role);
+        state.roles.forEach(e => {
+            if (e.id == role.id) {
+                state.roles.slice(state.roles.indexOf(e), 1, role);
+            }
+        })
     },
     DELETE_ROLE (state, role) {
-        let index = _.findIndex(state.roles, {id: role.id});
-        state.roles.splice(index, 1);
+        state.roles.forEach(e => {
+            if (e.id == role) {
+                state.roles.splice(state.roles.indexOf(e), 1);
+            }
+        })
     }
 };
 
 export const actions = {
-    async loadRoles ({commit}) {
-        let {data} = await this.$axios.$get(`/roles`);
+    async load ({commit}) {
+        let data = await this.$axios.$get(`/roles`);
         commit('SET_ROLES', data);
     },
-    async saveRole ({commit}, payload) {
-        let {data} = await this.$axios.$post(`/roles`, payload);
+    async save ({commit}, payload) {
+        let data = await this.$axios.$post(`/roles`, payload);
         commit('ADD_ROLE', data);
     },
-    async updateRole ({commit}, payload) {
-        let {data} = await this.$axios.$patch(`/roles/${payload.id}`, {
-            'name': payload.name,
-            'display_name': payload.display_name
-        });
-        commit('UPDATE_ROLE', payload);
+    async update ({commit}, payload) {
+        let data = await this.$axios.$patch(`/roles/${payload.id}`, payload);
+        commit('UPDATE_ROLE', data);
     },
-    async deleteRole ({commit}, payload) {
-        let {data} = await this.$axios.$delete(`/roles/${payload.id}`);
-        commit('DELETE_ROLE', payload);
+    async delete ({commit}, payload) {
+        let data = await this.$axios.$delete(`/roles/${payload}`);
+        commit('DELETE_ROLE', data);
     }
 };

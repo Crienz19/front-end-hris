@@ -32,7 +32,7 @@
                 <v-divider></v-divider>
                 <v-data-table
                     :headers="headers"
-                    :items="leaves"
+                    :items="employeeLeave"
                     :search="search"
                 >
                     <template v-slot:item.recommending_approval="{ item }">
@@ -70,9 +70,15 @@ export default {
     head: {
         title: 'Employee Leave Requests'
     },
-    async asyncData({ $axios, store}) {
-        let {data} = await $axios.$get('/admin/leaves/getEmployee');
-        store.commit('leave/SET_LEAVES', data);
+    computed: {
+        employeeLeave () {
+            return this.$store.state.leave.leaves.map(leave => ({
+                ...leave,
+                employee: this.$store.state.employee.employees.find(employee => employee.user_id == leave.user_id),
+                user: this.$store.state.user.users.find(user => user.id == leave.user_id)
+            }))
+            .filter(e => e.user.role == 'employee');
+        }
     },
     data () {
         return {
@@ -80,7 +86,6 @@ export default {
             fields: {
                 'Last Name': 'employee.last_name',
                 'First Name': 'employee.first_name',
-                'Department': 'employee.department.display_name',
                 'Type': 'type',
                 'Pay': 'pay',
                 'From': 'from',
@@ -102,11 +107,6 @@ export default {
                     text: 'First Name',
                     align: 'center',
                     value: 'employee.first_name'
-                },
-                {
-                    text: 'Department',
-                    align: 'center',
-                    value: 'employee.department.display_name'
                 },
                 {
                     text: 'Type',

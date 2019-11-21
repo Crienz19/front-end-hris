@@ -33,7 +33,7 @@
                 <v-divider></v-divider>
                 <v-data-table
                     :headers="headers"
-                    :items="overtimes"
+                    :items="supervisorOvertime"
                     :search="search"
                 >
                     <template v-slot:item.status="{ item }">
@@ -65,9 +65,15 @@
         head: {
             title: 'Supervisor Overtime Requests'
         },
-        async asyncData({store, $axios}) {
-            let {data} = await $axios.$get('/admin/overtimes/getSupervisor');
-            store.commit('overtime/SET_OVERTIMES', data);
+        computed: {
+            supervisorOvertime () {
+                return this.$store.state.overtime.overtimes.map(overtime => ({
+                    ...overtime,
+                    user: this.$store.state.user.users.find(user => user.id == overtime.user_id),
+                    employee: this.$store.state.employee.employees.find(employee => employee.user_id == overtime.user_id)
+                }))
+                .filter(overtime => overtime.user.role == 'supervisor');
+            }
         },
         data () {
             return {
@@ -75,7 +81,6 @@
                 fields: {
                     'Last Name': 'employee.last_name',
                     'First Name': 'employee.first_name',
-                    'Department': 'employee.department.display_name',
                     'Date': 'date',
                     'From': 'from.standard',
                     'To': 'to.standard',
@@ -93,11 +98,6 @@
                         text: 'First Name',
                         align: 'center',
                         value: 'employee.first_name'
-                    },
-                    {
-                        text: 'Department',
-                        align: 'center',
-                        value: 'employee.department.display_name'
                     },
                     {
                         text: 'Date',

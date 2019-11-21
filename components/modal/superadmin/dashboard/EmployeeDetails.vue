@@ -18,7 +18,7 @@
             <v-layout row wrap>
                 <v-flex xs12 md3>
                     <v-img
-                        :src="employee.user.profile_image"
+                        :src="employee.profile_image"
                         aspect-ratio="1"
                         class="grey lighten-2"
                         max-width="500"
@@ -132,14 +132,14 @@
                                             <v-flex xs12 md3>
                                                 <v-text-field
                                                     label="PhilHealth Number"
-                                                    value="000-000-000-0"
+                                                    :value="employee.phil_health"
                                                     disabled
                                                 ></v-text-field>
                                             </v-flex>
                                             <v-flex xs12 md3>
                                                 <v-text-field
                                                     label="Tax Identification Number"
-                                                    :value="employee.philhealth"
+                                                    :value="employee.tin"
                                                     disabled
                                                 ></v-text-field>
                                             </v-flex>
@@ -246,7 +246,7 @@
 <script>
     export default {
         props: [
-            'employee'
+            'userId'
         ],
         data () {
             return {
@@ -256,6 +256,15 @@
             }
         },
         computed: {
+            employee () {
+                return this.$store.state.employee.employees.map(employee => ({
+                    ...employee,
+                    credit: this.$store.state.credit.credits.find(c => c.user_id == employee.user_id),
+                    branch: this.$store.state.branch.branches.find(b => b.id == employee.branch_id),
+                    department: this.$store.state.department.departments.find(d => d.id == employee.department_id)
+                }))
+                .find(employee => employee.user_id == this.userId)
+            },
             getVL () {
                 return (this.employee.credit.VL / this.employee.credit.total_VL) * 100;
             },

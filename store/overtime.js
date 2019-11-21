@@ -5,54 +5,62 @@ export const state = () => ({
 export const getters = {
     getOvertimes (state) {
         return state.overtimes;
+    },
+    getOvertimeByUserId: (state) => (id) => {
+        return state.overtimes.filter(o => o.user_id === id);
     }
 };
 
 export const mutations = {
     SET_OVERTIMES (state, overtimes) {
         state.overtimes = overtimes;
+    },
+    ADD_OVERTIME (state, overtime) {
+        state.overtimes.unshift(overtime);
+    },
+    UPDATE_OVERTIME (state, overtime) {
+        state.overtimes.forEach(e => {
+            if (e.id == overtime.id) {
+                state.overtimes.splice(state.overtimes.indexOf(e), 1, overtime);
+            }
+        })
+    },
+    DELETE_OVERTIME (state, overtime) {
+        state.overtimes.forEach(e => {
+            if (e.id == overtime) {
+                state.overtimes.splice(state.overtimes.indexOf(e), 1);
+            }
+        })
     }
 };
 
 export const actions = {
-    async loadSuperOvertimes ({ commit }) {
-        let {data} = await this.$axios.$get('/sa/overtimes');
+    async load ({ commit }) {
+        let data = await this.$axios.$get('/overtimes');
         commit('SET_OVERTIMES', data);
     },
-    async loadHrOvertimes ({commit}) {
-        let {data} = await this.$axios.$get('/hr/overtimes');
+    async loadFiltered ({ commit }, payload) {
+        let data = await this.$axios.$post('/overtimes/filter', payload);
         commit('SET_OVERTIMES', data);
     },
-    async loadSupervisorOvertimes ({commit}) {
-        let {data} = await this.$axios.$get('/sv/overtimes');
-        commit('SET_OVERTIMES', data);
+    async save ({ commit }, payload) {
+        let data = await this.$axios.$post('/overtimes', payload);
+        commit('ADD_OVERTIME', data);
     },
-    async storeSuperOvertime ({ dispatch }, payload) {
-        await this.$axios.$post('/sa/overtimes', payload);
-        dispatch('loadSuperOvertimes');
+    async update ({ commit }, payload) {
+        let data = await this.$axios.$patch(`/overtimes/${payload.id}`, payload);
+        commit('UPDATE_OVERTIME', data);
     },
-    async updateSuperOvertime ({ dispatch }, payload) {
-        await this.$axios.$patch(`/sa/overtimes/${payload.id}`, payload);
-        dispatch('loadSuperOvertimes');
+    async delete ({ commit }, payload) {
+        let data = await this.$axios.$delete(`/overtimes/${payload}`);
+        commit('DELETE_OVERTIME', data);
     },
-    async deleteSuperOvertime ({ dispatch }, payload) {
-        await this.$axios.$delete(`/sa/overtimes/${payload.id}`);
-        dispatch('loadSuperOvertimes');
+    async approveStatus ({ commit }, payload) {
+        let data = await this.$axios.$post(`/overtimes/${payload.id}/approveOvertime`);
+        commit('UPDATE_OVERTIME', data);
     },
-    async loadEmployeeOvertimes ({ commit }) {
-        let {data} = await this.$axios.$get('/em/overtimes');
-        commit('SET_OVERTIMES', data);
-    },
-    async storeEmployeeOvertime ({ dispatch }, payload) {
-        await this.$axios.$post('/em/overtimes', payload);
-        dispatch('loadEmployeeOvertimes');
-    },
-    async updateEmployeeOvertime ({ dispatch }, payload) {
-        await this.$axios.$patch(`/em/overtimes/${payload.id}`, payload);
-        dispatch('loadEmployeeOvertimes');
-    },
-    async deleteEmployeeOvertime({ dispatch }, payload) {
-        await this.$axios.$delete(`/em/overtimes/${payload.id}`);
-        dispatch('loadEmployeeOvertimes');
+    async disapproveStatus ({ commit }, payload) {
+        let data = await this.$axios.$post(`/overtimes/${payload.id}/disapproveOvertime`);
+        commit('UPDATE_OVERTIME', data);
     }
 };

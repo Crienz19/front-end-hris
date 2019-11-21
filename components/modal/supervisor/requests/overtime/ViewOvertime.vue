@@ -67,27 +67,13 @@
     methods: {
       async approveOvertime () {
           this.loading = true;
-          await this.$axios.$patch(this.overtime.actions.approve)
-          .then((response) => {
-              this.$store.dispatch('overtime/loadSupervisorOvertimes');
-              alert('Overtime Approved');
-              this.loading = false;
-          }).catch(error => {
-              alert('Something went wrong');
-              this.loading = false;
-          })
+          await this.$store.dispatch('overtime/approveStatus', { id: this.overtime.id })
+          this.loading = false;
       },
       async disapproveOvertime () {
           this.loading = true;
-          await this.$axios.$patch(this.overtime.actions.disapprove)
-          .then((response) => {
-              this.$store.dispatch('overtime/loadSupervisorOvertimes');
-              alert('Overtime Disapproved!');
-              this.loading = false;
-          }).catch(error => {
-              alert('Something went wrong');
-              this.loading = false;
-          });
+          await this.$store.dispatch('overtime/disapproveStatus', {id: this.overtime.id})
+          this.loading = false;
       }
     }
   }

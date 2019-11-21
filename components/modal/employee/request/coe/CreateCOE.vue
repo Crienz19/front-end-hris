@@ -75,18 +75,12 @@
             }
         },
         methods: {
-            addCOE () {
+            async addCOE () {
                 this.loading = true;
-                this.$axios.$post('/em/coes', this.form)
-                .then((response) => {
-                    this.$store.dispatch('coe/loadEmployeeCOEs');
-                    this.loading = false;
-                    this.dialog = false;
-                    alert('Request Submitted');
-                }).catch(error => {
-                    this.loading = false;
-                    alert('Something went wrong!');
-                });
+                await this.$store.dispatch('coe/save', this.form);
+                this.loading = false;
+                this.dialog = false;
+                alert('COE Added!');
             }
         }
     }

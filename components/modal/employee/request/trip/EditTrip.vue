@@ -89,13 +89,13 @@
                 dialog: false,
                 form: {
                     id: this.trip.id,
-                    date_from: '',
-                    date_to: '',
-                    time_in: '',
-                    time_out: '',
-                    destination_from: '',
-                    destination_to: '',
-                    purpose: ''
+                    date_from: this.trip.date_from,
+                    date_to: this.trip.date_to,
+                    time_in: this.trip.time_in.other,
+                    time_out: this.trip.time_out.other,
+                    destination_from: this.trip.destination_from,
+                    destination_to: this.trip.destination_to,
+                    purpose: this.trip.purpose
                 }
             }
         },
@@ -121,18 +121,8 @@
         },
         methods: {
             async updateTrip () {
-                await this.$axios.$patch(this.trip.actions.update, this.form)
-                .then((response) => {
-                    this.$store.dispatch('trip/loadEmployeeTrips');
-                    this.dialog = false;
-                    this.form.date_from = '';
-                    this.form.date_to = '';
-                    this.form.time_in = '';
-                    this.form.time_out = '';
-                    this.form.destination_from = '';
-                    this.form.destination_to = '';
-                    this.purpose = '';
-                })
+                await this.$store.dispatch('trip/update', this.form);
+                this.dialog = false;
                 
             }
         }

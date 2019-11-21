@@ -1,11 +1,11 @@
 <template>
-    <v-layout row wrap>
-        <v-flex xs12>
+    <v-row>
+        <v-col cols="12">
             <v-alert elevation-19 type="info" :value="true">
                 Administrator Dashboard
             </v-alert>
-        </v-flex>
-        <v-flex xs12>
+        </v-col>
+        <v-col cols="12">
             <v-card>
                 <v-card-title>
                     <h3>Registered Employees</h3>
@@ -17,7 +17,7 @@
                 <v-divider></v-divider>
                 <v-data-table
                     :headers="headers"
-                    :items="registeredEmployees"
+                    :items="registeredUsers"
                 >
                     <template v-slot:item.credit.VL="{ item }">
                         <v-progress-linear
@@ -60,8 +60,8 @@
                     </template>
                 </v-data-table>
             </v-card>
-        </v-flex>
-    </v-layout>
+        </v-col>
+    </v-row>
 </template>
 
 <script>
@@ -73,10 +73,18 @@
         head: {
             title: 'Dashboard'
         },
-        async asyncData({$axios}) {
-            let {data} = await $axios.$get('/employees/registered');
-            return {
-                registeredEmployees: data
+        mounted() {
+            console.log(this.registeredUsers);
+        },
+        computed: {
+            registeredUsers () {
+                return this.$store.state.employee.employees.map(employee => ({
+                    ...employee,
+                    user: this.$store.state.user.users.find(user => user.id == employee.user_id),
+                    department: this.$store.state.department.departments.find(department => department.id == employee.department_id),
+                    credit: this.$store.state.credit.credits.find(credit => credit.user_id == employee.user_id),
+                    branch: this.$store.state.branch.branches.find(branch => branch.id == employee.branch_id)
+                }))
             }
         },
         data() {

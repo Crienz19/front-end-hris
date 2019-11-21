@@ -12,7 +12,7 @@
             <v-card elevate="24">
                 <v-data-table
                     :headers="headers"
-                    :items="leaves"
+                    :items="leave"
                 >
                     <template v-slot:item.recommending_approval="{ item }">
                         <v-chip color="warning" v-if="item.recommending_approval == 'Pending'">{{ item.recommending_approval }}</v-chip>
@@ -47,8 +47,15 @@ export default {
     head: {
         title: 'Leave Requests'
     },
-    async asyncData({store}) {
-        await store.dispatch('leave/loadSuperLeaves');
+    computed: {
+        leave () {
+            return this.$store.state.leave.leaves.map((value) => {
+                return {
+                    ...value,
+                    employee: this.$store.state.employee.employees.find(user => user.user_id == value.user_id)
+                }
+            })
+        }
     },
     data () {
         return {

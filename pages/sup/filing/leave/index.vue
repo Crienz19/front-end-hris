@@ -18,7 +18,7 @@
                 <v-divider></v-divider>
                 <v-data-table
                     :headers="headers"
-                    :items="leaves"
+                    :items="myLeaveRequests"
                 >
                     <template v-slot:item.recommending_approval="{ item }">
                         <v-chip color="warning" v-if="item.recommending_approval == 'Pending'">{{ item.recommending_approval }}</v-chip>
@@ -34,7 +34,7 @@
 
                     <template v-slot:item.actions="{ item }">
                         <edit-leave v-if="item.final_approval == 'Pending'" :leave="item" />
-                        <v-btn v-if="item.final_approval == 'Pending'" @click="$store.dispatch('leave/deleteEmployeeLeave', item)" class="ma-0" color="error" small icon>
+                        <v-btn v-if="item.final_approval == 'Pending'" @click="$store.dispatch('leave/delete', item.id)" class="ma-0" color="error" small icon>
                             <v-icon>delete</v-icon>
                         </v-btn>
                         <label v-if="item.final_approval == 'Approved' || item.final_approval == 'Disapproved'">Not Applicable</label>
@@ -57,8 +57,10 @@
         head: {
             title: 'Leave Filing'
         },
-        async asyncData({ store }) {
-            await store.dispatch('leave/loadEmployeeLeaves');
+        computed: {
+            myLeaveRequests () {
+                return this.$store.state.leave.leaves.filter(leave => leave.user_id == this.$auth.user.id)
+            }
         },
         data () {
             return {
@@ -100,6 +102,11 @@
                         value: 'time_to'
                     },
                     {
+                        text: 'Reason',
+                        align: 'center',
+                        value: 'reason'
+                    },
+                    {
                         text: 'Recommending Approval',
                         align: 'center',
                         value: 'recommending_approval'
@@ -108,6 +115,11 @@
                         text: 'Final Approval',
                         align: 'center',
                         value: 'final_approval'
+                    },
+                    {
+                        text: 'Date Filed',
+                        align: 'center',
+                        value: 'created_at'
                     },
                     {
                         text: 'Actions',

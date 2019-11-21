@@ -7,7 +7,7 @@
       </template>
       <v-card>
         <v-card-title>
-          <span class="headline">Create Role</span>
+          <span class="headline">Edit Role</span>
           <v-spacer></v-spacer>
           <v-btn class="ma-0" @click="dialog = false" icon small>
               <v-icon>close</v-icon>
@@ -15,24 +15,24 @@
         </v-card-title>
         <v-divider></v-divider>
           <v-container grid-list-md>
-            <v-layout wrap>
-              <v-flex xs12>
+            <v-row dense>
+              <v-col cols="12">
                   <v-text-field
                       label="Name"
                       v-model="form.name"
                   ></v-text-field>
-              </v-flex>
-              <v-flex xs12>
+              </v-col>
+              <v-col cols="12">
                   <v-text-field
                       label="Display Name"
                       v-model="form.display_name"
                   ></v-text-field>
-              </v-flex>
-            </v-layout>
+              </v-col>
+            </v-row>
           </v-container>
         <v-divider></v-divider>
         <v-card-actions>
-          <v-btn color="primary" block text @click="updateRole">Update</v-btn>
+          <v-btn color="primary" block text @click="updateBranch">Update</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -54,8 +54,8 @@
        }
     },
     methods: {
-      async updateRole () {
-        await this.$store.dispatch('branch/updateBranch', this.form);
+      async updateBranch () {
+        await this.$store.dispatch('branch/update', this.form);
         this.dialog = false;
       }
     }

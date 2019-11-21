@@ -12,7 +12,7 @@
             <v-card elevate="24">
                 <v-data-table
                     :headers="headers"
-                    :items="trips"
+                    :items="trip"
                 >
                     <template v-slot:item.status="{ item }">
                         <v-chip color="warning" v-if="item.status == 'Pending'">{{ item.status }}</v-chip>
@@ -37,8 +37,15 @@ export default {
     head: {
         title: 'Trip Requests'
     },
-    async asyncData({store}) {
-        await store.dispatch('trip/loadSuperTrips');
+    computed: {
+        trip () {
+            return this.$store.state.trip.trips.map((value) => {
+                return {
+                    ...value,
+                    employee: this.$store.state.employee.employees.find(user => user.user_id == value.user_id)
+                }
+            })
+        }
     },
     data () {
         return {

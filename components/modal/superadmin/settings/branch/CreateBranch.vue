@@ -13,27 +13,30 @@
         </v-card-title>
         <v-divider></v-divider>
           <v-container grid-list-md>
-            <v-layout wrap>
-              <v-flex xs12>
-                  <v-text-field
-                      label="Name"
-                      v-model="form.name"
-                      placeholder="Branch Name"
-                  ></v-text-field>
-              </v-flex>
-              <v-flex xs12>
-                  <v-text-field
-                      label="Display Name"
-                      v-model="form.display_name"
-                      placeholder="Branch Display Name"
-                  ></v-text-field>
-              </v-flex>
-            </v-layout>
+            <v-row dense>
+              <v-col cols="12">
+                <v-text-field
+                    label="Name"
+                    v-model="form.name"
+                    placeholder="Branch Name"
+                    dense
+                    outlined
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field
+                    label="Display Name"
+                    v-model="form.display_name"
+                    placeholder="Branch Display Name"
+                    dense
+                    outlined
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-btn color="primary" block text @click="addBranch">Add</v-btn>
+              </v-col>
+            </v-row>
           </v-container>
-        <v-divider></v-divider>
-        <v-card-actions>
-          <v-btn color="primary" block text @click="addBranch">Add</v-btn>
-        </v-card-actions>
       </v-card>
     </v-dialog>
 </template>
@@ -51,7 +54,7 @@
     },
     methods: {
         async addBranch () {
-            await this.$store.dispatch('branch/storeBranch', this.form);
+            await this.$store.dispatch('branch/save', this.form);
             this.form.name = '';
             this.form.display_name = '';
             this.dialog = false;

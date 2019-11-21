@@ -18,7 +18,7 @@
                 <v-divider></v-divider>
                 <v-data-table
                     :headers="headers"
-                    :items="trips"
+                    :items="trip"
                 >
                     <template v-slot:item.status="{ item }">
                         <v-chip color="warning" v-if="item.status == 'Pending'">{{ item.status }}</v-chip>
@@ -26,7 +26,7 @@
                     </template>
                     <template v-slot:item.actions="{ item }">
                     <edit-trip v-if="item.status == 'Pending'" :trip="item" />
-                        <v-btn v-if="item.status == 'Pending'" class="ma-0" @click="$store.dispatch('trip/deleteEmployeeTrip', item)" color="error" small icon>
+                        <v-btn v-if="item.status == 'Pending'" class="ma-0" @click="$store.dispatch('trip/delete', item.id)" color="error" small icon>
                             <v-icon small>delete</v-icon>
                         </v-btn>
                         <label v-if="item.status != 'Pending'">Not Applicable</label>
@@ -50,8 +50,10 @@
         head: {
             title: 'Trip Requests'
         },
-        async asyncData({store}) {
-            await store.dispatch('trip/loadEmployeeTrips');
+        computed: {
+            trip () {
+                return this.$store.getters['trip/getTripsByUserId'](this.$auth.user.id);
+            }
         },
         data () {
             return {

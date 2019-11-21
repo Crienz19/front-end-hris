@@ -49,7 +49,7 @@
     },
     methods: {
         async addDepartment () {
-            await this.$store.dispatch('department/storeDepartment', this.form);
+            await this.$store.dispatch('department/save', this.form);
             this.form.name = '';
             this.form.display_name = '';
             this.dialog = false;

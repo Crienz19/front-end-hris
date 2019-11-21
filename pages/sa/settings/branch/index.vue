@@ -15,11 +15,11 @@
                 <v-divider></v-divider>
                 <v-data-table
                     :headers="headers"
-                    :items="branches"
+                    :items="branch"
                 >
                     <template v-slot:item.actions="{ item }">
                         <edit-branch :branch="item" />
-                        <v-btn @click="$store.dispatch('branch/deleteBranch', item)" color="error" class="ma-1" icon small>
+                        <v-btn @click="$store.dispatch('branch/delete', item.id)" color="error" class="ma-1" icon small>
                             <v-icon>delete</v-icon>
                         </v-btn>
                     </template>
@@ -41,8 +41,10 @@
         head: {
             title: 'Branch Settings'
         },
-        async asyncData ({ store }) {
-            await store.dispatch('branch/loadBranches');
+        computed: {
+            branch () {
+                return this.$store.state.branch.branches;
+            }
         },
         data () {
             return {

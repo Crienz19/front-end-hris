@@ -66,7 +66,7 @@
     }),
     methods: {
       deleteOvertime () {
-        this.$store.dispatch('overtime/deleteSuperOvertime', this.overtime);
+        this.$store.dispatch('overtime/delete', this.overtime.id);
         this.dialog = false;
       }
     }

@@ -16,23 +16,44 @@ export const mutations = {
     SET_USERS (state, users) {
         state.users = users;
     },
+    ADD_USER (state, user) {
+        state.users.unshift(user);
+    },
+    UPDATE_USER (state, user) {
+        state.users.forEach(e => {
+            if (e.id == user.id) {
+                state.users.splice(state.users.indexOf(e), 1, user);
+            }
+        })
+    },
+    DELETE_USER (state, user) {
+        state.users.forEach(e => {
+            if (e.id == user) {
+                state.users.splice(state.users.indexOf(e), 1);
+            }
+        })
+    }
 };
 
 export const actions = {
-    async loadUsers ({ commit }) {
-        let {data} = await this.$axios.$get(`/users`);
+    async load ({ commit }) {
+        let data = await this.$axios.$get(`/users`);
         commit('SET_USERS', data);
     },
-    async storeUser ({ dispatch }, payload) {
-        let {data} = await this.$axios.$post(`/users`, payload);
-        dispatch('loadUsers');
+    async save ({ commit }, payload) {
+        let data = await this.$axios.$post(`/users`, payload);
+        commit('ADD_USER', data);
     },
-    async updateUser ({ dispatch }, payload) {
-        let {data} = await this.$axios.$patch(`/users/${payload.id}`, payload);
-        dispatch('loadUsers');
+    async update ({ commit }, payload) {
+        let data = await this.$axios.$patch(`/users/${payload.id}`, payload);
+        commit('UPDATE_USER', data);
     },
-    async deleteUser ({ dispatch }, payload) {
-        let {data} = await this.$axios.$delete(`/users/${payload.id}`);
-        dispatch('loadUsers');
+    async delete ({ commit }, payload) {
+        let data = await this.$axios.$delete(`/users/${payload.id}`);
+        commit('DELETE_USER', data)
+    },
+    async setToDefault ({commit}, payload) {
+        let data = await this.$axios.$post(`/users/setToDefault/${payload.id}`);
+        alert(data.message)
     }
 }

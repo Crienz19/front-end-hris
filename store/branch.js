@@ -11,24 +11,41 @@ export const getters = {
 export const mutations = {
     SET_BRANCHES (state, branches) {
         state.branches = branches;
+    },
+    ADD_BRANCH (state, branch) {
+        state.branches.unshift(branch);
+    },
+    UPDATE_BRANCH (state, branch) {
+        state.branches.forEach(e => {
+            if (e.id == branch.id) {
+                state.branches.splice(state.branches.indexOf(e), 1, branch);
+            }
+        })
+    },
+    DELETE_BRANCH (state, branch) {
+        state.branches.forEach(e => {
+            if (e.id == branch) {
+                state.branches.splice(state.branches.indexOf(e), 1);
+            }
+        })
     }
 };
 
 export const actions = {
-    async loadBranches ({ commit }) {
-        let {data} = await this.$axios.$get(`/branches`);
+    async load ({ commit }) {
+        let data = await this.$axios.$get(`/branches`);
         commit('SET_BRANCHES', data);
     },
-    async storeBranch ({ dispatch }, payload) {
-        await this.$axios.$post(`/branches`, payload);
-        dispatch('loadBranches');
+    async save ({ commit }, payload) {
+        let data = await this.$axios.$post(`/branches`, payload);
+        commit('ADD_BRANCH', data)
     },
-    async updateBranch ({dispatch}, payload) {
-        await this.$axios.$patch(`/branches/${payload.id}`, payload);
-        dispatch('loadBranches');
+    async update ({ commit }, payload) {
+        let data = await this.$axios.$patch(`/branches/${payload.id}`, payload);
+        commit('UPDATE_BRANCH', data);
     },
-    async deleteBranch ({dispatch}, payload) {
-        await this.$axios.$delete(`/branches/${payload.id}`);
-        dispatch('loadBranches');
+    async delete ({ commit }, payload) {
+        let data = await this.$axios.$delete(`/branches/${payload}`);
+        commit('DELETE_BRANCH', data);
     }
 };

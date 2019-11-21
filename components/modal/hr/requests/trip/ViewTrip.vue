@@ -89,21 +89,8 @@
     methods: {
       async acknowledgedTrip () {
         this.loading = true;
-        await this.$axios.$patch(this.trip.actions.acknowledge)
-        .then((response) => {
-            this.$store.dispatch('trip/loadHrTrips');
-            this.loading = false;
-            this.$swal.fire({
-              type: 'success',
-              title: response.message
-            });
-        }).catch(error => {
-            this.loading = false;            
-            this.$swal.fire({
-              type: 'error',
-              title: 'Something went wrong'
-            })
-        });
+        await this.$store.dispatch('trip/acknowledge', {id: this.trip.id});
+        this.loading = false;
       }
     }
   }

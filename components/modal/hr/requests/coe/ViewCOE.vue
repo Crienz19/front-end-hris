@@ -71,13 +71,8 @@
         methods: {
             async acknowledgeRequest() {
                 this.loading = true;
-                await this.$axios.$patch(this.coe.actions.acknowledge)
-                    .then((response) => {
-                        this.$store.dispatch('coe/loadHumanResourceCOEs');
-                        this.loading = false;
-                        this.dialog = false;
-                        alert('Request Acknowledged!');
-                    })
+                await this.$store.dispatch('coe/acknowledge', {id: this.coe.id});
+                this.loading = false;
             } 
         }
     }

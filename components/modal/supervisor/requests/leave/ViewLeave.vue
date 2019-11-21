@@ -88,27 +88,13 @@
     methods: {
       async approveLeave () {
         this.loading = true;
-        await this.$axios.$patch(this.leave.actions.approve)
-        .then((response) => {
-          this.loading = false;
-          this.$store.dispatch('leave/loadSupervisorLeaves');
-          alert('Leave Approved!');
-        }).catch(error => {
-          this.loading = false;
-          alert('Something went wrong!');
-        })
+        await this.$store.dispatch('leave/approveRecommendingApproval', {id: this.leave.id});
+        this.loading = false;
       },
       async disapproveLeave () {
         this.loading = true;
-        await this.$axios.$patch(this.leave.actions.disapprove)
-        .then((response) => {
-          this.loading = false;
-          this.$store.dispatch('leave/loadSupervisorLeaves');
-          alert('Leave Disapproved!');
-        }).catch(error => {
-          this.loading = false;
-          alert('Something went wrong!');
-        });
+        await this.$store.dispatch('leave/disapproveRecommendingApproval', {id: this.leave.id})
+        this.loading = false;
       }
     }
   }

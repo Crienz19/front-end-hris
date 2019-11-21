@@ -49,7 +49,7 @@
     },
     methods: {
         async addRole () {
-            await this.$store.dispatch('role/saveRole', this.form);
+            await this.$store.dispatch('role/save', this.form);
             this.form.name = '';
             this.form.display_name = '';
             this.dialog = false;

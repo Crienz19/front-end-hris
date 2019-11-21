@@ -5,7 +5,7 @@
         <v-icon>search</v-icon>
       </v-btn>
     </template>
-    <v-card>
+    <v-card :loading="loading">
       <v-card-title>
         <h3>{{ this.overtime.employee.first_name }} {{ this.overtime.employee.last_name }}'s Overtime Request</h3>
         <v-spacer></v-spacer>
@@ -62,25 +62,18 @@
     ],
     data: () => ({
       dialog: false,
+      loading: false,
     }),
     methods: {
       async approveOvertime () {
-          await this.$axios.$patch(this.overtime.actions.approve)
-          .then((response) => {
-              this.$store.dispatch('overtime/loadHrOvertimes');
-              alert('Overtime Approved');
-          }).catch(error => {
-              alert('Something went wrong');
-          })
+          this.loading = true;
+          await this.$store.dispatch('overtime/approveStatus', {id: this.overtime.id})
+          this.loading = false;
       },
       async disapproveOvertime () {
-          await this.$axios.$patch(this.overtime.actions.disapprove)
-          .then((response) => {
-              this.$store.dispatch('overtime/loadHrOvertimes');
-              alert('Overtime Disapproved!');
-          }).catch(error => {
-              alert('Something went wrong');
-          });
+          this.loading = true;
+          await this.$store.dispatch('overtime/disapproveStatus', {id: this.overtime.id})
+          this.loading = false;
       }
     }
   }

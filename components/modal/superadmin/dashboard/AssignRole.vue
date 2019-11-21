@@ -31,7 +31,7 @@
 <script>
 export default {
     props: [
-        'user'
+        'userId'
     ],
     data() {
         return {
@@ -41,8 +41,8 @@ export default {
     },
     methods: {
         async updateRole () {
-            await this.$store.dispatch('user/updateUser', {
-                'id': this.user,
+            await this.$store.dispatch('user/update', {
+                'id': this.userId,
                 'role': this.dialogm1
             });
 

@@ -126,21 +126,9 @@
         methods: {
             async addTrip () {
                 this.loading = true;
-                await this.$axios.$post('/em/trips', this.form)
-                    .then((response) => {
-                        this.$store.dispatch('trip/loadEmployeeTrips');
-                        this.form.date_from = '';
-                        this.form.date_to = '';
-                        this.form.time_in = '';
-                        this.form.time_out = '';
-                        this.form.destination_from = '';
-                        this.form.destination_to = '';
-                        this.form.purpose = '';
-                        this.dialog = false;
-                        this.loading = false;
-                    }).catch(error => {
-                        this.loading = false;
-                    })
+                await this.$store.dispatch('trip/save', this.form);
+                this.loading = false;
+                this.dialog = false;
             }
         }
     }

@@ -18,7 +18,7 @@
                 <v-divider></v-divider>
                 <v-data-table
                     :headers="headers"
-                    :items="coes"
+                    :items="coe"
                 >
                     <template v-slot:item.compensation="{ item }">
                         <v-icon color="success" v-if="item.compensation == true">check</v-icon>
@@ -32,7 +32,7 @@
 
                     <template v-slot:item.actions="{ item }">
                         <edit-COE v-if="item.status == 'Pending'" :coe="item"></edit-COE>
-                        <v-btn v-if="item.status == 'Pending'" @click="removeCOE(item.actions.delete)" class="ma-1" color="error" icon small>
+                        <v-btn v-if="item.status == 'Pending'" @click="$store.dispatch('coe/delete', item.id)" class="ma-1" color="error" icon small>
                             <v-icon>delete</v-icon>
                         </v-btn>
                         <label v-if="item.status == 'Acknowledged'">Not Applicable</label>
@@ -54,8 +54,10 @@
         head: {
             title: 'COE Requests'
         },
-        async asyncData({store}) {
-            await store.dispatch('coe/loadEmployeeCOEs');
+        computed: {
+            coe () {
+                return this.$store.getters['coe/getCOEsByUserId'](this.$auth.user.id);
+            }
         },
         data() {
             return {

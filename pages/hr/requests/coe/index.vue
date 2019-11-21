@@ -18,7 +18,7 @@
                 </v-card-title>
                 <v-data-table
                     :headers="headers"
-                    :items="coes"
+                    :items="coesWithUser"
                 >
                     <template v-slot:item.compensation="{ item }">
                         <v-icon color="green" v-if="item.compensation">check</v-icon>
@@ -46,8 +46,15 @@
         head: {
             title: 'COE Requests'
         },
-        async asyncData({store}) {
-            await store.dispatch('coe/loadHumanResourceCOEs');
+        computed: {
+            coesWithUser () {
+                return this.$store.state.coe.coes.map(value => {
+                    return {
+                        ...value,
+                        employee: this.$store.state.employee.employees.find(user => user.user_id === value.user_id)
+                    }
+                })
+            }
         },
         data() {
             return {

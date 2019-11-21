@@ -62,43 +62,13 @@ export default {
   methods: {
     async approveLeave() {
       this.loading = true;
-      await this.$axios
-        .$patch(this.leave.actions.approve)
-        .then(response => {
-          this.$store.dispatch("leave/loadHrLeaves");
-          this.$swal.fire({
-            type: "success",
-            title: response.message
-          });
-          this.loading = false
-        })
-        .catch(error => {
-          this.$swal.fire({
-            type: "error",
-            title: "Something went wrong!"
-          });
-          this.loading = false;
-        });
+      await this.$store.dispatch('leave/approveFinalApproval', { id: this.leave.id })
+      this.loading = false;
     },
     async disapproveLeave() {
       this.loading = true;
-      await this.$axios
-        .$patch(this.leave.actions.disapprove)
-        .then(response => {
-          this.$store.dispatch("leave/loadHrLeaves");
-          this.$swal.fire({
-            type: "success",
-            title: response.message
-          });
-          this.loading = false;
-        })
-        .catch(error => {
-          this.$swal.fire({
-            type: "error",
-            title: "Something went wrong!"
-          });
-          this.loading = false;
-        });
+      await this.$store.dispatch('leave/disapproveFinalApproval', {id: this.leave.id})
+      this.loading = false;
     }
   }
 };
