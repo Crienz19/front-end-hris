@@ -65,16 +65,7 @@
         },
         methods: {
             async filterNow () {
-                await this.$axios.$post('/hr/trips/filter', this.form)
-                .then((response) => {
-                    this.$store.commit('trip/SET_TRIPS', response.data);
-                    this.dialog = false;
-                }).catch(error => {
-                    this.$swal.fire({
-                        type: 'error',
-                        title: 'Something went wrong!'
-                    })
-                })
+                await this.$store.dispatch('trip/loadFiltered', this.form);
             }
         }
     }

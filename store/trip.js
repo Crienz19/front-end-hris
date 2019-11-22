@@ -39,6 +39,10 @@ export const actions = {
         let data = await this.$axios.$get('/trips');
         commit('SET_TRIPS', data);
     },
+    async loadFiltered ({ commit }, payload) {
+        let data = await this.$axios.$post('/trips/filter', payload);
+        commit('SET_TRIPS', data);
+    },
     async save ({ commit }, payload) {
         let data = await this.$axios.$post('/trips', payload);
         commit('ADD_TRIP', data);

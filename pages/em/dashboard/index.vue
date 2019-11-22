@@ -32,7 +32,7 @@
                                         size="250"
                                         color="grey lighten-4"
                                     >
-                                        <v-img :src="employee.user.profile_image" alt="avatar">
+                                        <v-img :src="$auth.user.profile_image" alt="avatar">
                                             <v-expand-transition>
                                                 <div
                                                     v-if="hover"
