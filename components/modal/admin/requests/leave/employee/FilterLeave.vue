@@ -65,16 +65,7 @@
         },
         methods: {
             async filterNow () {
-                await this.$axios.$post('/admin/leaves/employee/filter', this.form)
-                .then((response) => {
-                    this.$store.commit('leave/SET_LEAVES', response.data);
-                    this.dialog = false;
-                }).catch(error => {
-                    this.$swal.fire({
-                        type: 'error',
-                        title: 'Something went wrong!'
-                    })
-                })
+                await this.$store.dispatch('leave/loadFiltered', this.form);
             }
         }
     }

@@ -65,16 +65,7 @@
         },
         methods: {
             async filterNow () {
-                await this.$axios.$post('/admin/overtimes/supervisor/filter', this.form)
-                .then((response) => {
-                    this.$store.commit('overtime/SET_OVERTIMES', response.data);
-                    this.dialog = false;
-                }).catch(error => {
-                    this.$swal.fire({
-                        type: 'error',
-                        title: 'Something went wrong!'
-                    })
-                })
+                await this.$store.dispatch('overtime/loadFiltered', this.form);
             }
         }
     }
