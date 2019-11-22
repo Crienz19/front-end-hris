@@ -56,7 +56,7 @@
                     </template>
 
                     <template v-slot:item.actions="{ item }">
-                        <employee-details :employee="item" />
+                        <employee-details :userId="item.user_id"></employee-details>
                     </template>
                 </v-data-table>
             </v-card>
