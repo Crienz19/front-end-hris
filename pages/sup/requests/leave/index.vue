@@ -58,7 +58,7 @@ export default {
                     ...employee,
                     department: this.$store.state.department.departments.find(department => department.id == employee.department_id)
                 })).find(employee => employee.user_id == leave.user_id)
-            })).filter(leave => leave.employee.department.supervisor_id == this.$auth.user.id);
+            })).filter(leave => leave.employee.department.supervisor_id == this.$auth.user.id && leave.user_id != this.$auth.user.id);
         }
     },
     data () {

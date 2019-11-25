@@ -78,58 +78,68 @@ export default {
                 data: this.form
             }).then((response) => {
                 this.loading = false;
-                alert('Login Complete!');
-
-                this.$store.dispatch('user/load');
-                this.$store.dispatch('employee/load');
-                this.$store.dispatch('leave/load');
-                this.$store.dispatch('overtime/load');
-                this.$store.dispatch('trip/load');
-                this.$store.dispatch('coe/load');
-                this.$store.dispatch('branch/load');
-                this.$store.dispatch('role/load');
-                this.$store.dispatch('department/load');
-                this.$store.dispatch('credit/load');
-
-                switch (this.auth.role) {
-                    case 'superadministrator':
-                        this.$router.push('/sa/dashboard');
-                        break;
-                    case 'hr':
-                        if (this.auth.isActivated) {
-                            this.$router.push('/hr/dashboard');
+                
+                Swal.fire({
+                    title: 'Authentication verified!',
+                    icon: 'success',
+                    showCancelButton: false,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Log Me In!'
+                }).then(async (result) => {
+                    if (result.value) {
+                        await this.$store.dispatch('user/load');
+                        await this.$store.dispatch('employee/load');
+                        await this.$store.dispatch('leave/load');
+                        await this.$store.dispatch('overtime/load');
+                        await this.$store.dispatch('trip/load');
+                        await this.$store.dispatch('coe/load');
+                        await this.$store.dispatch('branch/load');
+                        await this.$store.dispatch('role/load');
+                        await this.$store.dispatch('department/load');
+                        await this.$store.dispatch('credit/load');   
+                        
+                        switch (this.auth.role) {
+                            case 'superadministrator':
+                                this.$router.push('/sa/dashboard');
+                                break;
+                            case 'hr':
+                                if (this.auth.isActivated) {
+                                    this.$router.push('/hr/dashboard');
+                                }
+                                break;
+                            case 'administrator':
+                                if (this.auth.isActivated) {
+                                    this.$router.push('/admin/dashboard');
+                                }
+                                break;
+                            case 'supervisor':
+                                if (this.auth.isActivated) {
+                                    if (this.auth.isFilled) {
+                                        this.$router.push('/sup/dashboard');
+                                    } else {
+                                        this.$router.push('/auth/form');
+                                    }
+                                }
+                                break;
+                            case 'employee':
+                                if (this.auth.isActivated) {
+                                    if (this.auth.isFilled) {
+                                        this.$router.push('/em/dashboard');
+                                    } else {
+                                        this.$router.push('/auth/form');
+                                    }
+                                } else {
+                                    this.$router.push('/auth/activation');
+                                }
+                                break;
+                            default: 
+                                this.$auth.logout();
+                                alert('Attention! Please wait for the administrator to activate your account!');
+                                break;
                         }
-                        break;
-                    case 'administrator':
-                        if (this.auth.isActivated) {
-                            this.$router.push('/admin/dashboard');
-                        }
-                        break;
-                    case 'supervisor':
-                        if (this.auth.isActivated) {
-                            if (this.auth.isFilled) {
-                                this.$router.push('/sup/dashboard');
-                            } else {
-                                this.$router.push('/auth/form');
-                            }
-                        }
-                        break;
-                    case 'employee':
-                        if (this.auth.isActivated) {
-                            if (this.auth.isFilled) {
-                                this.$router.push('/em/dashboard');
-                            } else {
-                                this.$router.push('/auth/form');
-                            }
-                        } else {
-                            this.$router.push('/auth/activation');
-                        }
-                        break;
-                    default: 
-                        this.$auth.logout();
-                        alert('Attention! Please wait for the administrator to activate your account!');
-                        break;
-                }
+                    }
+                })
             }).catch(error => {
                 alert(error.response.data.message);
                 this.loading = false;

@@ -41,13 +41,13 @@
         },
         computed: {
             yourSubsOvertimeRequest () {
-                return this.$store.state.overtime.overtimes.map(leave => ({
-                    ...leave,
+                return this.$store.state.overtime.overtimes.map(overtime => ({
+                    ...overtime,
                     employee: this.$store.state.employee.employees.map(employee => ({
                         ...employee,
                         department: this.$store.state.department.departments.find(department => department.id == employee.department_id)
-                    })).find(employee => employee.user_id == leave.user_id)
-                })).filter(leave => leave.employee.department.supervisor_id == this.$auth.user.id);
+                    })).find(employee => employee.user_id == overtime.user_id)
+                })).filter(overtime => overtime.employee.department.supervisor_id == this.$auth.user.id && overtime.user_id != this.$auth.user.id);
             }
         },
         data () {
