@@ -28,7 +28,7 @@
 
                     <template v-slot:item.actions="{ item }">
                         <edit-overtime v-if="item.status == 'Pending'" :overtime="item" />
-                        <v-btn v-if="item.status == 'Pending'" @click="$store.dispatch('overtime/delete', item.id)" class="ma-0" color="error" icon small>
+                        <v-btn v-if="item.status == 'Pending'" @click="deleteOvertime(item.id)" class="ma-0" color="error" icon small>
                             <v-icon>delete</v-icon>
                         </v-btn>
                         <label v-if="item.status == 'Approved' || item.status == 'Disapproved'">Not Applicable</label>
@@ -96,6 +96,23 @@
                         sortable: false
                     }
                 ]
+            }
+        },
+        methods: {
+            deleteOvertime (id) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then(async (result) => {
+                    if (result.value) {
+                        await this.$store.dispatch('overtime/delete', id)
+                    }
+                })
             }
         }
     }

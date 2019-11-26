@@ -1,3 +1,5 @@
+import Swal from "sweetalert2";
+
 export const state = () => ({
     trips: []
 });
@@ -44,12 +46,40 @@ export const actions = {
         commit('SET_TRIPS', data);
     },
     async save ({ commit }, payload) {
-        let data = await this.$axios.$post('/trips', payload);
-        commit('ADD_TRIP', data);
+        await this.$axios.$post('/trips', payload)
+            .then((response) => {
+                commit('ADD_TRIP', response);
+                Swal.fire(
+                    'Trip Request',
+                    'Trip Successfully Added!',
+                    'successs'
+                )
+            })
+            .catch(error => {
+                Swal.fire(
+                    'Something wen\'t wrong.',
+                    error.response.data.message,
+                    'error'
+                )
+            })
     },
     async update ({ commit }, payload) {
-        let data = await this.$axios.$patch(`/trips/${payload.id}`, payload);
-        commit('UPDATE_TRIP', data);
+        await this.$axios.$patch(`/trips/${payload.id}`, payload)
+            .then((response) => {
+                commit('UPDATE_TRIP', response);
+                Swal.fire(
+                    'Trip Request',
+                    'Trip Successfully Updated!',
+                    'success'
+                )
+            })
+            .catch(error => {
+                Swal.fire(
+                    'Something wen\'t wrong.',
+                    error.response.data.message,
+                    'error'
+                )
+            })
     },
     async delete ({ commit }, payload) {
         let data = await this.$axios.$delete(`/trips/${payload}`);

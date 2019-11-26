@@ -26,7 +26,7 @@
 
                     <template v-slot:item.actions="{ item }">
                         <edit-trip v-if="item.status == 'Pending'" :trip="item" />
-                        <v-btn v-if="item.status == 'Pending'" class="ma-0" @click="$store.dispatch('trip/delete', item.id)" color="error" small icon>
+                        <v-btn v-if="item.status == 'Pending'" class="ma-0" @click="deleteTrip(item.id)" color="error" small icon>
                             <v-icon>delete</v-icon>
                         </v-btn>
                         <label v-if="item.status == 'Acknowledged'">Not Applicable</label>
@@ -110,6 +110,23 @@
                         sortable: false
                     }
                 ]
+            }
+        },
+        methods: {
+            deleteTrip (id) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then(async (result) => {
+                    if (result.value) {
+                        await this.$store.dispatch('trip/delete', id)
+                    }
+                })
             }
         }
     }

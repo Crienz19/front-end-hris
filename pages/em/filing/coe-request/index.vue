@@ -32,7 +32,7 @@
 
                     <template v-slot:item.actions="{ item }">
                         <edit-COE v-if="item.status == 'Pending'" :coe="item"></edit-COE>
-                        <v-btn v-if="item.status == 'Pending'" @click="$store.dispatch('coe/delete', item.id)" class="ma-1" color="error" icon small>
+                        <v-btn v-if="item.status == 'Pending'" @click="removeCOE(item.id)" class="ma-1" color="error" icon small>
                             <v-icon>delete</v-icon>
                         </v-btn>
                         <label v-if="item.status == 'Acknowledged'">Not Applicable</label>
@@ -102,13 +102,24 @@
             }
         },
         methods: {
-            async removeCOE (action) {
-                await this.$axios.$delete(action)
-                .then((response) => {
-                    this.$store.dispatch('coe/loadEmployeeCOEs');
-                    alert('COE Deleted');
-                }).catch(error => {
-                    alert('Something went wrong!');
+            removeCOE (id) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then(async (result) => {
+                    if (result.value) {
+                        this.$store.dispatch('coe/delete', id)
+                        Swal.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                        )
+                    }
                 })
             }
         }

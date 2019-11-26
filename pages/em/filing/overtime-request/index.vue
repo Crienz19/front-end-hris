@@ -27,7 +27,7 @@
                     </template>
                     <template v-slot:item.actions="{ item }">
                         <edit-overtime v-if="item.status == 'Pending'" :overtime="item" />
-                        <v-btn v-if="item.status == 'Pending'" @click="$store.dispatch('overtime/delete', item.id)" class="ma-1" color="error" icon small>
+                        <v-btn v-if="item.status == 'Pending'" @click="deleteOvertime(item.id)" class="ma-1" color="error" icon small>
                             <v-icon small>delete</v-icon>
                         </v-btn>
                         <label v-if="item.status != 'Pending'">Not Applicable</label>
@@ -98,13 +98,24 @@
             }
         },
         methods: {
-            async deleteOvertime (action) {
-                await this.$axios.$delete(action)
-                .then((response) => {
-                    this.$store.dispatch('overtime/loadEmployeeOvertimes');
-                    alert('Deleted!');
-                }).catch(error => {
-                    alert('Something went wrong!');
+            deleteOvertime (id) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.value) {
+                        this.$store.dispatch('overtime/delete', id)
+                        Swal.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                        )
+                    }
                 })
             }
         }

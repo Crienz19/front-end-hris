@@ -1,3 +1,5 @@
+import Swal from "sweetalert2";
+
 export const state = () => ({
     leaves: []
 })
@@ -44,16 +46,76 @@ export const actions = {
         commit('SET_LEAVES', data);
     },
     async save ({ commit }, payload) {
-        let data = await this.$axios.$post('/leaves', payload);
-        commit('ADD_LEAVE', data);
+        await this.$axios.$post('/leaves', payload)
+            .then((response) => {
+                if (this.$auth.user.role == 'supervisor') {
+                    if (response.count > 3) {
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Leave Request Reminder',
+                            text: 'Your leave request has been sent for IMMEDIATE SUPERIOR\'S REVIEW. Please get WRITTEN APPROVAL from you immediate superior. Failure to get approval shall mean DISAPPROVED and therefore considered WITHOUR PAY.'
+                        })
+                    } else {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Leave Request Added'
+                        })
+                    }
+                }
+                commit('ADD_LEAVE', response);
+            })
+            .catch(error => {
+                Swal.fire(
+                    'Something wen\'t wrong.',
+                    error.response.data.message,
+                    'error'
+                );
+            })
     },
     async update ({ commit }, payload) {
-        let data = await this.$axios.$patch(`/leaves/${payload.id}`, payload);
-        commit('UPDATE_LEAVE', data);
+        await this.$axios.$patch(`/leaves/${payload.id}`, payload)
+            .then((response) => {
+                if (this.$auth.user.role == 'supervisor') {
+                    if (response.count > 3) {
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Leave Request Reminder',
+                            text: 'Your leave request has been sent for IMMEDIATE SUPERIOR\'S REVIEW. Please get WRITTEN APPROVAL from you immediate superior. Failure to get approval shall mean DISAPPROVED and therefore considered WITHOUR PAY.'
+                        })
+                    } else {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Leave Request Added'
+                        })
+                    }
+                    commit('UPDATE_LEAVE', response);
+                }
+            })
+            .catch(error => {
+                Swal.fire(
+                    'Something wen\'t wrong.',
+                    error.response.data.message,
+                    'error'
+                )
+            })
     },
     async delete ({ commit }, payload) {
-        let data = await this.$axios.$delete(`/leaves/${payload}`)
-        commit('DELETE_LEAVE', data);
+        await this.$axios.$delete(`/leaves/${payload}`)
+            .then((response) => {
+                Swal.fire(
+                    'Leave Request',
+                    'Leave successfully deleted!',
+                    'success'
+                );
+                commit('DELETE_LEAVE', response);
+            })
+            .catch(error => {
+                Swal.fire(
+                    'Something wen\'t wrong.',
+                    error.response.data.message,
+                    'error'
+                )
+            })
     },
     async approveRecommendingApproval ({ commit }, payload) {
         let data = await this.$axios.$post(`/leaves/${payload.id}/approveRecommendingApproval`);

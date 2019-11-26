@@ -1,3 +1,5 @@
+import Swal from "sweetalert2";
+
 export const state = () => ({
     overtimes: []
 });
@@ -44,15 +46,58 @@ export const actions = {
         commit('SET_OVERTIMES', data);
     },
     async save ({ commit }, payload) {
-        let data = await this.$axios.$post('/overtimes', payload);
-        commit('ADD_OVERTIME', data);
+        await this.$axios.$post('/overtimes', payload)
+            .then((response) => {
+                commit('ADD_OVERTIME', response);
+                Swal.fire(
+                    'Overtime Request',
+                    'Overtime Successfully Added',
+                    'success'
+                )
+            })
+            .catch(error => {
+                Swal.fire(
+                    'Something wen\'t wrong.',
+                    error.response.data.message,
+                    'error'
+                );
+            })
     },
     async update ({ commit }, payload) {
-        let data = await this.$axios.$patch(`/overtimes/${payload.id}`, payload);
-        commit('UPDATE_OVERTIME', data);
+        await this.$axios.$patch(`/overtimes/${payload.id}`, payload)
+            .then((response) => {
+                commit('UPDATE_OVERTIME', response);
+                Swal.fire(
+                    'Overtime Request',
+                    'Overtime Successfully Updated',
+                    'success'
+                )
+            })
+            .catch(error => {
+                Swal.fire(
+                    'Something wen\'t wrong.',
+                    error.response.data.message,
+                    'error'
+                )
+            })
     },
     async delete ({ commit }, payload) {
-        let data = await this.$axios.$delete(`/overtimes/${payload}`);
+        await this.$axios.$delete(`/overtimes/${payload}`)
+            .then((response) => {
+                commit('DELETE_OVERTIME', response);
+                Swal.fire(
+                    'Overtime Request',
+                    'Overtime Successfully Deleted',
+                    'success'
+                )
+            })
+            .catch(error => {
+                Swal.fire(
+                    'Something wen\'t wrong.',
+                    error.response.data.message,
+                    'error'
+                )
+            })
         commit('DELETE_OVERTIME', data);
     },
     async approveStatus ({ commit }, payload) {

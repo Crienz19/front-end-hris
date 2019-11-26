@@ -194,9 +194,17 @@ export default {
   methods: {
     async activateUser (id) {
       await this.$store.dispatch('user/update', { 'id':id, 'isActivated': true});
+      Swal.fire({
+        icon: 'success',
+        title: 'User Activated!',
+      })
     },
     async deactivateUser (id) {
       await this.$store.dispatch('user/update', { 'id':id, 'isActivated': false});
+      Swal.fire({
+        icon: 'success',
+        title: 'User Deactivated!',
+      })
     }
   }
 }

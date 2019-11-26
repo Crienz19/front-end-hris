@@ -34,7 +34,7 @@
 
                     <template v-slot:item.actions="{ item }">
                         <edit-leave v-if="item.final_approval == 'Pending'" :leave="item" />
-                        <v-btn v-if="item.final_approval == 'Pending'" @click="$store.dispatch('leave/delete', item.id)" class="ma-0" color="error" small icon>
+                        <v-btn v-if="item.final_approval == 'Pending'" @click="deleteLeave(item.id)" class="ma-0" color="error" small icon>
                             <v-icon>delete</v-icon>
                         </v-btn>
                         <label v-if="item.final_approval == 'Approved' || item.final_approval == 'Disapproved'">Not Applicable</label>
@@ -128,6 +128,23 @@
                         sortable: false
                     }
                 ]
+            }
+        },
+        methods: {
+            deleteLeave(id) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then(async (result) => {    
+                    if (result.value) {
+                        this.$store.dispatch('leave/delete', id);
+                    }
+                })
             }
         },
     }

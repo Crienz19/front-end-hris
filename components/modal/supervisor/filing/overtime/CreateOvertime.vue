@@ -91,20 +91,9 @@
         methods: {
             async addOvertime () {
                 this.loading = true;
-                await this.$axios.$post('/sv/overtimes', this.form)
-                    .then((response) => {
-                        this.$store.dispatch('overtime/loadEmployeeOvertimes');
-                        this.form.date = '';
-                        this.form.from = '';
-                        this.form.to = '';
-                        this.form.reason = '';
-                        this.dialog = false;
-                        this.loading = true;
-                    }).catch(error => {
-                        this.dialog = false;
-                        this.loading = true;
-                    })
-                
+                await this.$store.dispatch('overtime/save', this.form);
+                this.loading = false;
+                this.dialog = false;
             }
         }
     }
