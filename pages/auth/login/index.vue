@@ -1,5 +1,8 @@
 <template>
     <v-row align-content="center" justify="center">
+        <v-overlay :value="loading">
+            <v-progress-circular indeterminate size="64"></v-progress-circular>
+        </v-overlay>
         <v-col cols="12" sm="10" md="5" lg="4" xl="3">
             <v-card hover :loading="loading">
                 <v-card-title class="pa-5 display-1 justify-center">
@@ -73,11 +76,10 @@ export default {
     },
     methods: {
         async login () {
-            this.loading = true;
             await this.$auth.loginWith('local', {
                 data: this.form
             }).then((response) => {
-                this.loading = false;
+                this.loading = true;
                 
                 Swal.fire({
                     title: 'Authentication verified!',
@@ -88,6 +90,7 @@ export default {
                     confirmButtonText: 'Log Me In!'
                 }).then(async (result) => {
                     if (result.value) {
+                        this.loading = false;
                         await this.$store.dispatch('user/load');
                         await this.$store.dispatch('employee/load');
                         await this.$store.dispatch('leave/load');
