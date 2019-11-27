@@ -78,9 +78,7 @@ export default {
         async login () {
             await this.$auth.loginWith('local', {
                 data: this.form
-            }).then((response) => {
-                this.loading = true;
-                
+            }).then((response) => {                
                 Swal.fire({
                     title: 'Authentication verified!',
                     icon: 'success',
@@ -90,7 +88,7 @@ export default {
                     confirmButtonText: 'Log Me In!'
                 }).then(async (result) => {
                     if (result.value) {
-                        this.loading = false;
+                        this.loading = true;
                         await this.$store.dispatch('user/load');
                         await this.$store.dispatch('employee/load');
                         await this.$store.dispatch('leave/load');
@@ -101,7 +99,7 @@ export default {
                         await this.$store.dispatch('role/load');
                         await this.$store.dispatch('department/load');
                         await this.$store.dispatch('credit/load');   
-                        
+                        this.loading = false;
                         switch (this.auth.role) {
                             case 'superadministrator':
                                 this.$router.push('/sa/dashboard');
