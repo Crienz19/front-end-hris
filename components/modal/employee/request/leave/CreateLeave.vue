@@ -16,7 +16,7 @@
                 <v-col cols="12" sm="12" md="6" lg="6">
                     <v-select
                         placeholder="Select Leave"
-                        :items="['VL', 'SL', 'PTO', 'VL - Half', 'SL - Half', 'PTO - Half']"
+                        :items="['VL', 'SL', 'PTO', 'VL - Half', 'SL - Half', 'PTO - Half', 'Special', 'Special - Half']"
                         v-model="form.type"
                         label="Type"
                         :rules="[
