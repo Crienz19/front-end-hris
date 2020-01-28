@@ -91,6 +91,32 @@
                             ]"
                         ></v-text-field>
                     </v-col>
+                </v-row>            
+                <v-row dense>
+                    <v-col cols="12" sm="12" md="6" lg="6">
+                        <v-text-field
+                            label="Special Leave"
+                            dense
+                            outlined
+                            :placeholder="credit.special_leave == 0 ? '0' : credit.special_leave"
+                            v-model="form.special_leave"
+                            :rules="[
+                                () => !!form.special_leave || 'This field is required.'
+                            ]"
+                        ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="12" md="6" lg="6">
+                        <v-text-field
+                            label="Total Special Leave"
+                            dense
+                            outlined
+                            :placeholder="credit.total_special_leave == 0 ? '0' : credit.total_special_leave"
+                            v-model="form.total_special_leave"
+                            :rules="[
+                                () => !!form.total_special_leave || 'This field is required.'
+                            ]"
+                        ></v-text-field>
+                    </v-col>
                 </v-row>                
             </v-container>
             <v-card-actions>
@@ -116,7 +142,9 @@
                     SL: '',
                     total_SL: '',
                     PTO: '',
-                    total_PTO: ''
+                    total_PTO: '',
+                    special_leave: '',
+                    total_special_leave: ''
                 }
             }
         },

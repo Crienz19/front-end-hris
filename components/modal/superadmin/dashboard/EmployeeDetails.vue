@@ -230,7 +230,7 @@
                                                     color="error"
                                                 >{{ employee.credit.PTO }}/{{ employee.credit.total_PTO }}</v-progress-linear>
                                             </v-flex>
-                                            <v-flex xs12 v-if="employee.credit.special_leave > 0">
+                                            <v-flex xs12>
                                                 Special Leave
                                                 <v-progress-linear
                                                     v-model="getSpecialLeave"
