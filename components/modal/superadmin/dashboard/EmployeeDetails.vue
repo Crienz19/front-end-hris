@@ -284,7 +284,7 @@
                 return (this.employee.credit.PTO / this.employee.credit.total_PTO) * 100;
             },
             getSpecialLeave () {
-                return (this.employee.credit.special_leave / this.employees.credit.total_special_leave) * 100;
+                return (this.employee.credit.special_leave / this.employee.credit.total_special_leave) * 100;
             }
         }
     }
