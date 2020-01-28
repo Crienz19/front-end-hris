@@ -16,7 +16,7 @@
                 <v-col cols="12" sm="12" md="6" lg="6">
                     <v-select
                         placeholder="Select Leave"
-                        :items="['VL', 'SL', 'PTO', 'VL - Half', 'SL - Half', 'PTO - Half']"
+                        :items="['VL', 'SL', 'PTO', 'VL - Half', 'SL - Half', 'PTO - Half', 'Special', 'Special - Haft']"
                         v-model="form.type"
                         label="Type"
                         :rules="[
@@ -59,14 +59,14 @@
                         v-model="form.to"
                     ></DatePicker>
                 </v-col>
-                <v-col cols="12" sm="12" md="6" lg="6" v-if="form.type == 'VL - Half' || form.type == 'SL - Half' || form.type == 'PTO - Half' ? true : false">
+                <v-col cols="12" sm="12" md="6" lg="6" v-if="form.type == 'VL - Half' || form.type == 'SL - Half' || form.type == 'PTO - Half' || form.type == 'Special - Half' ? true : false">
                     <TimePicker
                         label="Time From"
                         placeholder="Select Time From"
                         v-model="form.time_from"
                     ></TimePicker>
                 </v-col>
-                <v-col cols="12" sm="12" md="6" lg="6" v-if="form.type == 'VL - Half' || form.type == 'SL - Half' || form.type == 'PTO - Half' ? true : false">
+                <v-col cols="12" sm="12" md="6" lg="6" v-if="form.type == 'VL - Half' || form.type == 'SL - Half' || form.type == 'PTO - Half' || form.type == 'Special - Half' ? true : false">
                     <TimePicker
                         label="Time To"
                         placeholder="Select Time To"

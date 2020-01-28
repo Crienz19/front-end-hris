@@ -67,7 +67,7 @@
                         ]"
                     ></DatePicker>
                 </v-col>
-                <v-col cols="12" sm="12" md="6" lg="6" v-if="form.type == 'VL - Half' || form.type == 'SL - Half' || form.type == 'PTO - Half' ? true : false">
+                <v-col cols="12" sm="12" md="6" lg="6" v-if="form.type == 'VL - Half' || form.type == 'SL - Half' || form.type == 'PTO - Half' || form.type == 'Special - Half' ? true : false">
                     <TimePicker
                         label="Time From"
                         :placeholder="leave.time_from ? leave.time_from.standard : ''"
@@ -77,7 +77,7 @@
                         ]"
                     ></TimePicker>
                 </v-col>
-                <v-col cols="12" sm="12" md="6" lg="6" xs12 lg6 v-if="form.type == 'VL - Half' || form.type == 'SL - Half' || form.type == 'PTO - Half' ? true : false">
+                <v-col cols="12" sm="12" md="6" lg="6" xs12 lg6 v-if="form.type == 'VL - Half' || form.type == 'SL - Half' || form.type == 'PTO - Half' || form.type == 'Special - Half' ? true : false">
                     <TimePicker
                         label="Time To"
                         :placeholder="leave.time_to ? leave.time_to.standard : ''"
