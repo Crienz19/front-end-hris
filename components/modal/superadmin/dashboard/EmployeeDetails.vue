@@ -230,6 +230,15 @@
                                                     color="error"
                                                 >{{ employee.credit.PTO }}/{{ employee.credit.total_PTO }}</v-progress-linear>
                                             </v-flex>
+                                            <v-flex xs12 v-if="employee.credit.special_leave > 0">
+                                                Special Leave
+                                                <v-progress-linear
+                                                    v-model="getSpecialLeave"
+                                                    class="text-xs-center"
+                                                    height="20"
+                                                    color="warning"
+                                                >{{ employee.credit.special_leave }}/{{ employee.credit.total_special_leave }}</v-progress-linear>
+                                            </v-flex>
                                         </v-layout>
                                     </v-container>
                                 </v-card>
@@ -273,6 +282,9 @@
             },
             getPTO () {
                 return (this.employee.credit.PTO / this.employee.credit.total_PTO) * 100;
+            },
+            getSpecialLeave () {
+                return (this.employee.credit.special_leave / this.employees.credit.total_special_leave) * 100;
             }
         }
     }
