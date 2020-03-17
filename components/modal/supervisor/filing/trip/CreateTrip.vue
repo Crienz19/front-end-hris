@@ -116,7 +116,7 @@
         },
         methods: {
             async addTrip () {
-                await this.$store.dispatch('trip/storeEmployeeTrip', this.form);
+                await this.$store.dispatch('trip/save', this.form);
                 this.form.date_from = '';
                 this.form.date_to = '';
                 this.form.time_in = '';

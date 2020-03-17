@@ -1,5 +1,4 @@
 <template>
-  <v-layout justify-center>
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on }">
         <v-btn icon v-on="on" small>
@@ -16,57 +15,57 @@
         </v-card-title>
         <v-divider></v-divider>
         <v-container grid-list-md>
-          <v-layout wrap>
-            <v-flex xs6>
+          <v-row dense>
+            <v-col cols="12" sm="6">
               <v-text-field
                 label="Type"
                 :value="leave.type"
                 disabled
               ></v-text-field>
-            </v-flex>
-            <v-flex xs6>
+            </v-col>
+            <v-col cols="12" sm="6">
                 <v-text-field
                   label="Pay"
                   :value="leave.pay"
                   disabled
                 ></v-text-field>
-            </v-flex>
-            <v-flex xs12>
+            </v-col>
+            <v-col cols="12">
               <v-textarea
                 label="Reason"
                 :value="leave.reason"
                 disabled
               ></v-textarea>
-            </v-flex>
-            <v-flex xs12 md6>
+            </v-col>
+            <v-col cols="12" sm="12" md="6">
               <v-text-field
                 label="From"
                 :value="leave.from"
                 disabled
               ></v-text-field>
-            </v-flex>
-            <v-flex xs12 md6>
+            </v-col>
+            <v-col cols="12" sm="12" md="6">
               <v-text-field
                 label="To"
                 :value="leave.to"
                 disabled
               ></v-text-field>
-            </v-flex>
-            <v-flex xs12 md6>
+            </v-col>
+            <v-col cols="12" sm="12" md="6">
               <v-text-field
                 label="Time From"
                 :value="leave.time_from"
                 disabled
               ></v-text-field>
-            </v-flex>
-            <v-flex xs12 md6>
+            </v-col>
+            <v-col cols="12" sm="12" md="6">
               <v-text-field
                 label="Time To"
                 :value="leave.time_to"
                 disabled
               ></v-text-field>
-            </v-flex>
-          </v-layout>
+            </v-col>
+          </v-row>
         </v-container>
         <v-divider></v-divider>
         <v-card-actions>
@@ -74,7 +73,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </v-layout>
 </template>
 
 <script>

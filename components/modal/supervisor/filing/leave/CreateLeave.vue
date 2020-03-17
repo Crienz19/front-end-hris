@@ -11,6 +11,7 @@
               <v-icon>close</v-icon>
           </v-btn>
         </v-card-title>
+        <v-divider></v-divider>
         <v-container grid-list-lg>
             <v-row dense>
                 <v-col cols="12" sm="12" md="6" lg="6">

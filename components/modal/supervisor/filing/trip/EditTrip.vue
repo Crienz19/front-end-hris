@@ -65,7 +65,7 @@
                     ></v-textarea>
                 </v-col>
                 <v-col cols="12">
-                    <v-btn color="primary" block text @click="addTrip">Add</v-btn>
+                    <v-btn color="primary" block @click="updateTrip">Update</v-btn>
                 </v-col>
             </v-row>
         </v-container>
@@ -91,8 +91,8 @@
                     id: this.trip.id,
                     date_from: this.trip.date_from,
                     date_to: this.trip.date_to,
-                    time_in: this.trip.time_in,
-                    time_out: this.trip.time_out,
+                    time_in: this.trip.time_in.other,
+                    time_out: this.trip.time_out.other,
                     destination_from: this.trip.destination_from,
                     destination_to: this.trip.destination_to,
                     purpose: this.trip.purpose
@@ -100,8 +100,8 @@
             }
         },
         methods: {
-            async addTrip () {
-                await this.$store.dispatch('trip/updateEmployeeTrip', this.form);
+            async updateTrip () {
+                await this.$store.dispatch('trip/update', this.form);
                 this.dialog = false;
             }
         }

@@ -1,5 +1,4 @@
 <template>
-  <v-layout justify-center>
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on }">
         <v-btn icon v-on="on" small>
@@ -16,36 +15,36 @@
         </v-card-title>
         <v-divider></v-divider>
         <v-container grid-list-md>
-          <v-layout wrap>
-            <v-flex xs12>
+          <v-row dense>
+            <v-col cols="12">
               <v-text-field
                 label="Type"
                 :value="overtime.date"
                 disabled
               ></v-text-field>
-            </v-flex>
-            <v-flex xs12 md6>
+            </v-col>
+            <v-col cols="12" sm="12" md="6">
               <v-text-field
                 label="From"
                 :value="overtime.from.standard"
                 disabled
               ></v-text-field>
-            </v-flex>
-            <v-flex xs12 md6>
+            </v-col>
+            <v-col cols="12" sm="12" md="6">
               <v-text-field
                 label="To"
                 :value="overtime.to.standard"
                 disabled
               ></v-text-field>
-            </v-flex>
-            <v-flex xs12>
+            </v-col>
+            <v-col cols="12">
               <v-textarea
                 label="Reason"
                 :value="overtime.reason"
                 disabled
               ></v-textarea>
-            </v-flex>
-          </v-layout>
+            </v-col>
+          </v-row>
         </v-container>
         <v-divider></v-divider>
         <v-card-actions>
@@ -53,7 +52,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </v-layout>
 </template>
 
 <script>

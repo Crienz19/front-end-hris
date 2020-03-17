@@ -133,7 +133,6 @@
                 await this.$store.dispatch('leave/save', this.form);
                 this.loading = false;
                 this.dialog = false;
-                alert('Leave Added!')
             }
         }
     }
